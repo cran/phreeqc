@@ -1,0 +1,26 @@
+\name{phrGetComponentList}
+\alias{phrGetComponentList}
+\title{Retrieve a list containing the current list of components.}
+\usage{
+phrGetComponentList()
+}
+\value{
+A list containing the names of the components defined in
+the current system.
+}
+\description{
+Retrieve a list containing the current list of components.
+}
+\examples{
+# This example runs the ex2 input file and echos the list of components.
+phrLoadDatabaseString(phreeqc.dat)
+phrRunString(ex2)
+cat("components:\\n")
+for (comp in phrGetComponentList()) {
+  cat(comp, "\\n")
+}
+}
+\references{
+\url{ftp://brrftp.cr.usgs.gov/pub/charlton/iphreeqc/IPhreeqc.pdf}
+}
+

@@ -1,0 +1,45 @@
+\name{phrSetOutputFileOn}
+\alias{phrSetOutputFileOn}
+\title{Set output file on/off.}
+\usage{
+phrSetOutputFileOn(value)
+}
+\arguments{
+  \item{value}{if TRUE, writes output to the the output
+  file.}
+}
+\description{
+Sets the output file switch on or off. This switch controls
+whether or not phreeqc writes to the output file. This is
+the output normally generated when phreeqc is run. The
+initial setting is off.
+}
+\examples{
+# This example runs ex2 with the output file turned on.
+
+# write temporary input file
+tf <- tempfile()
+writeLines(ex2, tf)
+
+# load database and run input file
+phrLoadDatabaseString(phreeqc.dat)
+phrSetOutputFileOn(TRUE)
+if (is.null(phrRunFile(tf))) {
+  cat("see", phrGetOutputFileName(), "\\n")
+}
+
+# delete temporary input file
+unlink(tf)
+}
+\references{
+\url{ftp://brrftp.cr.usgs.gov/pub/charlton/iphreeqc/IPhreeqc.pdf}
+}
+\seealso{
+Other Output: \code{\link{phrGetOutputFileName}};
+\code{\link{phrGetOutputFileOn}};
+\code{\link{phrGetOutputStringsOn}};
+\code{\link{phrGetOutputStrings}};
+\code{\link{phrSetOutputFileName}};
+\code{\link{phrSetOutputStringsOn}}
+}
+

@@ -1,0 +1,27 @@
+\docType{data}
+\name{ex15.dat}
+\alias{ex15.dat}
+\title{The ex15.dat database}
+\source{
+\url{http://wwwbrr.cr.usgs.gov/projects/GWC_coupled/phreeqc}
+}
+\usage{
+ex15.dat  # phrLoadDatabaseString(ex15.dat)
+}
+\description{
+ex15.dat is a database used by example 15
+(\code{\link{ex15}}). The database has been reformatted for
+use by \code{\link{phrLoadDatabaseString}}.
+}
+\references{
+\url{http://pubs.usgs.gov/tm/06/a43/pdf/tm6-A43.pdf}
+}
+\seealso{
+Other Databases: \code{\link{Amm.dat}};
+\code{\link{iso.dat}}; \code{\link{llnl.dat}};
+\code{\link{minteq.dat}}; \code{\link{minteq.v4.dat}};
+\code{\link{phreeqc.dat}}; \code{\link{pitzer.dat}};
+\code{\link{sit.dat}}; \code{\link{wateq4f.dat}}
+}
+\keyword{dataset}
+

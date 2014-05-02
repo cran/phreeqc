@@ -1,0 +1,55 @@
+\docType{data}
+\name{ex7}
+\alias{ex7}
+\title{Example 7--Gas-Phase Calculations}
+\source{
+\url{http://wwwbrr.cr.usgs.gov/projects/GWC_coupled/phreeqc}
+}
+\description{
+This example demonstrates the capabilities of PHREEQC to
+model the evolution of gas compositions in equilibrium with
+a solution with a fixed (total) pressure or a fixed volume
+of the gas phase. In the case of a fixed-pressure gas
+phase, a gas bubble forms as soon as the sum of the partial
+pressures of the component gases exceeds the specified
+pressure of the gas phase. Once the bubble forms, its
+volume and composition will vary with the extent of
+reactions. This case applies to gas bubbles forming in
+surface water or groundwater at a given depth, where the
+total pressure is constant. With a fixed-volume gas phase,
+the aqueous solution is in contact with a head space of a
+fixed volume, which is typical for a laboratory experiment
+with a closed bottle. The gas phase always exists in this
+head space, but its pressure and composition will vary with
+the reactions. Another way to model gas-liquid reactions in
+PHREEQC is to maintain a fixed partial pressure by using
+the EQUILIBRIUM_PHASES data block. This
+fixed-partial-pressure approach is illustrated in this
+example by fixing the CO2 pressure for a SOLUTION. The
+example can be run using the \code{\link{phrRunString}}
+routine.
+}
+\examples{
+phrLoadDatabaseString(phreeqc.dat)
+phrSetOutputStringsOn(TRUE)
+phrRunString(ex7)
+phrGetOutputStrings()
+}
+\references{
+\url{http://pubs.usgs.gov/tm/06/a43/pdf/tm6-A43.pdf}
+}
+\seealso{
+Other Examples: \code{\link{ex10}}; \code{\link{ex11}};
+\code{\link{ex12}}; \code{\link{ex13a}},
+\code{\link{ex13a}}, \code{\link{ex13b}},
+\code{\link{ex13c}}; \code{\link{ex14}};
+\code{\link{ex15}}; \code{\link{ex16}}; \code{\link{ex17}};
+\code{\link{ex18}}; \code{\link{ex19}}; \code{\link{ex1}};
+\code{\link{ex20a}}, \code{\link{ex20a}},
+\code{\link{ex20b}}; \code{\link{ex21}};
+\code{\link{ex22}}; \code{\link{ex2}}; \code{\link{ex3}};
+\code{\link{ex4}}; \code{\link{ex5}}; \code{\link{ex6}};
+\code{\link{ex8}}; \code{\link{ex9}}
+}
+\keyword{dataset}
+

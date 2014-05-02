@@ -1,0 +1,52 @@
+\docType{data}
+\name{ex14}
+\alias{ex14}
+\title{Example 14--Advective Transport, Cation Exchange, Surface
+Complexation, and Mineral Equilibria}
+\source{
+\url{http://wwwbrr.cr.usgs.gov/projects/GWC_coupled/phreeqc}
+}
+\description{
+This example uses the phase-equilibrium, cation-exchange,
+and surface-complexation reaction capabilities of PHREEQC
+in combination with advective-transport capabilities to
+model the evolution of water in the Central Oklahoma
+aquifer. The geochemistry of the aquifer has been described
+by Parkhurst and others (1996). Two predominant water types
+occur in the aquifer: a calcium magnesium bicarbonate water
+with pH in the range of 7.0 to 7.5 in the unconfined part
+of the aquifer and a sodium bicarbonate water with pH in
+the range of 8.5 to 9.2 in the confined part of the
+aquifer. In addition, marine-derived sodium chloride brines
+exist below the aquifer and presumably in fluid inclusions
+and dead-end pore spaces within the aquifer. Large
+concentrations of arsenic, selenium, chromium, and uranium
+occur naturally within the aquifer. Arsenic is associated
+almost exclusively with the high-pH, sodium bicarbonate
+water type. The example can be run using the
+\code{\link{phrRunString}} routine.
+}
+\examples{
+phrLoadDatabaseString(phreeqc.dat)
+phrSetOutputStringsOn(TRUE)
+phrRunString(ex14)
+phrGetOutputStrings()
+}
+\references{
+\url{http://pubs.usgs.gov/tm/06/a43/pdf/tm6-A43.pdf}
+}
+\seealso{
+Other Examples: \code{\link{ex10}}; \code{\link{ex11}};
+\code{\link{ex12}}; \code{\link{ex13a}},
+\code{\link{ex13a}}, \code{\link{ex13b}},
+\code{\link{ex13c}}; \code{\link{ex15}};
+\code{\link{ex16}}; \code{\link{ex17}}; \code{\link{ex18}};
+\code{\link{ex19}}; \code{\link{ex1}}; \code{\link{ex20a}},
+\code{\link{ex20a}}, \code{\link{ex20b}};
+\code{\link{ex21}}; \code{\link{ex22}}; \code{\link{ex2}};
+\code{\link{ex3}}; \code{\link{ex4}}; \code{\link{ex5}};
+\code{\link{ex6}}; \code{\link{ex7}}; \code{\link{ex8}};
+\code{\link{ex9}}
+}
+\keyword{dataset}
+

@@ -1,0 +1,43 @@
+\name{phrSetLogFileOn}
+\alias{phrSetLogFileOn}
+\title{Set log file on/off.}
+\usage{
+phrSetLogFileOn(value)
+}
+\arguments{
+  \item{value}{if TRUE, writes output to the the log file.}
+}
+\description{
+Sets the log file switch on or off. This switch controls
+whether or not phreeqc writes log messages to the log file.
+The initial setting is off.
+}
+\details{
+Logging must be enabled through the use of the KNOBS
+-logfile option in order to receive an log messages.
+}
+\examples{
+# This example runs ex2 with the log file turned on.
+phrLoadDatabaseString(phreeqc.dat)
+phrSetLogStringsOn(TRUE)
+
+# turn logging on
+phrAccumulateLine("KNOBS; -logfile true")
+phrRunAccumulated()
+
+if (is.null(phrRunString(ex2))) {
+  cat("see", phrGetLogFileName(), "\\n")
+}
+}
+\references{
+\url{ftp://brrftp.cr.usgs.gov/pub/charlton/iphreeqc/IPhreeqc.pdf}
+}
+\seealso{
+Other Log: \code{\link{phrGetLogFileName}};
+\code{\link{phrGetLogFileOn}};
+\code{\link{phrGetLogStringsOn}};
+\code{\link{phrGetLogStrings}};
+\code{\link{phrSetLogFileName}};
+\code{\link{phrSetLogStringsOn}}
+}
+

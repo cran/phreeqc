@@ -1,0 +1,50 @@
+\docType{data}
+\name{ex3}
+\alias{ex3}
+\title{Example 3--Mixing}
+\source{
+\url{http://wwwbrr.cr.usgs.gov/projects/GWC_coupled/phreeqc}
+}
+\description{
+This example demonstrates the capabilities of PHREEQC to
+perform a series of geochemical simulations, with the final
+simulations relying on results from previous simulations
+within the same run. The example investigates diagenetic
+reactions that may occur in zones where seawater mixes with
+carbonate groundwater. The example is divided into five
+simulations, labeled part A through part E. (A) Carbonate
+groundwater is defined by equilibrating pure water with
+calcite at a of 10-2.0 atm. (B) Seawater is defined by
+using the major-ion data given in table.9. (C) The two
+solutions are mixed together in the proportions 70 percent
+groundwater and 30 percent seawater. (D) The mixture is
+equilibrated with calcite and dolomite. (E) The mixture is
+equilibrated with calcite only to investigate the chemical
+evolution if dolomite precipitation is assumed to be
+negligible. The example can be run using the
+\code{\link{phrRunString}} routine.
+}
+\examples{
+phrLoadDatabaseString(phreeqc.dat)
+phrSetOutputStringsOn(TRUE)
+phrRunString(ex3)
+phrGetOutputStrings()
+}
+\references{
+\url{http://pubs.usgs.gov/tm/06/a43/pdf/tm6-A43.pdf}
+}
+\seealso{
+Other Examples: \code{\link{ex10}}; \code{\link{ex11}};
+\code{\link{ex12}}; \code{\link{ex13a}},
+\code{\link{ex13a}}, \code{\link{ex13b}},
+\code{\link{ex13c}}; \code{\link{ex14}};
+\code{\link{ex15}}; \code{\link{ex16}}; \code{\link{ex17}};
+\code{\link{ex18}}; \code{\link{ex19}}; \code{\link{ex1}};
+\code{\link{ex20a}}, \code{\link{ex20a}},
+\code{\link{ex20b}}; \code{\link{ex21}};
+\code{\link{ex22}}; \code{\link{ex2}}; \code{\link{ex4}};
+\code{\link{ex5}}; \code{\link{ex6}}; \code{\link{ex7}};
+\code{\link{ex8}}; \code{\link{ex9}}
+}
+\keyword{dataset}
+

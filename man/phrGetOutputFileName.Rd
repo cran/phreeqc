@@ -1,0 +1,40 @@
+\name{phrGetOutputFileName}
+\alias{phrGetOutputFileName}
+\title{Retrieve the name of the output file.}
+\usage{
+phrGetOutputFileName()
+}
+\value{
+The name of the output file as a string.
+}
+\description{
+Retrieves the name of the output file. The default name is
+phreeqc.0.out.
+}
+\examples{
+# This example equilibrates pure water with gypsum with the output file on.
+phrLoadDatabaseString(phreeqc.dat)
+phrSetOutputFileOn(TRUE)
+
+input <- vector(mode="character")
+input <- c(input, "SOLUTION 1 Pure water ")
+input <- c(input, "EQUILIBRIUM_PHASES 1  ")
+input <- c(input, "  Gypsum 0 10         ")
+
+if (is.null(phrRunString(input))) {
+  output <- readLines(phrGetOutputFileName())
+  unlink(phrGetOutputFileName())  # tidy up
+}
+}
+\references{
+\url{ftp://brrftp.cr.usgs.gov/pub/charlton/iphreeqc/IPhreeqc.pdf}
+}
+\seealso{
+Other Output: \code{\link{phrGetOutputFileOn}};
+\code{\link{phrGetOutputStringsOn}};
+\code{\link{phrGetOutputStrings}};
+\code{\link{phrSetOutputFileName}};
+\code{\link{phrSetOutputFileOn}};
+\code{\link{phrSetOutputStringsOn}}
+}
+

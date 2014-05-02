@@ -1,0 +1,45 @@
+\name{phrGetSelectedOutput}
+\alias{phrGetSelectedOutput}
+\title{Returns the contents of the selected output as a list of data frames.}
+\usage{
+phrGetSelectedOutput(allow_ = TRUE)
+}
+\arguments{
+  \item{allow_}{used for compatibility with R prior to
+  1.9.0 (default is TRUE).}
+}
+\value{
+Returns a named list of data frames containing the
+selected_output from the previous run.
+}
+\description{
+phrGetSelectedOutput returns a named list containing the
+resultant selected output blocks.  The names of each data
+frame are creating by concatenating the letter 'n' and the
+user number of the selected output block.
+}
+\details{
+phrGetSelectedOutput uses the \code{\link{make.names}}
+function to create valid column names. The allow_ variable
+is passed to \code{\link{make.names}} and is used for
+backward compatibility.
+}
+\examples{
+# Load database and run ex2
+phrLoadDatabaseString(phreeqc.dat)
+phrRunString(ex2)
+
+# display a summary of the results
+df <- phrGetSelectedOutput()
+summary(df$n1)
+}
+\references{
+\url{ftp://brrftp.cr.usgs.gov/pub/charlton/iphreeqc/IPhreeqc.pdf}
+}
+\seealso{
+Other Selected Output:
+\code{\link{phrGetSelectedOutputFileName}};
+\code{\link{phrSetSelectedOutputFileName}};
+\code{\link{phrSetSelectedOutputFileOn}}
+}
+

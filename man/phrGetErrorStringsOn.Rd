@@ -1,0 +1,24 @@
+\name{phrGetErrorStringsOn}
+\alias{phrGetErrorStringsOn}
+\title{Retrieve the current value of the error strings switch.}
+\usage{
+phrGetErrorStringsOn()
+}
+\value{
+TRUE if errors are currently being written to file.
+}
+\description{
+Retrieve the current value of the error strings switch.
+}
+\references{
+\url{ftp://brrftp.cr.usgs.gov/pub/charlton/iphreeqc/IPhreeqc.pdf}
+}
+\seealso{
+Other Error: \code{\link{phrGetErrorFileName}};
+\code{\link{phrGetErrorFileOn}};
+\code{\link{phrGetErrorStrings}};
+\code{\link{phrSetErrorFileName}};
+\code{\link{phrSetErrorFileOn}};
+\code{\link{phrSetErrorStringsOn}}
+}
+

@@ -1,0 +1,53 @@
+\name{phrSetSelectedOutputFileName}
+\alias{phrSetSelectedOutputFileName}
+\title{Set the name of the selected_output file.}
+\usage{
+phrSetSelectedOutputFileName(nuser, filename)
+}
+\arguments{
+  \item{nuser}{the user number specified in the
+  SELECTED_OUTPUT block.}
+
+  \item{filename}{the name of the selected_output file.}
+}
+\description{
+Sets the name of the selected_output file. The default
+value is selected_{nuser}.0.out.
+}
+\details{
+The selected_output file must be turned on using the
+\code{\link{phrSetSelectedOutputFileOn}} function.
+}
+\examples{
+# This example equilibrates pure water with calcite at various temperatures
+# and displays the name of the selected_output file.
+phrLoadDatabaseString(phreeqc.dat)
+phrSetSelectedOutputFileOn(1, TRUE)
+phrSetSelectedOutputFileName(1, "ex2.sel")
+
+input <- c(
+  'SOLUTION 1 Pure water     ',
+  'EQUILIBRIUM_PHASES 1      ',
+  '    Calcite    0.0   1.0  ',
+  'REACTION_TEMPERATURE 1    ',
+  '    25.0 75.0 in 51 steps ',
+  'SELECTED_OUTPUT 1         ',
+  '    -temperature          ',
+  '    -si     calcite       '
+  )
+
+
+if (is.null(phrRunString(input))) {
+  cat("see", phrGetSelectedOutputFileName(1))
+}
+}
+\references{
+\url{ftp://brrftp.cr.usgs.gov/pub/charlton/iphreeqc/IPhreeqc.pdf}
+}
+\seealso{
+Other Selected Output:
+\code{\link{phrGetSelectedOutputFileName}};
+\code{\link{phrGetSelectedOutput}};
+\code{\link{phrSetSelectedOutputFileOn}}
+}
+

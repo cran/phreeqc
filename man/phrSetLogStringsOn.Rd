@@ -1,0 +1,41 @@
+\name{phrSetLogStringsOn}
+\alias{phrSetLogStringsOn}
+\title{Set log strings on/off.}
+\usage{
+phrSetLogStringsOn(value)
+}
+\arguments{
+  \item{value}{if TRUE, captures output normally sent to
+  the log file into a buffer.}
+}
+\description{
+Sets the log strings switch on or off.  This switch
+controls whether or not the data normally sent to the log
+file are stored in a buffer for retrieval. The initial
+setting is off.
+}
+\examples{
+# This example runs ex2 with log strings turned on.
+phrLoadDatabaseString(phreeqc.dat)
+phrSetLogStringsOn(TRUE)
+
+# turn logging on
+phrAccumulateLine("KNOBS; -logfile true")
+phrRunAccumulated()
+
+if (is.null(phrRunString(ex2))) {
+  cat(phrGetLogStrings(), sep = "\\n")
+}
+}
+\references{
+\url{ftp://brrftp.cr.usgs.gov/pub/charlton/iphreeqc/IPhreeqc.pdf}
+}
+\seealso{
+Other Log: \code{\link{phrGetLogFileName}};
+\code{\link{phrGetLogFileOn}};
+\code{\link{phrGetLogStringsOn}};
+\code{\link{phrGetLogStrings}};
+\code{\link{phrSetLogFileName}};
+\code{\link{phrSetLogFileOn}}
+}
+

@@ -1,0 +1,26 @@
+\docType{data}
+\name{llnl.dat}
+\alias{llnl.dat}
+\title{The llnl.dat database.}
+\usage{
+llnl.dat  # phrLoadDatabaseString(llnl.dat)
+}
+\description{
+llnl.dat is a database derived from databases for EQ3/6 and
+Geochemist's Workbench that uses thermodynamic data
+compiled by the Lawrence Livermore National Laboratory. The
+database has been reformatted for use by
+\code{\link{phrLoadDatabaseString}}.
+}
+\references{
+\url{http://pubs.usgs.gov/tm/06/a43/pdf/tm6-A43.pdf}
+}
+\seealso{
+Other Databases: \code{\link{Amm.dat}};
+\code{\link{ex15.dat}}; \code{\link{iso.dat}};
+\code{\link{minteq.dat}}; \code{\link{minteq.v4.dat}};
+\code{\link{phreeqc.dat}}; \code{\link{pitzer.dat}};
+\code{\link{sit.dat}}; \code{\link{wateq4f.dat}}
+}
+\keyword{dataset}
+

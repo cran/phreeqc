@@ -1,0 +1,34 @@
+\name{phrGetLogFileName}
+\alias{phrGetLogFileName}
+\title{Retrieve the name of the log file.}
+\usage{
+phrGetLogFileName()
+}
+\value{
+The name of the log file as a string.
+}
+\description{
+Retrieves the name of the log file. The default name is
+phreeqc.0.log.
+}
+\examples{
+# This example checks to see if the log file is turned on
+# and prints the appropriate message
+if (phrGetLogFileOn()) {
+  cat("The name of the log file (is/will be):", phrGetLogFileName(), "\\n")
+} else {
+  cat("The log file is not turned on\\n")
+}
+}
+\references{
+\url{ftp://brrftp.cr.usgs.gov/pub/charlton/iphreeqc/IPhreeqc.pdf}
+}
+\seealso{
+Other Log: \code{\link{phrGetLogFileOn}};
+\code{\link{phrGetLogStringsOn}};
+\code{\link{phrGetLogStrings}};
+\code{\link{phrSetLogFileName}};
+\code{\link{phrSetLogFileOn}};
+\code{\link{phrSetLogStringsOn}}
+}
+

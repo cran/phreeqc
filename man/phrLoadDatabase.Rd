@@ -1,0 +1,37 @@
+\name{phrLoadDatabase}
+\alias{phrLoadDatabase}
+\title{Load a phreeqc database file}
+\usage{
+phrLoadDatabase(filename)
+}
+\arguments{
+  \item{filename}{The name of the database file.}
+}
+\value{
+This function returns NULL.
+}
+\description{
+Loads the given phreeqc database into phreeqc.  Returns
+NULL if successful.
+}
+\examples{
+# create temporary database file
+tf <- tempfile()
+writeLines(phreeqc.dat, tf)
+
+if (is.null(phrLoadDatabase(tf))) {
+  cat("database ok\\n")
+} else {
+  cat("database contains errors\\n")
+}
+
+# delete temporary database file
+unlink(tf)
+}
+\references{
+\url{ftp://brrftp.cr.usgs.gov/pub/charlton/iphreeqc/IPhreeqc.pdf}
+}
+\seealso{
+Other Load Database: \code{\link{phrLoadDatabaseString}}
+}
+

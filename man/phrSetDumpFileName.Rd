@@ -1,0 +1,47 @@
+\name{phrSetDumpFileName}
+\alias{phrSetDumpFileName}
+\title{Set the name of the dump file.}
+\usage{
+phrSetDumpFileName(filename)
+}
+\arguments{
+  \item{filename}{the name of the file.}
+}
+\description{
+Sets the name of the dump file. This file name is used if
+not specified within the DUMP keyword block. The default
+value is dump.0.out.
+}
+\examples{
+# This example equilibrates pure water with calcite and writes the
+# dump results to file.
+phrLoadDatabaseString(phreeqc.dat)
+phrSetDumpFileOn(TRUE)
+phrSetDumpFileName("phreeqc.dump")
+input <- c(
+  'SOLUTION 1 Pure water     ',
+  'EQUILIBRIUM_PHASES 1      ',
+  '    Calcite 0 10          ',
+  'SAVE solution 1           ',
+  'SAVE equilibrium_phases 1 ',
+  'DUMP                      ',
+  '    -solution 1           ',
+  '    -equilibrium_phases 1 '
+  )
+
+if (is.null(phrRunString(input))) {
+  cat("see", phrGetDumpFileName(), "\\n")
+}
+}
+\references{
+\url{ftp://brrftp.cr.usgs.gov/pub/charlton/iphreeqc/IPhreeqc.pdf}
+}
+\seealso{
+Other Dump: \code{\link{phrGetDumpFileName}};
+\code{\link{phrGetDumpFileOn}};
+\code{\link{phrGetDumpStringsOn}};
+\code{\link{phrGetDumpStrings}};
+\code{\link{phrSetDumpFileOn}};
+\code{\link{phrSetDumpStringsOn}}
+}
+

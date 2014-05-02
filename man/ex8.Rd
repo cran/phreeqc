@@ -1,0 +1,44 @@
+\docType{data}
+\name{ex8}
+\alias{ex8}
+\title{Example 8--Surface Complexation}
+\source{
+\url{http://wwwbrr.cr.usgs.gov/projects/GWC_coupled/phreeqc}
+}
+\description{
+In all surface complexation models, sorption is a function
+of both chemical and electrostatic energy as described by
+the free energy relationship. Sorption is stronger when the
+Gibbs energy decreases. Thus, a counter-ion that carries a
+charge opposite to the surface charge tends to be sorbed
+electrostatically, while a co-ion that carries a charge
+with the same sign as the surface tends to be rejected. The
+example can be run using the \code{\link{phrRunString}}
+routine.
+}
+\examples{
+phrLoadDatabaseString(phreeqc.dat)
+phrSetOutputStringsOn(TRUE)
+# example 8 requires the selected_output file to be turned on
+phrSetSelectedOutputFileOn(1, TRUE)
+phrRunString(ex8)
+phrGetOutputStrings()
+}
+\references{
+\url{http://pubs.usgs.gov/tm/06/a43/pdf/tm6-A43.pdf}
+}
+\seealso{
+Other Examples: \code{\link{ex10}}; \code{\link{ex11}};
+\code{\link{ex12}}; \code{\link{ex13a}},
+\code{\link{ex13a}}, \code{\link{ex13b}},
+\code{\link{ex13c}}; \code{\link{ex14}};
+\code{\link{ex15}}; \code{\link{ex16}}; \code{\link{ex17}};
+\code{\link{ex18}}; \code{\link{ex19}}; \code{\link{ex1}};
+\code{\link{ex20a}}, \code{\link{ex20a}},
+\code{\link{ex20b}}; \code{\link{ex21}};
+\code{\link{ex22}}; \code{\link{ex2}}; \code{\link{ex3}};
+\code{\link{ex4}}; \code{\link{ex5}}; \code{\link{ex6}};
+\code{\link{ex7}}; \code{\link{ex9}}
+}
+\keyword{dataset}
+

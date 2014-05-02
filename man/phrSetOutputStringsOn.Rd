@@ -1,0 +1,48 @@
+\name{phrSetOutputStringsOn}
+\alias{phrSetOutputStringsOn}
+\title{Set output strings on/off.}
+\usage{
+phrSetOutputStringsOn(value)
+}
+\arguments{
+  \item{value}{if TRUE, captures output normally sent to
+  the output file into a buffer.}
+}
+\description{
+Set the output string switch on or off.  This switch
+controls whether or not the data normally sent to the
+output file are stored in a buffer for retrieval. The
+initial setting is off.
+}
+\details{
+The output strings setting is only used by the Run methods:
+\code{\link{phrRunAccumulated}}, \code{\link{phrRunFile}},
+\code{\link{phrRunString}}.
+}
+\examples{
+# This example equilibrates pure water with calcite and displays
+# the results.
+phrLoadDatabaseString(phreeqc.dat)
+phrSetOutputStringsOn(TRUE)
+input <- c(
+  'SOLUTION 1 Pure water ',
+  'EQUILIBRIUM_PHASES 1  ',
+  '    Calcite 0 10      '
+  )
+
+if (is.null(phrRunString(input))) {
+  cat(phrGetOutputStrings(), sep = "\\n")
+}
+}
+\references{
+\url{ftp://brrftp.cr.usgs.gov/pub/charlton/iphreeqc/IPhreeqc.pdf}
+}
+\seealso{
+Other Output: \code{\link{phrGetOutputFileName}};
+\code{\link{phrGetOutputFileOn}};
+\code{\link{phrGetOutputStringsOn}};
+\code{\link{phrGetOutputStrings}};
+\code{\link{phrSetOutputFileName}};
+\code{\link{phrSetOutputFileOn}}
+}
+

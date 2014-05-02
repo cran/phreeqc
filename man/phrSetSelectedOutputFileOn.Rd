@@ -1,0 +1,52 @@
+\name{phrSetSelectedOutputFileOn}
+\alias{phrSetSelectedOutputFileOn}
+\title{Set selected_output file on/off.}
+\usage{
+phrSetSelectedOutputFileOn(nuser, value)
+}
+\arguments{
+  \item{nuser}{the user number specified in the
+  SELECTED_OUTPUT block.}
+
+  \item{value}{if TRUE, writes output to the the
+  selected_output file.}
+}
+\description{
+Sets the output file switch on or off. This switch controls
+whether or not phreeqc writes to the output file. This is
+the output normally generated when phreeqc is run. The
+initial setting is off.
+}
+\examples{
+# This example equilibrates pure water with calcite at various temperatures
+# and displays the name of the selected_output file.
+phrLoadDatabaseString(phreeqc.dat)
+phrSetSelectedOutputFileOn(1, TRUE)
+phrSetSelectedOutputFileName(1, "ex2.sel")
+
+input <- c(
+  'SOLUTION 1 Pure water     ',
+  'EQUILIBRIUM_PHASES 1      ',
+  '    Calcite    0.0   1.0  ',
+  'REACTION_TEMPERATURE 1    ',
+  '    25.0 75.0 in 51 steps ',
+  'SELECTED_OUTPUT 1         ',
+  '    -temperature          ',
+  '    -si     calcite       '
+  )
+
+
+if (is.null(phrRunString(input))) {
+  cat("see", phrGetSelectedOutputFileName(1))
+}
+}
+\references{
+\url{ftp://brrftp.cr.usgs.gov/pub/charlton/iphreeqc/IPhreeqc.pdf}
+}
+\seealso{
+Other Selected Output:
+\code{\link{phrGetSelectedOutputFileName}};
+\code{\link{phrGetSelectedOutput}};
+\code{\link{phrSetSelectedOutputFileName}}
+}
+

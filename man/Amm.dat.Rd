@@ -1,0 +1,29 @@
+\docType{data}
+\name{Amm.dat}
+\alias{Amm.dat}
+\title{The Amm.dat database.}
+\source{
+\url{http://wwwbrr.cr.usgs.gov/projects/GWC_coupled/phreeqc}
+}
+\usage{
+Amm.dat  # phrLoadDatabaseString(Amm.dat)
+}
+\description{
+Amm.dat is the same as phreeqc.dat, except that ammmonia
+redox state has been decoupled from the rest of the
+nitrogen system; that is, ammonia has been defined as a
+separate component. The database has been reformatted for
+use by \code{\link{phrLoadDatabaseString}}.
+}
+\references{
+\url{http://pubs.usgs.gov/tm/06/a43/pdf/tm6-A43.pdf}
+}
+\seealso{
+Other Databases: \code{\link{ex15.dat}};
+\code{\link{iso.dat}}; \code{\link{llnl.dat}};
+\code{\link{minteq.dat}}; \code{\link{minteq.v4.dat}};
+\code{\link{phreeqc.dat}}; \code{\link{pitzer.dat}};
+\code{\link{sit.dat}}; \code{\link{wateq4f.dat}}
+}
+\keyword{dataset}
+

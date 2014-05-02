@@ -1,0 +1,42 @@
+\name{phrGetOutputStrings}
+\alias{phrGetOutputStrings}
+\title{Retrieve standard phreeqc output.}
+\usage{
+phrGetOutputStrings()
+}
+\value{
+A character vector containing phreeqc output.
+}
+\description{
+Retrieves the phreeqc output as a character vector.
+}
+\details{
+A NULL value is returned when there is no selected-output.
+}
+\examples{
+# This example equilibrates pure water with calcite and displays
+# the results
+phrLoadDatabaseString(phreeqc.dat)
+phrSetOutputStringsOn(TRUE)
+
+input <- vector(mode="character")
+input <- c(input, "SOLUTION 1 Pure water ")
+input <- c(input, "EQUILIBRIUM_PHASES 1  ")
+input <- c(input, "  Gypsum 0 10         ")
+
+if (is.null(phrRunString(input))) {
+  cat(phrGetOutputStrings(), sep = "\\n")
+}
+}
+\references{
+\url{ftp://brrftp.cr.usgs.gov/pub/charlton/iphreeqc/IPhreeqc.pdf}
+}
+\seealso{
+Other Output: \code{\link{phrGetOutputFileName}};
+\code{\link{phrGetOutputFileOn}};
+\code{\link{phrGetOutputStringsOn}};
+\code{\link{phrSetOutputFileName}};
+\code{\link{phrSetOutputFileOn}};
+\code{\link{phrSetOutputStringsOn}}
+}
+

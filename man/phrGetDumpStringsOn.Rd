@@ -1,0 +1,24 @@
+\name{phrGetDumpStringsOn}
+\alias{phrGetDumpStringsOn}
+\title{Retrieve the current value of the dump strings switch.}
+\usage{
+phrGetDumpStringsOn()
+}
+\value{
+TRUE if errors are currently being written to file.
+}
+\description{
+Retrieve the current value of the dump strings switch.
+}
+\references{
+\url{ftp://brrftp.cr.usgs.gov/pub/charlton/iphreeqc/IPhreeqc.pdf}
+}
+\seealso{
+Other Dump: \code{\link{phrGetDumpFileName}};
+\code{\link{phrGetDumpFileOn}};
+\code{\link{phrGetDumpStrings}};
+\code{\link{phrSetDumpFileName}};
+\code{\link{phrSetDumpFileOn}};
+\code{\link{phrSetDumpStringsOn}}
+}
+

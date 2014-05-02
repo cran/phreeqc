@@ -1,0 +1,40 @@
+\name{phrGetErrorStrings}
+\alias{phrGetErrorStrings}
+\title{Retrieve error string messages.}
+\usage{
+phrGetErrorStrings()
+}
+\value{
+The error messages as a character vector.
+}
+\description{
+Retrieves a character vector containing any error messages
+that were generated during the last invocation of the
+following methods: \code{\link{phrAccumulateLine}},
+\code{\link{phrLoadDatabase}},
+\code{\link{phrLoadDatabaseString}},
+\code{\link{phrRunAccumulated}}, \code{\link{phrRunFile}},
+\code{\link{phrRunString}}
+}
+\details{
+This routine is rarely needed when running interactively
+since the error string is displayed when it occurs.
+}
+\examples{
+# loaddatabase should fail
+n <- try(phrLoadDatabase("missing.dat"), silent = TRUE)
+# if n is non-NULL display error string
+if (!is.null(n)) phrGetErrorStrings()
+}
+\references{
+\url{ftp://brrftp.cr.usgs.gov/pub/charlton/iphreeqc/IPhreeqc.pdf}
+}
+\seealso{
+Other Error: \code{\link{phrGetErrorFileName}};
+\code{\link{phrGetErrorFileOn}};
+\code{\link{phrGetErrorStringsOn}};
+\code{\link{phrSetErrorFileName}};
+\code{\link{phrSetErrorFileOn}};
+\code{\link{phrSetErrorStringsOn}}
+}
+

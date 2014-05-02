@@ -1,0 +1,38 @@
+\name{phrGetWarningStrings}
+\alias{phrGetWarningStrings}
+\title{Retrieve warning messages.}
+\usage{
+phrGetWarningStrings()
+}
+\value{
+A character vector containing warning messages or NULL.
+}
+\description{
+Returns a character vector containing any warning messages
+that were generated during the last invocation of the
+following methods: \code{\link{phrAccumulateLine}},
+\code{\link{phrLoadDatabase}},
+\code{\link{phrLoadDatabaseString}},
+\code{\link{phrRunAccumulated}}, \code{\link{phrRunFile}},
+\code{\link{phrRunString}}.
+}
+\details{
+A NULL value is returned if there are no warnings.
+}
+\examples{
+# This example loads the phreeqc.dat database and attempts to use the
+# DATABASE keyword to set the database to wateq4f.dat.  A warning is
+# displayed stating that the DATABASE keyword is ignored in the 'R'
+# implementation.
+phrLoadDatabaseString(phreeqc.dat)
+phrAccumulateLine("DATABASE wateq4f.dat")
+phrAccumulateLine("SOLUTION 1")
+phrRunAccumulated()
+if (!is.null(phrGetWarningStrings())) {
+  cat(phrGetWarningStrings(), sep = "\\n")
+}
+}
+\references{
+\url{ftp://brrftp.cr.usgs.gov/pub/charlton/iphreeqc/IPhreeqc.pdf}
+}
+

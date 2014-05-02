@@ -1,0 +1,46 @@
+\docType{data}
+\name{ex13a}
+\alias{ex13a}
+\alias{ex13b}
+\alias{ex13c}
+\title{Example 13--Aragonite-Strontianite Solid Solution}
+\source{
+\url{http://wwwbrr.cr.usgs.gov/projects/GWC_coupled/phreeqc}
+}
+\description{
+PHREEQC has the capability to model multicomponent ideal
+and binary nonideal solid solutions. For ideal solid
+solutions, the activity of each end member solid is equal
+to its mole fraction. For nonideal solid solutions, the
+activity of each end member is the product of the mole
+fraction and an activity coefficient, which is determined
+from the mole fraction and Guggenheim excess free-energy
+parameters. Example 10 considers an aragonite
+(CaCO3)-strontianite (SrCO3) solid solution and
+demonstrates how the composition of the solid solution and
+the aqueous phase change as strontium carbonate is added to
+an initially pure calcium carbonate system. The example can
+be run using the \code{\link{phrRunString}} routine.
+}
+\examples{
+phrLoadDatabaseString(phreeqc.dat)
+phrSetOutputStringsOn(TRUE)
+phrRunString(ex13a)
+phrGetOutputStrings()
+}
+\references{
+\url{http://pubs.usgs.gov/tm/06/a43/pdf/tm6-A43.pdf}
+}
+\seealso{
+Other Examples: \code{\link{ex10}}; \code{\link{ex11}};
+\code{\link{ex12}}; \code{\link{ex14}}; \code{\link{ex15}};
+\code{\link{ex16}}; \code{\link{ex17}}; \code{\link{ex18}};
+\code{\link{ex19}}; \code{\link{ex1}}; \code{\link{ex20a}},
+\code{\link{ex20a}}, \code{\link{ex20b}};
+\code{\link{ex21}}; \code{\link{ex22}}; \code{\link{ex2}};
+\code{\link{ex3}}; \code{\link{ex4}}; \code{\link{ex5}};
+\code{\link{ex6}}; \code{\link{ex7}}; \code{\link{ex8}};
+\code{\link{ex9}}
+}
+\keyword{dataset}
+

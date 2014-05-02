@@ -1,0 +1,55 @@
+\docType{data}
+\name{ex12}
+\alias{ex12}
+\title{Example 12--Advective and Diffusive Flux of Heat and Solutes}
+\source{
+\url{http://wwwbrr.cr.usgs.gov/projects/GWC_coupled/phreeqc}
+}
+\description{
+This example demonstrates the capability of PHREEQC to
+calculate transient transport of heat and solutes in a
+column or along a 1D flowline. A column is initially filled
+with a dilute KCl solution at 25 degrees C in equilibrium
+with a cation exchanger. A KNO3 solution then advects into
+the column and establishes a new temperature of 0 degrees
+C. Subsequently, a sodium chloride solution at 24 degrees C
+is allowed to diffuse from both ends of the column,
+assuming no heat is lost through the column walls. At one
+end, a constant boundary condition is imposed, and at the
+other end, the final cell is filled with the sodium
+chloride solution and a closed boundary condition is
+prescribed. For the column end with a constant boundary
+condition, an analytical solution is compared with PHREEQC
+results, for unretarded Cl- (R = 1.0) and retarded Na+ and
+temperature (R = 3.0). Finally, the second-order accuracy
+of the numerical method is verified by increasing the
+number of cells by a factor of three and demonstrating a
+decrease in the error of the numerical solution by
+approximately one order of magnitude relative to the
+analytical solution. The example can be run using the
+\code{\link{phrRunString}} routine.
+}
+\examples{
+phrLoadDatabaseString(phreeqc.dat)
+phrSetOutputStringsOn(TRUE)
+phrRunString(ex12)
+phrGetOutputStrings()
+}
+\references{
+\url{http://pubs.usgs.gov/tm/06/a43/pdf/tm6-A43.pdf}
+}
+\seealso{
+Other Examples: \code{\link{ex10}}; \code{\link{ex11}};
+\code{\link{ex13a}}, \code{\link{ex13a}},
+\code{\link{ex13b}}, \code{\link{ex13c}};
+\code{\link{ex14}}; \code{\link{ex15}}; \code{\link{ex16}};
+\code{\link{ex17}}; \code{\link{ex18}}; \code{\link{ex19}};
+\code{\link{ex1}}; \code{\link{ex20a}},
+\code{\link{ex20a}}, \code{\link{ex20b}};
+\code{\link{ex21}}; \code{\link{ex22}}; \code{\link{ex2}};
+\code{\link{ex3}}; \code{\link{ex4}}; \code{\link{ex5}};
+\code{\link{ex6}}; \code{\link{ex7}}; \code{\link{ex8}};
+\code{\link{ex9}}
+}
+\keyword{dataset}
+

@@ -1,0 +1,27 @@
+\docType{data}
+\name{wateq4f.dat}
+\alias{wateq4f.dat}
+\title{The wateq4f.dat database.}
+\source{
+\url{http://wwwbrr.cr.usgs.gov/projects/GWC_coupled/phreeqc}
+}
+\usage{
+wateq4f.dat  # phrLoadDatabaseString(wateq4f.dat)
+}
+\description{
+wateq4f.dat is a database derived from WATEQ4F. The
+database has been reformatted for use by
+\code{\link{phrLoadDatabaseString}}.
+}
+\references{
+\url{http://pubs.usgs.gov/tm/06/a43/pdf/tm6-A43.pdf}
+}
+\seealso{
+Other Databases: \code{\link{Amm.dat}};
+\code{\link{ex15.dat}}; \code{\link{iso.dat}};
+\code{\link{llnl.dat}}; \code{\link{minteq.dat}};
+\code{\link{minteq.v4.dat}}; \code{\link{phreeqc.dat}};
+\code{\link{pitzer.dat}}; \code{\link{sit.dat}}
+}
+\keyword{dataset}
+

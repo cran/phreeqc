@@ -1,0 +1,37 @@
+\docType{data}
+\name{ex2}
+\alias{ex2}
+\title{Example 2--Equilibration With Pure Phases}
+\source{
+\url{http://wwwbrr.cr.usgs.gov/projects/GWC_coupled/phreeqc}
+}
+\description{
+This example shows how to calculate the solubility and
+relative thermodynamic stability of two minerals, gypsum
+and anhydrite. The example can be run using the
+\code{\link{phrRunString}} routine.
+}
+\examples{
+phrLoadDatabaseString(phreeqc.dat)
+phrSetOutputStringsOn(TRUE)
+phrRunString(ex2)
+phrGetOutputStrings()
+}
+\references{
+\url{http://pubs.usgs.gov/tm/06/a43/pdf/tm6-A43.pdf}
+}
+\seealso{
+Other Examples: \code{\link{ex10}}; \code{\link{ex11}};
+\code{\link{ex12}}; \code{\link{ex13a}},
+\code{\link{ex13a}}, \code{\link{ex13b}},
+\code{\link{ex13c}}; \code{\link{ex14}};
+\code{\link{ex15}}; \code{\link{ex16}}; \code{\link{ex17}};
+\code{\link{ex18}}; \code{\link{ex19}}; \code{\link{ex1}};
+\code{\link{ex20a}}, \code{\link{ex20a}},
+\code{\link{ex20b}}; \code{\link{ex21}};
+\code{\link{ex22}}; \code{\link{ex3}}; \code{\link{ex4}};
+\code{\link{ex5}}; \code{\link{ex6}}; \code{\link{ex7}};
+\code{\link{ex8}}; \code{\link{ex9}}
+}
+\keyword{dataset}
+

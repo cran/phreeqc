@@ -1,0 +1,27 @@
+\name{phrGetAccumulatedLines}
+\alias{phrGetAccumulatedLines}
+\title{Retrieve the accumulated input.}
+\usage{
+phrGetAccumulatedLines()
+}
+\value{
+A character vector containing the accumulated input.
+}
+\description{
+Returns the accumulated input as a character vector.
+}
+\examples{
+# This example loads some keyword input and displays the contents.
+phrAccumulateLine("SOLUTION 1")
+phrAccumulateLine("END")
+cat("The accumulated input is:", phrGetAccumulatedLines(), sep = "\\n")
+}
+\references{
+\url{ftp://brrftp.cr.usgs.gov/pub/charlton/iphreeqc/IPhreeqc.pdf}
+}
+\seealso{
+Other Accumulate: \code{\link{phrAccumulateLine}};
+\code{\link{phrClearAccumulatedLines}};
+\code{\link{phrRunAccumulated}}
+}
+

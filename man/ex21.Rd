@@ -1,0 +1,54 @@
+\docType{data}
+\name{ex21}
+\alias{ex21}
+\title{Example 21--Modeling Diffusion of HTO, 36Cl-, 22Na+, and Cs+ in a
+Radial Diffusion Cell}
+\source{
+\url{http://wwwbrr.cr.usgs.gov/projects/GWC_coupled/phreeqc}
+}
+\description{
+This example illustrates how PHREEQC version 3 can simulate
+a diffusion experiment, as is now often performed for
+assessing the properties of a repository for nuclear waste
+in a clay formation. A sample is cut from a core of clay,
+enveloped in filters, and placed in a diffusion cell (see
+Van Loon and others, 2004, for details). Solutions with
+tracers are circulated at the surfaces of the filters, the
+tracers diffuse into and out of the clay, and the solutions
+are sampled and analyzed regularly in time. The
+concentration changes are interpreted with Fick's diffusion
+equations to obtain transport parameters for modeling the
+rates of migration of elements away from a waste
+repository. Transport in clays is mainly diffusive because
+of the low hydraulic conductivity, and solutes are further
+retarded by sorption (cations) and by exclusion from part
+of the pore space (anions). The example can be run using
+the \code{\link{phrRunString}} routine.
+}
+\examples{
+phrLoadDatabaseString(phreeqc.dat)
+# example 21 requires the selected_output file to be turned on
+phrSetSelectedOutputFileOn(1, TRUE)
+phrSetOutputStringsOn(TRUE)
+# this takes longer than 5 seconds
+\dontrun{phrRunString(ex21)}
+phrGetOutputStrings()
+}
+\references{
+\url{http://pubs.usgs.gov/tm/06/a43/pdf/tm6-A43.pdf}
+}
+\seealso{
+Other Examples: \code{\link{ex10}}; \code{\link{ex11}};
+\code{\link{ex12}}; \code{\link{ex13a}},
+\code{\link{ex13a}}, \code{\link{ex13b}},
+\code{\link{ex13c}}; \code{\link{ex14}};
+\code{\link{ex15}}; \code{\link{ex16}}; \code{\link{ex17}};
+\code{\link{ex18}}; \code{\link{ex19}}; \code{\link{ex1}};
+\code{\link{ex20a}}, \code{\link{ex20a}},
+\code{\link{ex20b}}; \code{\link{ex22}}; \code{\link{ex2}};
+\code{\link{ex3}}; \code{\link{ex4}}; \code{\link{ex5}};
+\code{\link{ex6}}; \code{\link{ex7}}; \code{\link{ex8}};
+\code{\link{ex9}}
+}
+\keyword{dataset}
+

@@ -1,0 +1,37 @@
+\name{phrLoadDatabaseString}
+\alias{phrLoadDatabaseString}
+\title{Load a phreeqc database as a string or a list of strings.}
+\usage{
+phrLoadDatabaseString(input)
+}
+\arguments{
+  \item{input}{String containing data to be used as the
+  phreeqc database.}
+}
+\value{
+This function returns NULL.
+}
+\description{
+Load the specified string(s) as a database into phreeqc.
+Returns NULL if successful.
+}
+\details{
+All previous definitions are cleared.
+}
+\examples{
+# this example loads the phreeqc.dat database, turns on the
+# output file and runs ex2 as a string
+phrLoadDatabaseString(phreeqc.dat)
+phrSetOutputFileOn(TRUE)
+if (is.null(phrRunString(ex2))) {
+  cat(paste("see ", phrGetOutputFileName(), ".\\n", sep = ""))
+}
+}
+\references{
+\url{ftp://brrftp.cr.usgs.gov/pub/charlton/iphreeqc/IPhreeqc.pdf}
+}
+\seealso{
+Other Load Database: \code{\link{phrLoadDatabase}}
+}
+\keyword{interface}
+

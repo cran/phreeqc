@@ -1,0 +1,45 @@
+\name{phrSetOutputFileName}
+\alias{phrSetOutputFileName}
+\title{Set the name of the output file.}
+\usage{
+phrSetOutputFileName(filename)
+}
+\arguments{
+  \item{filename}{the name of the file.}
+}
+\description{
+Sets the name of the output file. The default value is
+phreeqc.0.out.
+}
+\details{
+The output file must be turned on using the
+\code{\link{phrSetOutputFileOn}} function.
+}
+\examples{
+# This example equilibrates pure water with calcite and displays
+# the resulting file name.
+phrLoadDatabaseString(phreeqc.dat)
+phrSetOutputFileOn(TRUE)
+phrSetOutputFileName("phreeqc.output")
+input <- c(
+  'SOLUTION 1 Pure water ',
+  'EQUILIBRIUM_PHASES 1  ',
+  '    Calcite 0 10      '
+  )
+
+if (is.null(phrRunString(input))) {
+  cat("see", phrGetOutputFileName(), "\\n")
+}
+}
+\references{
+\url{ftp://brrftp.cr.usgs.gov/pub/charlton/iphreeqc/IPhreeqc.pdf}
+}
+\seealso{
+Other Output: \code{\link{phrGetOutputFileName}};
+\code{\link{phrGetOutputFileOn}};
+\code{\link{phrGetOutputStringsOn}};
+\code{\link{phrGetOutputStrings}};
+\code{\link{phrSetOutputFileOn}};
+\code{\link{phrSetOutputStringsOn}}
+}
+

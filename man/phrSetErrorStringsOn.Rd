@@ -1,0 +1,40 @@
+\name{phrSetErrorStringsOn}
+\alias{phrSetErrorStringsOn}
+\title{Set error strings on/off.}
+\usage{
+phrSetErrorStringsOn(value)
+}
+\arguments{
+  \item{value}{if TRUE, captures output normally sent to
+  the error file into a buffer.}
+}
+\description{
+Sets the error strings switch on or off.  This switch
+controls whether or not the data normally sent to the error
+file are stored in a buffer for retrieval. The initial
+setting is on.
+}
+\details{
+The try is necessary to keep the error message from
+displaying immediately.
+}
+\examples{
+# This example attempts to run ex1, fails, and displays the error message
+# (no database is loaded).
+phrSetErrorStringsOn(TRUE)
+if (!is.null(try(phrRunString(ex1), silent=TRUE))) {
+  cat(phrGetErrorStrings(), "\\n")
+}
+}
+\references{
+\url{ftp://brrftp.cr.usgs.gov/pub/charlton/iphreeqc/IPhreeqc.pdf}
+}
+\seealso{
+Other Error: \code{\link{phrGetErrorFileName}};
+\code{\link{phrGetErrorFileOn}};
+\code{\link{phrGetErrorStringsOn}};
+\code{\link{phrGetErrorStrings}};
+\code{\link{phrSetErrorFileName}};
+\code{\link{phrSetErrorFileOn}}
+}
+

@@ -1,0 +1,29 @@
+\name{phrClearAccumulatedLines}
+\alias{phrClearAccumulatedLines}
+\title{Clear the accumulated input buffer.}
+\usage{
+phrClearAccumulatedLines()
+}
+\description{
+Clears the accumulated input buffer. The input buffer is
+accumulated from calls to the
+\code{\link{phrAccumulateLine}} method.
+}
+\examples{
+# This example loads some keyword input, clears the input, and displays
+# the results.
+phrAccumulateLine("SOLUTION 1")
+phrAccumulateLine("END")
+cat("The accumulated input is:", phrGetAccumulatedLines(), sep = "\\n")
+phrClearAccumulatedLines()
+cat("The accumulated input now is:\\n", phrGetAccumulatedLines(), sep = "\\n")
+}
+\references{
+\url{ftp://brrftp.cr.usgs.gov/pub/charlton/iphreeqc/IPhreeqc.pdf}
+}
+\seealso{
+Other Accumulate: \code{\link{phrAccumulateLine}};
+\code{\link{phrGetAccumulatedLines}};
+\code{\link{phrRunAccumulated}}
+}
+

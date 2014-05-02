@@ -1,0 +1,47 @@
+\name{phrSetLogFileName}
+\alias{phrSetLogFileName}
+\title{Set the name of the log file.}
+\usage{
+phrSetLogFileName(filename)
+}
+\arguments{
+  \item{filename}{the name of the file.}
+}
+\description{
+Sets the name of the log file. The default value is
+phreeqc.0.log
+}
+\details{
+Logging must be enabled through the use of the KNOBS
+-logfile option in order to receive any log messages.
+}
+\examples{
+# This example equilibrates pure water with calcite and displays
+# the log file name.
+phrLoadDatabaseString(phreeqc.dat)
+phrSetLogFileOn(TRUE)
+phrSetLogFileName("phreeqc.log")
+input <- c(
+  'SOLUTION 1 Pure water ',
+  'EQUILIBRIUM_PHASES 1  ',
+  '    Calcite 0 10      ',
+  'KNOBS                 ',
+  '    -logfile true     '
+  )
+
+if (is.null(phrRunString(input))) {
+  cat("see", phrGetLogFileName(), "\\n")
+}
+}
+\references{
+\url{ftp://brrftp.cr.usgs.gov/pub/charlton/iphreeqc/IPhreeqc.pdf}
+}
+\seealso{
+Other Log: \code{\link{phrGetLogFileName}};
+\code{\link{phrGetLogFileOn}};
+\code{\link{phrGetLogStringsOn}};
+\code{\link{phrGetLogStrings}};
+\code{\link{phrSetLogFileOn}};
+\code{\link{phrSetLogStringsOn}}
+}
+

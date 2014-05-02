@@ -1,0 +1,44 @@
+\name{phrGetDumpFileName}
+\alias{phrGetDumpFileName}
+\title{Retrieve the name of the dump file.}
+\usage{
+phrGetDumpFileName()
+}
+\value{
+The name of the dump file as a string.
+}
+\description{
+Retrieves the name of the dump file. This file name is used
+if not specified within DUMP input. The default value is
+dump.0.out.
+}
+\examples{
+phrLoadDatabaseString(phreeqc.dat)
+phrSetDumpFileOn(TRUE)
+
+input <-              "SOLUTION 1 Pure water     \\n"
+input <- paste(input, "EQUILIBRIUM_PHASES 1      \\n")
+input <- paste(input, "    Calcite 0 10          \\n")
+input <- paste(input, "SAVE solution 1           \\n")
+input <- paste(input, "SAVE equilibrium_phases 1 \\n")
+input <- paste(input, "DUMP                      \\n")
+input <- paste(input, "    -solution 1           \\n")
+input <- paste(input, "    -equilibrium_phases  1\\n")
+
+if (!is.null(phrRunString(input))) {
+  cat(phrGetErrorStrings())
+}
+cat(paste("see ", phrGetDumpFileName(), "."))
+}
+\references{
+\url{ftp://brrftp.cr.usgs.gov/pub/charlton/iphreeqc/IPhreeqc.pdf}
+}
+\seealso{
+Other Dump: \code{\link{phrGetDumpFileOn}};
+\code{\link{phrGetDumpStringsOn}};
+\code{\link{phrGetDumpStrings}};
+\code{\link{phrSetDumpFileName}};
+\code{\link{phrSetDumpFileOn}};
+\code{\link{phrSetDumpStringsOn}}
+}
+

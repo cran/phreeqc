@@ -1,0 +1,50 @@
+\docType{data}
+\name{ex16}
+\alias{ex16}
+\title{Example 16--Inverse Modeling of Sierra Spring Waters}
+\source{
+\url{http://wwwbrr.cr.usgs.gov/projects/GWC_coupled/phreeqc}
+}
+\description{
+This example repeats the inverse modeling calculations of
+the chemical evolution of spring-water compositions in the
+Sierra Nevada that are described in a classic paper by
+Garrels and Mackenzie (1967). The same example is described
+in the manual for the inverse-modeling program NETPATH
+(Plummer and others, 1991 and 1994). The example uses two
+spring-water compositions, one from an ephemeral spring,
+which is less chemically evolved, and one from a perennial
+spring, which probably has had a longer residence time in
+the subsoil. The differences in composition between the
+ephemeral spring and the perennial spring are assumed to be
+caused by reactions between the water and the minerals and
+gases it contacts. The object of inverse modeling in this
+example is to find sets of minerals and gases that, when
+reacted in appropriate amounts, account for the differences
+in composition between the two solutions. The example can
+be run using the \code{\link{phrRunString}} routine.
+}
+\examples{
+phrLoadDatabaseString(phreeqc.dat)
+phrSetOutputStringsOn(TRUE)
+phrRunString(ex16)
+phrGetOutputStrings()
+}
+\references{
+\url{http://pubs.usgs.gov/tm/06/a43/pdf/tm6-A43.pdf}
+}
+\seealso{
+Other Examples: \code{\link{ex10}}; \code{\link{ex11}};
+\code{\link{ex12}}; \code{\link{ex13a}},
+\code{\link{ex13a}}, \code{\link{ex13b}},
+\code{\link{ex13c}}; \code{\link{ex14}};
+\code{\link{ex15}}; \code{\link{ex17}}; \code{\link{ex18}};
+\code{\link{ex19}}; \code{\link{ex1}}; \code{\link{ex20a}},
+\code{\link{ex20a}}, \code{\link{ex20b}};
+\code{\link{ex21}}; \code{\link{ex22}}; \code{\link{ex2}};
+\code{\link{ex3}}; \code{\link{ex4}}; \code{\link{ex5}};
+\code{\link{ex6}}; \code{\link{ex7}}; \code{\link{ex8}};
+\code{\link{ex9}}
+}
+\keyword{dataset}
+

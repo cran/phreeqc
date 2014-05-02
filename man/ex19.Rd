@@ -1,0 +1,45 @@
+\docType{data}
+\name{ex19}
+\alias{ex19}
+\title{Example 19--Modeling Cd+2 Sorption With Linear, Freundlich, and
+Langmuir Isotherms, and With a Deterministic Distribution of Sorption Sites
+for Organic Matter, Clay Minerals, and Iron Oxyhydroxides}
+\source{
+\url{http://wwwbrr.cr.usgs.gov/projects/GWC_coupled/phreeqc}
+}
+\description{
+Sorption of heavy metals and organic pollutants on natural
+materials can be described by linear, Freundlich, or
+Langmuir isotherms. All three isotherms can be calculated
+by PHREEQC, as shown in this example for Cd+2 sorbing on a
+loamy soil (Christensen, 1984; Appelo and Postma, 2005). A
+more mechanistic approach, also illustrated here, is to
+model the distribution of Cd+2 over the sorbing components
+in the soil, in this case, in and on organic matter, clay
+minerals, and iron oxyhydroxides. The example can be run
+using the \code{\link{phrRunString}} routine.
+}
+\examples{
+phrLoadDatabaseString(phreeqc.dat)
+phrSetOutputStringsOn(TRUE)
+phrRunString(ex19)
+phrGetOutputStrings()
+}
+\references{
+\url{http://pubs.usgs.gov/tm/06/a43/pdf/tm6-A43.pdf}
+}
+\seealso{
+Other Examples: \code{\link{ex10}}; \code{\link{ex11}};
+\code{\link{ex12}}; \code{\link{ex13a}},
+\code{\link{ex13a}}, \code{\link{ex13b}},
+\code{\link{ex13c}}; \code{\link{ex14}};
+\code{\link{ex15}}; \code{\link{ex16}}; \code{\link{ex17}};
+\code{\link{ex18}}; \code{\link{ex1}}; \code{\link{ex20a}},
+\code{\link{ex20a}}, \code{\link{ex20b}};
+\code{\link{ex21}}; \code{\link{ex22}}; \code{\link{ex2}};
+\code{\link{ex3}}; \code{\link{ex4}}; \code{\link{ex5}};
+\code{\link{ex6}}; \code{\link{ex7}}; \code{\link{ex8}};
+\code{\link{ex9}}
+}
+\keyword{dataset}
+

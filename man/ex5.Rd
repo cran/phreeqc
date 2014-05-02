@@ -1,0 +1,45 @@
+\docType{data}
+\name{ex5}
+\alias{ex5}
+\title{Example 5--Irreversible Reactions}
+\source{
+\url{http://wwwbrr.cr.usgs.gov/projects/GWC_coupled/phreeqc}
+}
+\description{
+This example demonstrates the irreversible reaction
+capabilities of PHREEQC in modeling the oxidation of
+pyrite. Oxygen (O2) and NaCl are added irreversibly to pure
+water in six amounts (0.0, 0.001, 0.005, 0.01, 0.03, and
+0.05 mol); the relative proportion of O2 to NaCl in the
+irreversible reaction is 1.0 to 0.5. Pyrite, calcite, and
+goethite are allowed to dissolve to equilibrium and the
+carbon dioxide partial pressure is maintained at 10-3.5
+(atmospheric partial pressure). In addition, gypsum is
+allowed to precipitate if it becomes supersaturated. The
+example can be run using the \code{\link{phrRunString}}
+routine.
+}
+\examples{
+phrLoadDatabaseString(phreeqc.dat)
+phrSetOutputStringsOn(TRUE)
+phrRunString(ex5)
+phrGetOutputStrings()
+}
+\references{
+\url{http://pubs.usgs.gov/tm/06/a43/pdf/tm6-A43.pdf}
+}
+\seealso{
+Other Examples: \code{\link{ex10}}; \code{\link{ex11}};
+\code{\link{ex12}}; \code{\link{ex13a}},
+\code{\link{ex13a}}, \code{\link{ex13b}},
+\code{\link{ex13c}}; \code{\link{ex14}};
+\code{\link{ex15}}; \code{\link{ex16}}; \code{\link{ex17}};
+\code{\link{ex18}}; \code{\link{ex19}}; \code{\link{ex1}};
+\code{\link{ex20a}}, \code{\link{ex20a}},
+\code{\link{ex20b}}; \code{\link{ex21}};
+\code{\link{ex22}}; \code{\link{ex2}}; \code{\link{ex3}};
+\code{\link{ex4}}; \code{\link{ex6}}; \code{\link{ex7}};
+\code{\link{ex8}}; \code{\link{ex9}}
+}
+\keyword{dataset}
+

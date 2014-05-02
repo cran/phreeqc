@@ -1,0 +1,54 @@
+\docType{data}
+\name{ex20a}
+\alias{ex20a}
+\alias{ex20b}
+\title{Example 20--Distribution of Isotopes Between Water and Calcite}
+\source{
+\url{http://wwwbrr.cr.usgs.gov/projects/GWC_coupled/phreeqc}
+}
+\description{
+The database \code{\link{iso.dat}} implements the approach
+to isotope reactions described by Thorstenson and Parkhurst
+(2002, 2004), in which minor isotopes are treated as
+individual thermodynamic components. The aqueous and solid
+species of minor isotopes have slightly different
+equilibrium constants than those of the major isotopes,
+which account for fractionation processes. The treatment of
+isotopes in gases requires a separate species for each
+isotopic variant of a gas; for example, the isotopic
+variants of carbon dioxide are CO2, C18OO, C18O2, 13CO2,
+13C18OO, and 13C18O2. Similarly, every isotopic variant of
+a mineral must be included as a component of a solid
+solution to represent completely the isotopic composition
+of the solid. The equilibrium constants in iso.dat are
+derived from empirical fractionation factors, from
+statistical mechanical theory, or, where no data are
+available (the most common case), by assuming no
+fractionation. However, the database is a framework that
+can be expanded as additional isotopic thermodynamic data
+become available. The example can be run using the
+\code{\link{phrRunString}} routine.
+}
+\examples{
+phrLoadDatabaseString(iso.dat)
+phrSetOutputStringsOn(TRUE)
+phrRunString(ex20a)
+phrGetOutputStrings()
+}
+\references{
+\url{http://pubs.usgs.gov/tm/06/a43/pdf/tm6-A43.pdf}
+}
+\seealso{
+Other Examples: \code{\link{ex10}}; \code{\link{ex11}};
+\code{\link{ex12}}; \code{\link{ex13a}},
+\code{\link{ex13a}}, \code{\link{ex13b}},
+\code{\link{ex13c}}; \code{\link{ex14}};
+\code{\link{ex15}}; \code{\link{ex16}}; \code{\link{ex17}};
+\code{\link{ex18}}; \code{\link{ex19}}; \code{\link{ex1}};
+\code{\link{ex21}}; \code{\link{ex22}}; \code{\link{ex2}};
+\code{\link{ex3}}; \code{\link{ex4}}; \code{\link{ex5}};
+\code{\link{ex6}}; \code{\link{ex7}}; \code{\link{ex8}};
+\code{\link{ex9}}
+}
+\keyword{dataset}
+

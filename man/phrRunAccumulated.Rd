@@ -1,0 +1,65 @@
+\name{phrRunAccumulated}
+\alias{phrRunAccumulated}
+\title{Runs the accumulated input.}
+\usage{
+phrRunAccumulated()
+}
+\value{
+This function returns NULL on success.
+}
+\description{
+Runs the input buffer as defined by calls to
+\code{\link{phrAccumulateLine}}.
+}
+\details{
+After calling \code{phrRunAccumulated}
+\code{\link{phrGetAccumulatedLines}} can be used in case of
+errors. The accumulated lines will be cleared on the next
+call to \code{\link{phrAccumulateLine}}.
+
+The \code{phrAccumulateLine} method cannot be called until
+a database has been successfully loaded by calls to either
+\code{\link{phrLoadDatabase}} or
+\code{\link{phrLoadDatabaseString}}.
+}
+\examples{
+# turn on the output file
+phrSetOutputFileOn(TRUE)
+
+# load the phreeqc.dat database
+phrLoadDatabaseString(phreeqc.dat)
+
+# accumulate the input
+phrAccumulateLine("TITLE Example 2.--Temperature dependence of solubility")
+phrAccumulateLine("                  of gypsum and anhydrite")
+phrAccumulateLine("SOLUTION 1 Pure water")
+phrAccumulateLine("        pH      7.0")
+phrAccumulateLine("        temp    25.0")
+phrAccumulateLine("EQUILIBRIUM_PHASES 1")
+phrAccumulateLine("        Gypsum          0.0     1.0")
+phrAccumulateLine("        Anhydrite       0.0     1.0")
+phrAccumulateLine("REACTION_TEMPERATURE 1")
+phrAccumulateLine("        25.0 75.0 in 51 steps")
+phrAccumulateLine("SELECTED_OUTPUT")
+phrAccumulateLine("        -file   ex2.sel")
+phrAccumulateLine("        -temperature")
+phrAccumulateLine("        -si     anhydrite  gypsum")
+phrAccumulateLine("END")
+
+# run it and echo the name of the output file
+if (is.null(phrRunAccumulated())) {
+  cat(paste("see ", phrGetOutputFileName(), ".\\n", sep = ""))
+}
+}
+\references{
+\url{ftp://brrftp.cr.usgs.gov/pub/charlton/iphreeqc/IPhreeqc.pdf}
+}
+\seealso{
+Other Accumulate: \code{\link{phrAccumulateLine}};
+\code{\link{phrClearAccumulatedLines}};
+\code{\link{phrGetAccumulatedLines}}
+
+Other Run: \code{\link{phrRunFile}};
+\code{\link{phrRunString}}
+}
+

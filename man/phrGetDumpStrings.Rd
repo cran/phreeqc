@@ -1,0 +1,43 @@
+\name{phrGetDumpStrings}
+\alias{phrGetDumpStrings}
+\title{Retrieve DUMP strings.}
+\usage{
+phrGetDumpStrings()
+}
+\value{
+The dump output as a character vector.
+}
+\description{
+Retrieves the string buffer containing DUMP output as a
+character vector.
+}
+\examples{
+phrLoadDatabaseString(phreeqc.dat)
+phrSetDumpStringsOn(TRUE)
+
+input <-              "SOLUTION 1 Pure water     \\n"
+input <- paste(input, "EQUILIBRIUM_PHASES 1      \\n")
+input <- paste(input, "    Calcite 0 10          \\n")
+input <- paste(input, "SAVE solution 1           \\n")
+input <- paste(input, "SAVE equilibrium_phases 1 \\n")
+input <- paste(input, "DUMP                      \\n")
+input <- paste(input, "    -solution 1           \\n")
+input <- paste(input, "    -equilibrium_phases 1 \\n")
+
+if (!is.null(phrRunString(input))) {
+  cat(phrGetErrorStrings(), sep = "\\n")
+}
+cat(phrGetDumpStrings(), sep = "\\n")
+}
+\references{
+\url{ftp://brrftp.cr.usgs.gov/pub/charlton/iphreeqc/IPhreeqc.pdf}
+}
+\seealso{
+Other Dump: \code{\link{phrGetDumpFileName}};
+\code{\link{phrGetDumpFileOn}};
+\code{\link{phrGetDumpStringsOn}};
+\code{\link{phrSetDumpFileName}};
+\code{\link{phrSetDumpFileOn}};
+\code{\link{phrSetDumpStringsOn}}
+}
+

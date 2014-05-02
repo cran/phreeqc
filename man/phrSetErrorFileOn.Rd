@@ -1,0 +1,40 @@
+\name{phrSetErrorFileOn}
+\alias{phrSetErrorFileOn}
+\title{Set error file on/off.}
+\usage{
+phrSetErrorFileOn(value)
+}
+\arguments{
+  \item{value}{if TRUE, writes output to the the error
+  file.}
+}
+\description{
+Sets the error file switch on or off. This switch controls
+whether or not phreeqc writes to the error file. The
+initial setting is off.
+}
+\details{
+The try is necessary to keep the error message from
+displaying immediately.
+}
+\examples{
+# This example attempts to run ex1, fails, and writes the error
+# message to the error file (no database is loaded).
+phrSetErrorFileOn(TRUE)
+phrSetErrorFileName("phreeqc.errors")
+if (!is.null(try(phrRunString(ex1), silent=TRUE))) {
+  cat("see", phrGetErrorFileName(), "\\n")
+}
+}
+\references{
+\url{ftp://brrftp.cr.usgs.gov/pub/charlton/iphreeqc/IPhreeqc.pdf}
+}
+\seealso{
+Other Error: \code{\link{phrGetErrorFileName}};
+\code{\link{phrGetErrorFileOn}};
+\code{\link{phrGetErrorStringsOn}};
+\code{\link{phrGetErrorStrings}};
+\code{\link{phrSetErrorFileName}};
+\code{\link{phrSetErrorStringsOn}}
+}
+
