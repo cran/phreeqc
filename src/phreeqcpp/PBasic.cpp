@@ -18,7 +18,7 @@
 /* Run-time library for PhreeqcPtr->use with "p2c", the Pascal to C translator */
 
 /* "p2c"  Copyright (C) 1989, 1990, 1991 Free Software Foundation.
- * By Dave Gillespie, daveg@csvax.cs.caltech.edu.  Version --VERSION--.
+ * By Dave Gillespie, daveg@csvax.cs.caltech.edu.  Version 1.20.
  * This file may be copied, modified, etc. in any way.  It is not restricted
  * by the licence agreement accompanying p2c itself.
  */
@@ -3006,6 +3006,8 @@ factor(struct LOC_exec * LINK)
 			n.UU.val = 1;
 			break;
 		}
+		n.UU.val = PhreeqcPtr->solution_number();
+#ifdef SKIP
 		if (PhreeqcPtr->state == TRANSPORT)
 		{
 			n.UU.val = PhreeqcPtr->cell_no;
@@ -3033,6 +3035,7 @@ factor(struct LOC_exec * LINK)
 				n.UU.val = PhreeqcPtr->use.Get_n_solution_user();
 			}
 		}
+#endif
 		break;
 
 	case toksim_no:

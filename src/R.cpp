@@ -1,10 +1,10 @@
 
-#include <R.h>
-#include <Rdefines.h>
 #include <sstream>
 #include <stdlib.h>
 #include "Var.h"
 #include "IPhreeqchpp.h"
+#include <R.h>
+#include <Rdefines.h>
 
 #define CONVERT_TO_DATA_FRAME
 

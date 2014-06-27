@@ -1,19 +1,18 @@
-##' R interface to the phreeqc geochemical modeling program.
+##' R interface to the PHREEQC geochemical modeling program.
 ##' 
-##' Provides an interface to PHREEQC (Version 3)--A Computer Program for
-##' Speciation, Batch-Reaction, One-Dimensional Transport, and Inverse
-##' Geochemical Calculations.
+##' An interface to PHREEQC (Version 3). PHREEQC is a geochemical
+##' modeling program developed by the US Geological Survey that is designed
+##' to perform a wide variety of aqueous geochemical calculations, 
+##' including speciation, batch-reaction, one-dimensional 
+##' reactive-transport, and inverse geochemical calculations.    
 ##' 
-##' \tabular{ll}{ Package: \tab phreeqc\cr Type: \tab Package\cr Version: \tab
-##' 1.0\cr Date: \tab 2014-02-05\cr License: \tab Unlimited\cr }
+##' \tabular{ll}{Package: \tab phreeqc\cr Type: \tab Package\cr Version: \tab 1.0-8809\cr Date: \tab 2014-06-26\cr License: \tab BSD_3_clause + file LICENSE\cr}
 ##' 
 ##' @name phreeqc-package
 ##' @aliases phreeqc-package phreeqc
 ##' @docType package
-##' @author David L. Parkhurst \email{dlpark@@usgs.gov}\cr C.A.J. Appelo
-##' \email{appt@@hydrochemistry.eu}\cr Maintainer: Scott R. Charlton
-##' \email{charlton@@usgs.gov}
-##' @references \url{ftp://brrftp.cr.usgs.gov/pub/charlton/iphreeqc/IPhreeqc.pdf}
+##' @author S.R. Charlton, D.L. Parkhurst, and C.A.J. Appelo, with contributions from D. Gillespie for Chipmunk BASIC (p2c) and S.D. Cohen, A.C. Hindmarsh, R. Serban, D. Shumaker, and A.G. Taylor for CVODE (SUNDIALS) \cr Maintainer: S.R. Charlton \email{charlton@@usgs.gov}
+##' @references \url{ftp://brrftp.cr.usgs.gov/pub/charlton/iphreeqc/IPhreeqc.pdf}\cr \url{http://computation.llnl.gov/casc/sundials/main.html}
 ##' @keywords package
 ##' @examples
 ##'

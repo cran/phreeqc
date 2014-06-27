@@ -9,6 +9,7 @@
 #include "PPassemblage.h"
 #include "SSassemblage.h"
 #include "cxxKinetics.h"
+#include "Solution.h"
 #include "Parser.h"
 /* ---------------------------------------------------------------------- */
 LDBLE Phreeqc::
@@ -372,13 +373,13 @@ calc_logk_s(const char *name)
 		{
 			l_logk[i] = 0.0;
 		}
-		if (s_ptr->moles)
-			select_log_k_expression(s_ptr->rxn_x->logk, l_logk);
-		else
-		{
+		//if (s_ptr->moles)
+			//select_log_k_expression(s_ptr->rxn_x->logk, l_logk);
+		    select_log_k_expression(s_ptr->rxn->logk, l_logk);
+		//{
 			// perhaps calculate species' delta_v if absent?
-			select_log_k_expression(s_ptr->rxn_s->logk, l_logk);
-		}
+		//	select_log_k_expression(s_ptr->rxn_s->logk, l_logk);
+		//}
 		add_other_logk(l_logk, s_ptr->count_add_logk, s_ptr->add_logk);
 		lk = k_calc(l_logk, tk_x, patm_x * PASCAL_PER_ATM);
 		return (lk);
@@ -3356,7 +3357,42 @@ system_total_elt_secondary(const char *total_name)
 	}
 	return (OK);
 }
-
+/* ---------------------------------------------------------------------- */
+int Phreeqc::
+solution_number(void)
+/* ---------------------------------------------------------------------- */
+{
+	Phreeqc * PhreeqcPtr = this;
+	int soln_no = -999;
+	if (PhreeqcPtr->state == TRANSPORT)
+	{
+		soln_no = PhreeqcPtr->cell_no;
+	}
+	else if (PhreeqcPtr->state == PHAST)
+	{
+		soln_no = PhreeqcPtr->cell_no;
+	}
+	else if (PhreeqcPtr->state == ADVECTION)
+	{
+		soln_no = PhreeqcPtr->cell_no;
+	}
+	else if (PhreeqcPtr->state < REACTION)
+	{
+		soln_no = PhreeqcPtr->use.Get_solution_ptr()->Get_n_user();
+	}
+	else
+	{
+		if (PhreeqcPtr->use.Get_mix_in())
+		{
+			soln_no = PhreeqcPtr->use.Get_n_mix_user();
+		}
+		else
+		{
+			soln_no = PhreeqcPtr->use.Get_n_solution_user();
+		}
+	}
+	return soln_no;
+}
 /* ---------------------------------------------------------------------- */
 LDBLE Phreeqc::
 solution_sum_secondary(const char *total_name)
