@@ -138,6 +138,16 @@ basic_compile(char *commands, void **lnbase, void **vbase, void **lpbase)
 				}
 			}
 		}
+		catch (PhreeqcStop s)
+		{
+			// clean up memory
+			disposetokens(&buf);
+			PhreeqcPtr->PHRQ_free(inbuf);
+			*lnbase = (void *) linebase;
+			*vbase = (void *) varbase;
+			*lpbase = (void *) loopbase;
+			throw s;
+		}
 	}
 	while (!(exitflag || P_eof()));
 	/*  exit(EXIT_SUCCESS); */
@@ -3452,6 +3462,7 @@ factor(struct LOC_exec * LINK)
 			if (LINK->t->kind != tokvar || elt_varrec->stringvar != 1)
 				snerr(": Cannot find element string variable");
 			free_dim_stringvar(elt_varrec);
+			*elt_varrec->UU.U1.sval = (char *) PhreeqcPtr->free_check_null(*elt_varrec->UU.U1.sval);
 
 			// right parenthesis
 			LINK->t = LINK->t->next;

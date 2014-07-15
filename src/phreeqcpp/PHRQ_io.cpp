@@ -32,9 +32,13 @@ PHRQ_io(void)
 	punch_on = true;
 	error_on = true;
 	dump_on = true;
-	screen_on = true;
 	echo_on = true;
+	screen_on = true;
 	echo_destination = ECHO_OUTPUT;
+
+	m_next_keyword = Keywords::KEY_NONE;
+	accumulate = false;
+	m_line_type = PHRQ_io::LT_EMPTY; 
 }
 
 PHRQ_io::
@@ -54,6 +58,7 @@ ofstream_open(std::ostream **os, const char *file_name, std::ios_base::openmode 
 		*os = ofs;
 		return true;
 	}
+	delete ofs;
 	return false;
 }
 
@@ -454,7 +459,7 @@ fpunchf_helper(std::ostream *os, const char *format, ...)
 		va_list args;
 		va_start(args, format);
 		int j = ::vsnprintf(stack_buffer, STACK_MAX, format, args);
-		bool success = (j > 0 && j < (int) STACK_MAX);
+		bool success = (j >= 0 && j < (int) STACK_MAX);
 		va_end(args);
 
 		if (success)
@@ -470,7 +475,7 @@ fpunchf_helper(std::ostream *os, const char *format, ...)
 				va_list args;
 				va_start(args, format);
 				j = ::vsnprintf(alloc_buffer, alloc_buffer_size, format, args);
-				success = (j > 0 && j < (int) alloc_buffer_size);
+				success = (j >= 0 && j < (int) alloc_buffer_size);
 				va_end(args);
 				if (!success)
 				{
@@ -480,8 +485,9 @@ fpunchf_helper(std::ostream *os, const char *format, ...)
 				}
 			}
 			while (!success);
+
 			(*os) << alloc_buffer;
-			delete alloc_buffer;
+			delete[] alloc_buffer;
 		}
 	}
 }
@@ -498,7 +504,7 @@ fpunchf_helper(std::string *str, const char *format, ...)
 		va_list args;
 		va_start(args, format);
 		int j = ::vsnprintf(stack_buffer, STACK_MAX, format, args);
-		bool success = (j > 0 && j < (int) STACK_MAX);
+		bool success = (j >= 0 && j < (int) STACK_MAX);
 		va_end(args);
 
 		if (success)
@@ -514,7 +520,7 @@ fpunchf_helper(std::string *str, const char *format, ...)
 				va_list args;
 				va_start(args, format);
 				j = ::vsnprintf(alloc_buffer, alloc_buffer_size, format, args);
-				success = (j > 0 && j < (int) alloc_buffer_size);
+				success = (j >= 0 && j < (int) alloc_buffer_size);
 				va_end(args);
 				if (!success)
 				{
@@ -524,8 +530,9 @@ fpunchf_helper(std::string *str, const char *format, ...)
 				}
 			}
 			while (!success);
+
 			(*str) += alloc_buffer;
-			delete alloc_buffer;
+			delete[] alloc_buffer;
 		}
 	}
 }
@@ -681,8 +688,6 @@ get_line(void)
  *      OK,
  *      OPTION
  */
-	int i;
-	bool empty;
 	std::string stdtoken;
 	bool continue_loop = true;;
 
@@ -700,8 +705,6 @@ get_line(void)
 			/*
 			*   Eliminate all characters after # sign as a comment
 			*/
-			i = -1;
-			empty = true;
 			/*
 			*   Get line, check for eof
 			*/

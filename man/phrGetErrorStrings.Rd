@@ -22,9 +22,9 @@ since the error string is displayed when it occurs.
 }
 \examples{
 # loaddatabase should fail
-n <- try(phrLoadDatabase("missing.dat"), silent = TRUE)
+\dontrun{n <- try(phrLoadDatabase("missing.dat"), silent = TRUE)}
 # if n is non-NULL display error string
-if (!is.null(n)) phrGetErrorStrings()
+\dontrun{if (!is.null(n)) phrGetErrorStrings()}
 }
 \references{
 \url{ftp://brrftp.cr.usgs.gov/pub/charlton/iphreeqc/IPhreeqc.pdf}

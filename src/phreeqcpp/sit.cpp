@@ -305,19 +305,17 @@ sit(void)
 	LDBLE CONV, XI, XX, OSUM, BIGZ, DI, F, XXX, GAMCLM, CSUM, PHIMAC, OSMOT,
 		B;
 */
-	LDBLE CONV, XI, XX, OSUM, DI, F,CSUM, OSMOT, B;
+	LDBLE XI, XX, OSUM, DI, F, OSMOT, B;
 	LDBLE I, TK;
-	int LNEUT;
 	/*
 	   C
 	   C     INITIALIZE
 	   C
 	 */
-	CONV = 1.0 / log(10.0);
+	//CONV = 1.0 / log(10.0);
 	XI = 0.0e0;
 	XX = 0.0e0;
 	OSUM = 0.0e0;
-	LNEUT = FALSE;
 	/*n
 	   I = *I_X;
 	   TK = *TK_X;
@@ -378,7 +376,6 @@ sit(void)
 	F = -A * (DI / (1.0e0 + B * DI));
 
 
-	CSUM = 0.0e0;
 	/*OSMOT = -(sit_A0) * pow(I, 1.5e0) / (1.0e0 + B * DI);*/
 	T = 1.0 + B*DI;
 	OSMOT = -2.0*A/(B*B*B)*(T - 2.0*log(T) - 1.0/T);
@@ -873,8 +870,10 @@ Restart:
 		molalities(TRUE);
 		if (max_unknowns > pz_max_unknowns) 
 		{
-		  base = (LDBLE *) free_check_null(base);
-		  goto Restart;
+			base = (LDBLE *) free_check_null(base);
+			gammas_sit();
+			jacobian_sums();
+			goto Restart;
 		}
 		if (full_pitzer == TRUE)
 			sit();
@@ -1167,11 +1166,10 @@ int Phreeqc::
 check_gammas_sit(void)
 /* ---------------------------------------------------------------------- */
 {
-	LDBLE old_aw, old_mu, tol, t;
+	LDBLE old_mu, tol;
 	int converge, i;
 
 	old_mu = mu_x;
-	old_aw = s_h2o->la;
 	sit();
 	molalities(TRUE);
 	mb_sums();
@@ -1190,7 +1188,6 @@ check_gammas_sit(void)
 	{
 		converge = FALSE;
 	}
-	t = pow((LDBLE) 10.0, s_h2o->la);
 	if ((pow((LDBLE) 10.0, s_h2o->la) - AW) > tol)
 	{
 		converge = FALSE;

@@ -42,7 +42,6 @@ model(void)
 	int count_infeasible, count_basis_change;
 	int debug_model_save;
 	int mass_water_switch_save;
-	LDBLE old_mu;
 
 	set_inert_moles();
 /*	debug_model = TRUE; */
@@ -97,7 +96,6 @@ model(void)
 			PhreeqcIWait(this);
 #endif
 			iterations++;
-			old_mu = mu_x;
 			if (iterations > itmax - 1 && debug_model == FALSE
 				&& pr.logfile == TRUE)
 			{
@@ -2729,7 +2727,7 @@ calc_gas_pressures(void)
 					V_m = (2. * gas_phase_ptr->Get_v_m() + V_m) / 3;
 				else
 					V_m = (1. * gas_phase_ptr->Get_v_m() + V_m) / 2;
-				if (iterations > 99)
+				if (iterations > 99 && numerical_fixed_volume == false)
 				{
 					//V_m *= 1; /* debug */
 					numerical_fixed_volume = true;
@@ -2988,6 +2986,8 @@ ss_binary(cxxSS *ss_ptr)
 		xb2 = xb * xb;
 		xb3 = xb2 * xb;
 		xb4 = xb3 * xb;
+		xb4 = xb4;
+		xc3 = xc3;
 
 		/* used derivation that did not substitute x2 = 1-x1 */
 

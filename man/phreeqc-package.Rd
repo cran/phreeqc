@@ -13,7 +13,7 @@ inverse geochemical calculations.
 }
 \details{
 \tabular{ll}{Package: \tab phreeqc\cr Type: \tab Package\cr
-Version: \tab 1.0-8809\cr Date: \tab 2014-06-26\cr License:
+Version: \tab 1.0-8847\cr Date: \tab 2014-07-15\cr License:
 \tab BSD_3_clause + file LICENSE\cr}
 }
 \examples{
