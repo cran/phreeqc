@@ -1,5 +1,5 @@
 Package: phreeqc
-Version: 1.0-8847
+Version: 1.0-8877
 Title: R interface to the phreeqc geochemical modeling program
 License: GPL-3 + file LICENSE
 NeedsCompilation: yes
@@ -15,9 +15,9 @@ Description: R interface to PHREEQC (Version 3). PHREEQC is a geochemical
     reactive-transport, and inverse geochemical calculations.
 Maintainer: S.R. Charlton <charlton@usgs.gov>
 LazyData: yes
-Packaged: 2014-07-15 20:50:39 UTC; charlton
+Packaged: 2014-07-28 22:05:51 UTC; charlton
 X-CRAN-Comment: Earlier versions of this package were removed on
         2014-05-04 for misrepresentation of authorship and use of
         copyright code contrary to its license.
 Repository: CRAN
-Date/Publication: 2014-07-16 07:58:43
+Date/Publication: 2014-07-29 08:32:09
