@@ -6,7 +6,7 @@
 ##' including speciation, batch-reaction, one-dimensional 
 ##' reactive-transport, and inverse geochemical calculations.    
 ##' 
-##' \tabular{ll}{Package: \tab phreeqc\cr Type: \tab Package\cr Version: \tab 1.0-8877\cr Date: \tab 2014-07-28\cr License: \tab BSD_3_clause + file LICENSE\cr}
+##' \tabular{ll}{Package: \tab phreeqc\cr Type: \tab Package\cr Version: \tab 1.0-9102\cr Date: \tab 2014-12-10\cr License: \tab BSD_3_clause + file LICENSE\cr}
 ##' 
 ##' @name phreeqc-package
 ##' @aliases phreeqc-package phreeqc
@@ -394,9 +394,9 @@ function() {
 ##' @examples
 ##' 
 ##' # loaddatabase should fail
-##' \dontrun{n <- try(phrLoadDatabase("missing.dat"), silent = TRUE)}
+##' n <- try(phrLoadDatabase("missing.dat"), silent = TRUE)
 ##' # if n is non-NULL display error string
-##' \dontrun{if (!is.null(n)) phrGetErrorStrings()}
+##' if (!is.null(n)) phrGetErrorStrings()
 ##' 
 phrGetErrorStrings <-
 function() {

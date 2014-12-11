@@ -86,12 +86,13 @@ public:
 	void basic_free(void);
 	double basic_callback(double x1, double x2, char * str);
 	void register_basic_callback(double ( *fcn)(double x1, double x2, const char *str, void *cookie), void *cookie1);
-	void register_fortran_basic_callback(double ( *fcn)(double *x1, double *x2, char *str, int l));
+	void register_fortran_basic_callback(double ( *fcn)(double *x1, double *x2, char *str, size_t l));
 
 	LDBLE activity(const char *species_name);
 	LDBLE activity_coefficient(const char *species_name);
 	LDBLE log_activity_coefficient(const char *species_name);
 	LDBLE aqueous_vm(const char *species_name);
+	LDBLE diff_c(const char *species_name);
 	LDBLE calc_SC(void);
 	/* VP: Density Start */
 	LDBLE calc_dens(void);
@@ -1126,6 +1127,7 @@ public:
 	int next_user_number(Keywords::KEYWORDS key);
 	size_t list_components(std::list<std::string> &list_c);
 	PHRQ_io * Get_phrq_io(void) {return this->phrq_io;}
+	void Set_run_cells_one_step(const bool tf) {this->run_cells_one_step = tf;}
 protected:
 	void init(void);
 
@@ -1419,7 +1421,7 @@ protected:
 	/*----------------------------------------------------------------------
 	*   Reaction
 	*---------------------------------------------------------------------- */
-
+	bool run_cells_one_step;
 	/*----------------------------------------------------------------------
 	*   Species
 	*---------------------------------------------------------------------- */
@@ -1711,7 +1713,7 @@ protected:
 	PBasic * basic_interpreter;
 	double (*basic_callback_ptr) (double x1, double x2, const char *str, void *cookie);
 	void *basic_callback_cookie;
-	double (*basic_fortran_callback_ptr) (double *x1, double *x2, char *str, int l);
+	double (*basic_fortran_callback_ptr) (double *x1, double *x2, char *str, size_t l);
 
 	/* cl1.cpp ------------------------------- */
 	LDBLE *x_arg, *res_arg, *scratch;
@@ -1912,6 +1914,8 @@ protected:
 #endif
 	/* utilities.cpp ------------------------------- */
 	int spinner;
+	std::map<std::string, double> gfw_map;
+	std::map<const char *, int> rates_map;
 
 	/* new after release of Version 3 */
 	std::map<std::string, std::vector < std::string> > sum_species_map; 

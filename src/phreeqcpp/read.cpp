@@ -646,7 +646,10 @@ read_exchange_species(void)
 					(struct name_coef *)
 					PHRQ_malloc(sizeof(struct name_coef));
 				if (s_ptr->add_logk == NULL)
+				{
 					malloc_error();
+					return (OK);
+				}
 			}
 			else
 			{
@@ -660,7 +663,10 @@ read_exchange_species(void)
 																(struct
 																 name_coef)));
 				if (s_ptr->add_logk == NULL)
+				{
 					malloc_error();
+					return (OK);
+				}
 			}
 			/* read name */
 			if (copy_token(token, &next_char, &i) == EMPTY)
@@ -698,7 +704,10 @@ read_exchange_species(void)
 					(struct name_coef *)
 					PHRQ_malloc(sizeof(struct name_coef));
 				if (s_ptr->add_logk == NULL)
+				{
 					malloc_error();
+					return (OK);
+				}
 			}
 			else
 			{
@@ -712,7 +721,10 @@ read_exchange_species(void)
 																(struct
 																 name_coef)));
 				if (s_ptr->add_logk == NULL)
+				{
 					malloc_error();
+					return (OK);
+				}
 			}
 			i = sscanf(next_char, SCANFORMAT,
 					   &s_ptr->add_logk[s_ptr->count_add_logk].coef);
@@ -840,11 +852,14 @@ read_exchange_species(void)
 				error_string = sformatf( "Copying exchange to phases.");
 				error_msg(error_string, CONTINUE);
 			}
-			phase_ptr->formula = s_ptr->name;
-			phase_ptr->check_equation = FALSE;
-			phase_ptr->type = EX;
-			phase_ptr->next_elt = elt_list_dup(s_ptr->next_elt);
-			phase_ptr->rxn = rxn_dup(s_ptr->rxn);
+			else
+			{
+				phase_ptr->formula = s_ptr->name;
+				phase_ptr->check_equation = FALSE;
+				phase_ptr->type = EX;
+				phase_ptr->next_elt = elt_list_dup(s_ptr->next_elt);
+				phase_ptr->rxn = rxn_dup(s_ptr->rxn);
+			}
 			break;
 		}
 		if (return_value == EOF || return_value == KEYWORD)
@@ -1831,7 +1846,10 @@ read_inv_isotopes(struct inverse *inverse_ptr, char *ptr)
 													  1) *
 											sizeof(struct inv_isotope));
 	if (inverse_ptr->i_u == NULL)
+	{
 		malloc_error();
+		return (OK);
+	}
 	inverse_ptr->i_u[inverse_ptr->count_i_u].elt_name = redox_name;
 	inverse_ptr->i_u[inverse_ptr->count_i_u].isotope_number = isotope_number;
 /*
@@ -2581,7 +2599,10 @@ read_list_ints(char **ptr, int *count_ints, int positive)
 				(int *) PHRQ_realloc(int_list,
 									 (size_t) (*count_ints) * sizeof(int));
 			if (int_list == NULL)
+			{
 				malloc_error();
+				return (NULL);
+			}
 			int_list[(*count_ints) - 1] = value;
 			if (value <= 0 && positive == TRUE)
 			{
@@ -2629,7 +2650,10 @@ read_list_ints_range(char **ptr, int *count_ints, int positive, int *int_list)
 	{
 		int_list = (int *) PHRQ_malloc(sizeof(int));
 		if (int_list == NULL)
+		{
 			malloc_error();
+			return (NULL);
+		}
 		*count_ints = 0;
 	}
 	ptr_save = *ptr;
@@ -2643,7 +2667,10 @@ read_list_ints_range(char **ptr, int *count_ints, int positive, int *int_list)
 				(int *) PHRQ_realloc(int_list,
 									 (size_t) (*count_ints) * sizeof(int));
 			if (int_list == NULL)
+			{
 				malloc_error();
+				return (NULL);
+			}
 			int_list[(*count_ints) - 1] = value;
 			if (value <= 0 && positive == TRUE)
 			{
@@ -2684,7 +2711,10 @@ read_list_ints_range(char **ptr, int *count_ints, int positive, int *int_list)
 												 (size_t) (*count_ints) *
 												 sizeof(int));
 						if (int_list == NULL)
+						{
 							malloc_error();
+							return (NULL);
+						}
 						int_list[(*count_ints) - 1] = i;
 					}
 				}
@@ -3360,6 +3390,7 @@ read_master_species(void)
 		}
 
 	}
+	gfw_map.clear();
 	return (j);
 }
 /* ---------------------------------------------------------------------- */
@@ -6819,7 +6850,10 @@ read_surface_species(void)
 					(struct name_coef *)
 					PHRQ_malloc(sizeof(struct name_coef));
 				if (s_ptr->add_logk == NULL)
+				{
 					malloc_error();
+					return (OK);
+				}
 			}
 			else
 			{
@@ -6833,7 +6867,10 @@ read_surface_species(void)
 																(struct
 																 name_coef)));
 				if (s_ptr->add_logk == NULL)
+				{
 					malloc_error();
+					return (OK);
+				}
 			}
 			/* read name */
 			if (copy_token(token, &next_char, &i) == EMPTY)
@@ -9134,7 +9171,10 @@ read_rates(void)
 		case OPTION_DEFAULT:	/* read rate name */
 			ptr = line;
 			copy_token(token, &ptr, &l);
-			rate_ptr = rate_search(token, &n);
+			{
+				const char *name = string_hsave(token);
+				rate_ptr = rate_search(name, &n);
+			}
 			if (rate_ptr == NULL)
 			{
 				rates =
@@ -9154,12 +9194,17 @@ read_rates(void)
 			rate_ptr->new_def = TRUE;
 			rate_ptr->commands = (char *) PHRQ_malloc(sizeof(char));
 			if (rate_ptr->commands == NULL)
+			{
 				malloc_error();
-			rate_ptr->commands[0] = '\0';
-			rate_ptr->name = string_hsave(token);
-			rate_ptr->linebase = NULL;
-			rate_ptr->varbase = NULL;
-			rate_ptr->loopbase = NULL;
+			}
+			else
+			{
+				rate_ptr->commands[0] = '\0';
+				rate_ptr->name = string_hsave(token);
+				rate_ptr->linebase = NULL;
+				rate_ptr->varbase = NULL;
+				rate_ptr->loopbase = NULL;
+			}
 			opt_save = OPT_1;
 			break;
 		case OPT_1:			/* read command */
@@ -9178,10 +9223,15 @@ read_rates(void)
 									  (size_t) (length + line_length +
 												2) * sizeof(char));
 			if (rate_ptr->commands == NULL)
+			{
 				malloc_error();
-			rate_ptr->commands[length] = ';';
-			rate_ptr->commands[length + 1] = '\0';
-			strcat((rate_ptr->commands), line);
+			}
+			else
+			{
+				rate_ptr->commands[length] = ';';
+				rate_ptr->commands[length + 1] = '\0';
+				strcat((rate_ptr->commands), line);
+			}
 			opt_save = OPT_1;
 			break;
 		}
@@ -9189,7 +9239,9 @@ read_rates(void)
 			break;
 	}
 /*	output_msg(sformatf( "%s", rates[0].commands));
- */ return (return_value);
+ */ 
+	rates_map.clear();
+	return (return_value);
 }
 
 /* ---------------------------------------------------------------------- */
@@ -9341,6 +9393,7 @@ read_user_punch(void)
 	// Malloc rate structure
 	struct rate *r = (struct rate *) PHRQ_malloc(sizeof(struct rate));
 	if (r == NULL) malloc_error();
+	r->commands = NULL;
 	r->new_def = TRUE;
 	r->linebase = NULL;
 	r->varbase = NULL;
@@ -9386,7 +9439,7 @@ read_user_punch(void)
 			{
 				r->commands = (char *) PHRQ_malloc(sizeof(char));
 				if (r->commands == NULL) malloc_error();
-				r->commands[0] = '\0';
+				else r->commands[0] = '\0';
 			}
 			//rate_free(user_punch);
 			//user_punch->new_def = TRUE;
@@ -9404,11 +9457,16 @@ read_user_punch(void)
 			line_length = (int) strlen(line);
 			r->commands = (char *) PHRQ_realloc(r->commands,
 				(size_t) (length + line_length + 2) * sizeof(char));
-			if (r->commands == NULL) malloc_error();
-
-			r->commands[length] = ';';
-			r->commands[length + 1] = '\0';
-			strcat((r->commands), line);
+			if (r->commands == NULL)
+			{
+				malloc_error();
+			}
+			else
+			{
+				r->commands[length] = ';';
+				r->commands[length + 1] = '\0';
+				strcat((r->commands), line);
+			}
 			//length = (int) strlen(user_punch->commands);
 			//line_length = (int) strlen(line);
 			//user_punch->commands =

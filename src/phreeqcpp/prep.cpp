@@ -509,17 +509,14 @@ build_gas_phase(void)
 				{
 					master_ptr = rxn_ptr->s->secondary;
 				}
-				else
+				else if (rxn_ptr->s->primary != NULL && rxn_ptr->s->primary->in == TRUE)
 				{
 					master_ptr = rxn_ptr->s->primary;
 				}
-				if (master_ptr == NULL)
+				else
 				{
-					error_string = sformatf(
-							"Element needed for gas component, %s, is not in model.",
-							phase_ptr->name);
-					warning_msg(error_string);
-					continue;
+					master_ptr = master_bsearch_primary(rxn_ptr->s->name);
+					master_ptr->s->la = -999.0;
 				}
 				if (debug_prep == TRUE)
 				{
@@ -591,11 +588,15 @@ build_gas_phase(void)
 				{
 					master_ptr = rxn_ptr->s->secondary;
 				}
-				else 
+				else if (rxn_ptr->s->primary != NULL && rxn_ptr->s->primary->in == TRUE)
 				{
 					master_ptr = rxn_ptr->s->primary;
 				}
-
+				else
+				{
+					master_ptr = master_bsearch_primary(rxn_ptr->s->name);
+					master_ptr->s->la = -999.0;
+				}
 				if (master_ptr == NULL)
 				{
 					error_string = sformatf(
@@ -1206,7 +1207,9 @@ build_model(void)
 				space((void **) ((void *) &s_x), count_s_x + 1,
 					  &max_s_x, sizeof(struct species *));
 			}
+			compute_gfw(s[i]->name, &s[i]->gfw);
 			s_x[count_s_x++] = s[i];
+			
 /*
  *   Write mass action equation for current model
  */
@@ -2874,7 +2877,10 @@ add_potential_factor(void)
 		  "No potential unknown found for surface species %s.", token.c_str());
 		error_msg(error_string, STOP);
 	}
-	master_ptr = unknown_ptr->master[0];	/* potential for surface component */
+	else
+	{
+		master_ptr = unknown_ptr->master[0];	/* potential for surface component */
+	}
 /*
  *   Make sure there is space
  */
@@ -2969,6 +2975,7 @@ add_cd_music_factors(int n)
 		error_string = sformatf(
 		  "No potential unknown found for surface species %s.", token.c_str());
 		error_msg(error_string, STOP);
+		return (ERROR);
 	}
 	master_ptr = unknown_ptr->master[0];	/* potential for surface component */
 	/*
@@ -2998,6 +3005,7 @@ add_cd_music_factors(int n)
 		error_string = sformatf(
 		  "No potential unknown found for surface species %s.", token.c_str());
 		error_msg(error_string, STOP);
+		return (ERROR);
 	}
 	master_ptr = unknown_ptr->master[0];	/* potential for surface component */
 	/*
@@ -3017,6 +3025,7 @@ add_cd_music_factors(int n)
 		error_string = sformatf(
 		  "No potential unknown found for surface species %s.", token.c_str());
 		error_msg(error_string, STOP);
+		return (ERROR);
 	}
 	master_ptr = unknown_ptr->master[0];	/* potential for surface component */
 	/*
@@ -3073,6 +3082,7 @@ add_surface_charge_balance(void)
 		error_string = sformatf(
 				"No surface master species found for surface species.");
 		error_msg(error_string, STOP);
+		return(OK);
 	}
 /*
  *  Find potential unknown for surface species
@@ -3084,6 +3094,7 @@ add_surface_charge_balance(void)
 		error_string = sformatf(
 		  "No potential unknown found for surface species %s.", token.c_str());
 		error_msg(error_string, STOP);
+		return(OK);
 	}
 	master_ptr = unknown_ptr->master[0];	/* potential for surface component */
 /*
@@ -4636,9 +4647,14 @@ unknown_alloc_master(void)
 
 	master_ptr = (struct master **) PHRQ_malloc(2 * sizeof(struct master *));
 	if (master_ptr == NULL)
+	{
 		malloc_error();
-	master_ptr[0] = NULL;
-	master_ptr[1] = NULL;
+	}
+	else
+	{
+		master_ptr[0] = NULL;
+		master_ptr[1] = NULL;
+	}
 	return (master_ptr);
 }
 

@@ -110,7 +110,7 @@ basic_compile(char *commands, void **lnbase, void **vbase, void **lpbase)
 			}
 			while (!(exitflag || P_eof()));
 		}
-		catch (PBasicStop e)
+		catch (const PBasicStop&)
 		{
 			if (P_escapecode != -20)
 			{
@@ -138,7 +138,7 @@ basic_compile(char *commands, void **lnbase, void **vbase, void **lpbase)
 				}
 			}
 		}
-		catch (PhreeqcStop s)
+		catch (const PhreeqcStop&)
 		{
 			// clean up memory
 			disposetokens(&buf);
@@ -146,7 +146,7 @@ basic_compile(char *commands, void **lnbase, void **vbase, void **lpbase)
 			*lnbase = (void *) linebase;
 			*vbase = (void *) varbase;
 			*lpbase = (void *) loopbase;
-			throw s;
+			throw;  // rethrow
 		}
 	}
 	while (!(exitflag || P_eof()));
@@ -214,7 +214,7 @@ basic_renumber(char *commands, void **lnbase, void **vbase, void **lpbase)
 			}
 			while (!(exitflag || P_eof()));
 		}
-		catch (PBasicStop e)
+		catch (const PBasicStop&)
 		{
 			if (P_escapecode != -20)
 			{
@@ -279,7 +279,7 @@ basic_run(char *commands, void *lnbase, void *vbase, void *lpbase)
 			}
 			while (!(exitflag || P_eof()));
 		}
-		catch (PBasicStop e)
+		catch (const PBasicStop&)
 		{
 			if (P_escapecode != -20)
 			{
@@ -355,7 +355,7 @@ basic_main(char *commands)
 			}
 			while (!(exitflag || P_eof()));
 		}
-		catch (PBasicStop e)
+		catch (const PBasicStop&)
 		{
 			if (P_escapecode != -20)
 			{
@@ -1589,6 +1589,9 @@ listtokens(FILE * f, tokenrec * l_buf)
 			break;
 		case tokcallback:
 			output_msg("CALLBACK");
+			break;
+		case tokdiff_c:
+			output_msg("DIFF_C");
 			break;
 		}
 		l_buf = l_buf->next;
@@ -3135,9 +3138,14 @@ factor(struct LOC_exec * LINK)
 									 (size_t) (s_v.count_subscripts +
 											   1) * sizeof(int));
 			if (s_v.subscripts == NULL)
+			{
 				PhreeqcPtr->malloc_error();
-			s_v.subscripts[s_v.count_subscripts] = i;
-			s_v.count_subscripts++;
+			}
+			else
+			{
+				s_v.subscripts[s_v.count_subscripts] = i;
+				s_v.count_subscripts++;
+			}
 		}
 
 		/* get other subscripts */
@@ -3158,9 +3166,14 @@ factor(struct LOC_exec * LINK)
 										 (size_t) (s_v.count_subscripts +
 												   1) * sizeof(int));
 				if (s_v.subscripts == NULL)
+				{
 					PhreeqcPtr->malloc_error();
-				s_v.subscripts[s_v.count_subscripts] = j;
-				s_v.count_subscripts++;
+				}
+				else
+				{
+					s_v.subscripts[s_v.count_subscripts] = j;
+					s_v.count_subscripts++;
+				}
 			}
 			else
 			{
@@ -3518,6 +3531,13 @@ factor(struct LOC_exec * LINK)
 
 		}
 		break;
+	case tokdiff_c:
+		{
+			const char * str = stringfactor(STR1, LINK);
+ 			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->diff_c(str);
+		}
+		break;
+			
 	case tokval:
 		l_s = strfactor(LINK);
 		tok1 = LINK->t;
@@ -4861,7 +4881,10 @@ cmdwhile(struct LOC_exec *LINK)
 
 	l = (looprec *) PhreeqcPtr->PHRQ_calloc(1, sizeof(looprec));
 	if (l == NULL)
+	{
 		PhreeqcPtr->malloc_error();
+		return;
+	}
 	l->next = loopbase;
 	loopbase = l;
 	l->kind = whileloop;
@@ -4964,7 +4987,10 @@ cmdgosub(struct LOC_exec *LINK)
 
 	l = (looprec *) PhreeqcPtr->PHRQ_calloc(1, sizeof(looprec));
 	if (l == NULL)
+	{
 		PhreeqcPtr->malloc_error();
+		return;
+	}
 	l->next = loopbase;
 	loopbase = l;
 	l->kind = gosubloop;
@@ -5154,13 +5180,18 @@ cmdon(struct LOC_exec *LINK)
 	{
 		l = (looprec *) PhreeqcPtr->PHRQ_calloc(1, sizeof(looprec));
 		if (l == NULL)
+		{
 			PhreeqcPtr->malloc_error();
-		l->next = loopbase;
-		loopbase = l;
-		l->kind = gosubloop;
-		l->homeline = stmtline;
-		l->hometok = LINK->t;
-		LINK->t = LINK->t->next;
+		}
+		else
+		{
+			l->next = loopbase;
+			loopbase = l;
+			l->kind = gosubloop;
+			l->homeline = stmtline;
+			l->hometok = LINK->t;
+			LINK->t = LINK->t->next;
+		}
 	}
 	else
 		require(tokgoto, LINK);
@@ -5234,9 +5265,14 @@ cmddim(struct LOC_exec *LINK)
 		{
 			v->UU.U0.arr = (LDBLE *) PhreeqcPtr->PHRQ_malloc(j * sizeof(LDBLE));
 			if (v->UU.U0.arr == NULL)
+			{
 				PhreeqcPtr->malloc_error();
-			for (i = 0; i < j; i++)
-				v->UU.U0.arr[i] = 0.0;
+			}
+			else
+			{
+				for (i = 0; i < j; i++)
+					v->UU.U0.arr[i] = 0.0;
+			}
 		}
 		if (!iseos(LINK))
 			require(tokcomma, LINK);
@@ -5517,7 +5553,7 @@ exec(void)
 		}
 		while (stmtline != NULL);
 	}
-	catch (PBasicStop e)
+	catch (const PBasicStop&)
 	{
 		//_Ltry1:
 		if (P_escapecode == -20)
@@ -6793,7 +6829,8 @@ const std::map<const std::string, PBasic::BASIC_TOKEN>::value_type temp_tokens[]
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("species_formula$",   PBasic::tokspecies_formula_),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("eq_frac",            PBasic::tokeq_frac),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("equiv_frac",         PBasic::tokeq_frac),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("callback",           PBasic::tokcallback)
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("callback",           PBasic::tokcallback),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("diff_c",             PBasic::tokdiff_c)
 };
 std::map<const std::string, PBasic::BASIC_TOKEN> PBasic::command_tokens(temp_tokens, temp_tokens + sizeof temp_tokens / sizeof temp_tokens[0]);
 

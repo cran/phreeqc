@@ -98,7 +98,24 @@ aqueous_vm(const char *species_name)
 	}
 	return (g);
 }
+LDBLE Phreeqc::
+diff_c(const char *species_name)
+/* ---------------------------------------------------------------------- */
+{
+	struct species *s_ptr;
+	LDBLE g;
 
+	s_ptr = s_search(species_name);
+	if (s_ptr != NULL && s_ptr->in != FALSE && s_ptr->type < EMINUS)
+	{
+		g = s_ptr->dw;
+	}
+	else
+	{
+		g = 0;
+	}
+	return (g);
+}
 /* ---------------------------------------------------------------------- */
 LDBLE Phreeqc::
 calc_SC(void)
@@ -230,7 +247,8 @@ calc_dens(void)
 		if (s_x[i]->type != AQ && s_x[i]->type != HPLUS)
 		  continue;
 
-		compute_gfw(s_x[i]->name, &gfw);
+		//compute_gfw(s_x[i]->name, &gfw);
+		gfw = s_x[i]->gfw;
 		M_T += s_x[i]->moles * gfw;
 		V_solutes += s_x[i]->moles * s_x[i]->logk[vm_tc];
 	}
@@ -280,9 +298,11 @@ calc_solution_volume(void)
  */
 	LDBLE total_mass = 0;
 	LDBLE gfw;
-	compute_gfw("H", &gfw);
+	//compute_gfw("H", &gfw);
+	gfw = s_hplus->primary->gfw;
 	total_mass = total_h_x * gfw;
-	compute_gfw("O", &gfw);
+	//compute_gfw("O", &gfw);
+	gfw = s_h2o->primary->gfw;
 	total_mass += total_o_x * gfw;
 
 	for (int i = 0; i < count_master; i++)
@@ -2677,7 +2697,8 @@ system_total_aq(void)
  */
 	for (i = 0; i < count_s_x; i++)
 	{
-		if (s_x[i]->type != AQ)
+		//if (s_x[i]->type != AQ)
+		if (s_x[i]->type > AQ)
 			continue;
 		sys[count_sys].name = string_duplicate(s_x[i]->name);
 		sys[count_sys].moles = s_x[i]->moles;
@@ -3660,7 +3681,7 @@ Phreeqc::register_basic_callback(double (*fcn)(double x1, double x2, const char 
 }
 
 void 
-Phreeqc::register_fortran_basic_callback(double ( *fcn)(double *x1, double *x2, char *str, int l))
+Phreeqc::register_fortran_basic_callback(double ( *fcn)(double *x1, double *x2, char *str, size_t l))
 {
 	this->basic_fortran_callback_ptr = fcn;
 }

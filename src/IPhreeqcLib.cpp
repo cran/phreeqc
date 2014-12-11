@@ -783,7 +783,7 @@ SetBasicCallback(int id, double (*fcn)(double x1, double x2, const char *str, vo
 }
 
 IPQ_RESULT
-SetBasicFortranCallback(int id, double (*fcn)(double *x1, double *x2, char *str, int l))
+SetBasicFortranCallback(int id, double (*fcn)(double *x1, double *x2, char *str, size_t l))
 {
 	IPhreeqc* IPhreeqcPtr = IPhreeqcLib::GetInstance(id);
 	if (IPhreeqcPtr)
@@ -1003,7 +1003,7 @@ IPhreeqcLib::CreateIPhreeqc(void)
 		IPhreeqcPtr = new IPhreeqc;
 		n = (int) IPhreeqcPtr->Index;
 	}
-	catch(...)
+	catch (const std::bad_alloc&)
 	{
 		return IPQ_OUTOFMEMORY;
 	}

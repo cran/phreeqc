@@ -667,13 +667,18 @@ elt_list_save(void)
 		(struct elt_list *) PHRQ_malloc((size_t) (count_elts + 1) *
 										sizeof(struct elt_list));
 	if (elt_list_ptr == NULL)
-		malloc_error();
-	for (j = 0; j < count_elts; j++)
 	{
-		elt_list_ptr[j].elt = elt_list[j].elt;
-		elt_list_ptr[j].coef = elt_list[j].coef;
+		malloc_error();
 	}
-	elt_list_ptr[count_elts].elt = NULL;
+	else
+	{
+		for (j = 0; j < count_elts; j++)
+		{
+			elt_list_ptr[j].elt = elt_list[j].elt;
+			elt_list_ptr[j].coef = elt_list[j].coef;
+		}
+		elt_list_ptr[count_elts].elt = NULL;
+	}
 	return (elt_list_ptr);
 }
 /* ---------------------------------------------------------------------- */
@@ -686,17 +691,22 @@ NameDouble2elt_list(const cxxNameDouble &nd)
  */
 	struct elt_list *elt_list_ptr = (struct elt_list *) PHRQ_malloc((nd.size() + 1) * sizeof(struct elt_list));
 	if (elt_list_ptr == NULL)
-		malloc_error();
-	cxxNameDouble::const_iterator it = nd.begin();
-	int i = 0;
-	for( ; it != nd.end(); it++)
 	{
-		elt_list_ptr[i].elt = element_store(it->first.c_str());
-		elt_list_ptr[i].coef = it->second;
-		i++;
+		malloc_error();
 	}
-	elt_list_ptr[i].elt = NULL;
-	elt_list_ptr[i].coef = 0;
+	else
+	{
+		cxxNameDouble::const_iterator it = nd.begin();
+		int i = 0;
+		for( ; it != nd.end(); it++)
+		{
+			elt_list_ptr[i].elt = element_store(it->first.c_str());
+			elt_list_ptr[i].coef = it->second;
+			i++;
+		}
+		elt_list_ptr[i].elt = NULL;
+		elt_list_ptr[i].coef = 0;
+	}
 	return (elt_list_ptr);
 }
 /* **********************************************************************
@@ -717,7 +727,7 @@ inverse_alloc(void)
  *      return: OK
  */
 {
-	struct inverse *inverse_ptr;
+	struct inverse *inverse_ptr = NULL;
 
 	count_inverse++;
 	inverse =
@@ -725,7 +735,10 @@ inverse_alloc(void)
 										(size_t) count_inverse *
 										sizeof(struct inverse));
 	if (inverse == NULL)
+	{
 		malloc_error();
+		return inverse_ptr;
+	}
 	inverse_ptr = &(inverse[count_inverse - 1]);
 /*
  *   Initialize variables
@@ -745,16 +758,25 @@ inverse_alloc(void)
 	inverse_ptr->uncertainties =
 		(LDBLE *) PHRQ_malloc((size_t) sizeof(LDBLE));
 	if (inverse_ptr->uncertainties == NULL)
+	{
 		malloc_error();
+		return inverse_ptr;
+	}
 
 	inverse_ptr->ph_uncertainties =
 		(LDBLE *) PHRQ_malloc((size_t) sizeof(LDBLE));
 	if (inverse_ptr->ph_uncertainties == NULL)
+	{
 		malloc_error();
+		return inverse_ptr;
+	}
 
 	inverse_ptr->force_solns = (int *) PHRQ_malloc((size_t) sizeof(int));
 	if (inverse_ptr->force_solns == NULL)
+	{
 		malloc_error();
+		return inverse_ptr;
+	}
 
 	inverse_ptr->dalk_dph = NULL;
 	inverse_ptr->dalk_dc = NULL;
@@ -764,7 +786,10 @@ inverse_alloc(void)
 	inverse_ptr->elts =
 		(struct inv_elts *) PHRQ_malloc((size_t) sizeof(struct inv_elts));
 	if (inverse_ptr->elts == NULL)
+	{
 		malloc_error();
+		return inverse_ptr;
+	}
 	inverse_ptr->elts[0].name = NULL;
 	inverse_ptr->elts[0].uncertainties = NULL;
 
@@ -772,7 +797,10 @@ inverse_alloc(void)
 		(struct inv_isotope *) PHRQ_malloc((size_t)
 										   sizeof(struct inv_isotope));
 	if (inverse_ptr->isotopes == NULL)
+	{
 		malloc_error();
+		return inverse_ptr;
+	}
 	inverse_ptr->isotopes[0].isotope_name = NULL;
 	inverse_ptr->isotopes[0].isotope_number = 0;
 	inverse_ptr->isotopes[0].elt_name = NULL;
@@ -781,7 +809,10 @@ inverse_alloc(void)
 		(struct inv_isotope *) PHRQ_malloc((size_t)
 										   sizeof(struct inv_isotope));
 	if (inverse_ptr->i_u == NULL)
+	{
 		malloc_error();
+		return inverse_ptr;
+	}
 	inverse_ptr->i_u[0].isotope_name = NULL;
 	inverse_ptr->i_u[0].isotope_number = 0;
 	inverse_ptr->i_u[0].elt_name = NULL;
@@ -789,7 +820,10 @@ inverse_alloc(void)
 	inverse_ptr->phases =
 		(struct inv_phases *) PHRQ_malloc((size_t) sizeof(struct inv_phases));
 	if (inverse_ptr->phases == NULL)
+	{
 		malloc_error();
+		return inverse_ptr;
+	}
 
 	return (inverse_ptr);
 }
@@ -1636,7 +1670,7 @@ rate_free(struct rate *rate_ptr)
 
 /* ---------------------------------------------------------------------- */
 struct rate * Phreeqc::
-rate_search(const char *name, int *n)
+rate_search(const char *name_in, int *n)
 /* ---------------------------------------------------------------------- */
 {
 /*   Linear search of the structure array "rates" for name.
@@ -1649,6 +1683,22 @@ rate_search(const char *name, int *n)
  *      if found, the address of the pp_assemblage element
  *      if not found, NULL
  */
+	std::map<const char *, int>::iterator it;
+
+	const char * name;
+	name = string_hsave(name_in);
+
+	it = rates_map.find(name);
+	if (it != rates_map.end())
+	{
+		*n = it->second;
+		if (*n >= 0)
+		{
+			return &(rates[it->second]);
+		}
+		return NULL;
+	}
+
 	int i;
 	*n = -1;
 	for (i = 0; i < count_rates; i++)
@@ -1656,12 +1706,14 @@ rate_search(const char *name, int *n)
 		if (strcmp_nocase(rates[i].name, name) == 0)
 		{
 			*n = i;
+			rates_map[name] = i;
 			return (&(rates[i]));
 		}
 	}
 /*
  *   rate name not found
  */
+	rates_map[name] = *n;
 	return (NULL);
 }
 
@@ -3588,17 +3640,26 @@ copier_add(struct copier *copier_ptr, int n_user, int start, int end)
 			(int *) PHRQ_realloc(copier_ptr->n_user,
 								 (size_t) (copier_ptr->max * sizeof(int)));
 		if (copier_ptr->n_user == NULL)
+		{
 			malloc_error();
+			return (OK);
+		}
 		copier_ptr->start =
 			(int *) PHRQ_realloc(copier_ptr->start,
 								 (size_t) (copier_ptr->max * sizeof(int)));
 		if (copier_ptr->start == NULL)
+		{
 			malloc_error();
+			return (OK);
+		}
 		copier_ptr->end =
 			(int *) PHRQ_realloc(copier_ptr->end,
 								 (size_t) (copier_ptr->max * sizeof(int)));
 		if (copier_ptr->end == NULL)
+		{
 			malloc_error();
+			return (OK);
+		}
 	}
 	copier_ptr->n_user[copier_ptr->count] = n_user;
 	copier_ptr->start[copier_ptr->count] = start;

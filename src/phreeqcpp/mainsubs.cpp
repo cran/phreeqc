@@ -1122,6 +1122,7 @@ reactions(void)
 //		}
 //	}
 	/* last_model.force_prep = TRUE; */
+	rate_sim_time = 0;
 	return (OK);
 }
 
@@ -2308,7 +2309,7 @@ read_database(void)
 		tidy_model();
 		status(0, NULL);
 	}
-	catch (PhreeqcStop e)
+	catch (const PhreeqcStop&)
 	{
 		return get_input_errors();
 	}
@@ -2445,7 +2446,7 @@ run_simulations(void)
 #endif
 		}
 	}
-	catch (PhreeqcStop e)
+	catch (const PhreeqcStop&)
 	{
 		return get_input_errors();
 	}
@@ -2466,7 +2467,7 @@ do_initialize(void)
 
 		initialize();
 	}
-	catch (PhreeqcStop e)
+	catch (const PhreeqcStop&)
 	{
 		return get_input_errors();
 	}
@@ -2496,7 +2497,7 @@ do_status(void)
 		phrq_io->output_flush();
 		phrq_io->error_flush();
 	}
-	catch (PhreeqcStop e)
+	catch (const PhreeqcStop&)
 	{
 		return get_input_errors();
 	}

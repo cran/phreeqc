@@ -1592,7 +1592,7 @@ get_bits(unsigned long bits, int position, int number)
  *   Returns number of bits from position and below.
  *   position begins at 0.
  */
-	return ((bits >> (position + 1 - number)) & ~(~0 << number));
+	return ((bits >> (position + 1 - number)) & ~(~0ul << number));
 }
 
 /* ---------------------------------------------------------------------- */
@@ -3579,7 +3579,10 @@ count_isotope_unknowns(struct inverse *inv_ptr,
 	isotopes =
 		(struct isotope *) PHRQ_malloc((size_t) sizeof(struct isotope));
 	if (isotopes == NULL)
+	{
 		malloc_error();
+		return (0);
+	}
 	count_isotopes = 0;
 
 	for (i = 0; i < inv_ptr->count_isotopes; i++)
@@ -3615,7 +3618,10 @@ count_isotope_unknowns(struct inverse *inv_ptr,
 														  1) *
 												sizeof(struct isotope));
 			if (isotopes == NULL)
+			{
 				malloc_error();
+				return (0);
+			}
 			isotopes[count_isotopes].primary = primary_ptr;
 			isotopes[count_isotopes].master = primary_ptr;
 			isotopes[count_isotopes].isotope_number = isotope_number;
@@ -3647,7 +3653,10 @@ count_isotope_unknowns(struct inverse *inv_ptr,
 															  1) *
 													sizeof(struct isotope));
 				if (isotopes == NULL)
+				{
 					malloc_error();
+					return (0);
+				}
 				isotopes[count_isotopes].primary = primary_ptr;
 				isotopes[count_isotopes].master = master[k];
 				isotopes[count_isotopes].isotope_number = isotope_number;
@@ -5233,6 +5242,7 @@ set_initial_solution(int n_user_old, int n_user_new)
 {
 	cxxSolution *solution_ptr;
 	Utilities::Rxn_copy(Rxn_solution_map, n_user_old, n_user_new);
+	Rxn_new_solution.insert(n_user_new);
 	solution_ptr = Utilities::Rxn_find(Rxn_solution_map, n_user_new);
 	solution_ptr->Set_new_def(true);
 	if (solution_ptr->Get_initial_data() == NULL)
