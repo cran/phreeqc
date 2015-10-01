@@ -981,8 +981,11 @@ tidy_gas_phase(void)
 					struct phase *phase_ptr = phase_bsearch(gas_phase_ptr->Get_gas_comps()[j_PR].Get_phase_name().c_str(), &k, FALSE);
 					if (gc[j_PR].Get_p_read() == 0)
 						continue;
-					phase_ptr->moles_x = gc[j_PR].Get_p_read() / P;
-					phase_ptrs.push_back(phase_ptr);
+					if (phase_ptr)
+					{
+						phase_ptr->moles_x = gc[j_PR].Get_p_read() / P;
+						phase_ptrs.push_back(phase_ptr);
+					}
 				}
 				V_m = calc_PR(phase_ptrs, P, gas_phase_ptr->Get_temperature(), 0);
 				gas_phase_ptr->Set_v_m(V_m);
@@ -999,9 +1002,11 @@ tidy_gas_phase(void)
 						gc[j_PR].Set_moles(0.0);
 					} else
 					{
-						gc[j_PR].Set_moles(phase_ptr->moles_x *
-							gas_phase_ptr->Get_volume() / V_m);
-						gas_phase_ptr->Set_total_moles(gas_phase_ptr->Get_total_moles() + gc[j_PR].Get_moles());
+						if (phase_ptr)
+						{
+							gc[j_PR].Set_moles(phase_ptr->moles_x *	gas_phase_ptr->Get_volume() / V_m);
+							gas_phase_ptr->Set_total_moles(gas_phase_ptr->Get_total_moles() + gc[j_PR].Get_moles());
+						}
 					}
 				}
 			}
@@ -3048,6 +3053,17 @@ tidy_surface(void)
 		}
 		//if (!kit->second.Get_new_def()) continue;
 		surface_ptr = &(kit->second);
+		// ccm incompatible with Donnan or diffuse_layer
+		if (surface_ptr->Get_type() == cxxSurface::CCM)
+		{
+			if (surface_ptr->Get_dl_type() == cxxSurface::BORKOVEK_DL || surface_ptr->Get_dl_type() == cxxSurface::DONNAN_DL)
+			{
+					input_error++;
+					error_string = "Cannot use -diffuse_layer or -donnan calculation with Constant Capacity Model.";
+					error_msg(error_string, CONTINUE);
+					continue;
+			}
+		}
 		for (size_t i = 0; i < surface_ptr->Get_surface_comps().size(); i++)
 		{
 			cxxSurfaceComp *comp_ptr = &(surface_ptr->Get_surface_comps()[i]);
@@ -3199,6 +3215,10 @@ tidy_solutions(void)
 		// put unnumbered solutions in map
 		for (size_t i = 0; i < unnumbered_solutions.size(); i++)
 		{
+			if (use.Get_n_solution_user() < 0)
+			{
+				use.Set_n_solution_user(last + 1);
+			}
 			unnumbered_solutions[i].Set_n_user_both(++last);
 			Rxn_solution_map[last] = unnumbered_solutions[i];
 			Rxn_new_solution.insert(last);
@@ -3793,6 +3813,7 @@ tidy_min_surface(void)
 			assert(false);
 		}
 		cxxSurface *surface_ptr = &(kit->second);
+		if (!surface_ptr->Get_new_def()) continue;
 		//if (!surface_ptr->Get_new_def())
 		//	continue;
 		//if (surface_ptr->Get_n_user() < 0)
@@ -4157,6 +4178,14 @@ tidy_kin_surface(void)
 		if (!surface_ptr->Get_related_rate())
 			continue;
 		kinetics_ptr = Utilities::Rxn_find(Rxn_kinetics_map, n);
+		if (kinetics_ptr == NULL)
+		{
+				input_error++;
+				error_string = sformatf(
+						"Error in SURFACE related to KINETICS. ");
+				error_msg(error_string, CONTINUE);
+				continue;
+		}
 		for (size_t k = 0; k < kinetics_ptr->Get_kinetics_comps().size(); k++)
 		{
 			cxxKineticsComp *kin_comp_ptr = &(kinetics_ptr->Get_kinetics_comps()[k]);
@@ -4222,6 +4251,34 @@ tidy_kin_surface(void)
 			}
 			for (int j = 0; j < count_elts; j++)
 			{
+				if (elt_list[j].elt == NULL)
+				{
+					input_error++;
+					error_string = sformatf(
+						"Cannot identify elements in kinetics component %s.",
+						comp_ptr_save->Get_formula().c_str());
+					error_msg(error_string, CONTINUE);
+					continue;
+				}
+				if (elt_list[j].elt->primary == NULL )
+				{
+					input_error++;
+					error_string = sformatf(
+						"Cannot identify primary element in kinetics component %s.",
+						comp_ptr_save->Get_formula().c_str());
+					error_msg(error_string, CONTINUE);
+					continue;
+				}
+				if (elt_list[j].elt->primary->s == NULL)
+				{
+					input_error++;
+					error_string = sformatf(
+						"Cannot identify primary species for an element in kinetics component %s.",
+						comp_ptr_save->Get_formula().c_str());
+					error_msg(error_string, CONTINUE);
+					continue;
+				}
+
 				if (elt_list[j].elt->primary->s->type <= H2O)
 				{
 					int l;

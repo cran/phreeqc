@@ -44,6 +44,7 @@ prep(void)
 	{
 		error_msg("Solution needed for calculation not found, stopping.",
 				  STOP);
+		return ERROR;
 	}
 	description_x = (char *) free_check_null(description_x);
 	description_x = string_duplicate(solution_ptr->Get_description().c_str());
@@ -122,6 +123,8 @@ prep(void)
 	{
 		error_msg("Program stopping due to input errors.", STOP);
 	}
+	if (sit_model) sit_make_lists();
+	if (pitzer_model) pitzer_make_lists();
 	return (OK);
 }
 
@@ -194,9 +197,11 @@ quick_setup(void)
 		{
 			cxxPPassemblage * pp_assemblage_ptr = use.Get_pp_assemblage_ptr();
 			std::map<std::string, cxxPPassemblageComp>::iterator it;
-			it =  pp_assemblage_ptr->Get_pp_assemblage_comps().find(x[i]->pp_assemblage_comp_name);
-			assert(it != pp_assemblage_ptr->Get_pp_assemblage_comps().end());
-			cxxPPassemblageComp * comp_ptr = &(it->second);
+			//it =  pp_assemblage_ptr->Get_pp_assemblage_comps().find(x[i]->pp_assemblage_comp_name);
+			cxxPPassemblageComp * comp_ptr = pp_assemblage_ptr->Find(x[i]->pp_assemblage_comp_name);
+			assert(comp_ptr != NULL);
+			//assert(it != pp_assemblage_ptr->Get_pp_assemblage_comps().end());
+			//cxxPPassemblageComp * comp_ptr = &(it->second);
 			x[i]->pp_assemblage_comp_ptr = comp_ptr;
 			x[i]->moles = comp_ptr->Get_moles();
 			/* A. Crapsi */
@@ -595,7 +600,10 @@ build_gas_phase(void)
 				else
 				{
 					master_ptr = master_bsearch_primary(rxn_ptr->s->name);
-					master_ptr->s->la = -999.0;
+					if (master_ptr && master_ptr->s)
+					{
+						master_ptr->s->la = -999.0;
+					}
 				}
 				if (master_ptr == NULL)
 				{
@@ -2830,7 +2838,7 @@ add_potential_factor(void)
 		error_msg(error_string, CONTINUE);
 		return(OK);
 	}
-	if (use.Get_surface_ptr()->Get_type() != cxxSurface::DDL)
+	if (use.Get_surface_ptr()->Get_type() != cxxSurface::DDL && use.Get_surface_ptr()->Get_type() != cxxSurface::CCM)
 		return (OK);
 	sum_z = 0.0;
 	master_ptr = NULL;
@@ -3063,7 +3071,7 @@ add_surface_charge_balance(void)
 		error_msg(error_string, CONTINUE);
 		return(OK);
 	}
-	if (use.Get_surface_ptr()->Get_type() != cxxSurface::DDL)
+	if (use.Get_surface_ptr()->Get_type() != cxxSurface::DDL && use.Get_surface_ptr()->Get_type() != cxxSurface::CCM)
 		return (OK);
 	master_ptr = NULL;
 /*
@@ -3146,11 +3154,12 @@ add_cd_music_charge_balances(int n)
 			break;
 		}
 	}
-	if (i >= count_elts)
+	if (i >= count_elts || master_ptr == NULL)
 	{
 		error_string = sformatf(
 				"No surface master species found for surface species.");
 		error_msg(error_string, STOP);
+		return ERROR;
 	}
 	/*
 	 *  Find potential unknown for plane 0
@@ -3485,7 +3494,7 @@ setup_surface(void)
 			x[count_unknowns]->potential_unknown = NULL;
 			count_unknowns++;
 			/*if (use.Get_surface_ptr()->edl == FALSE) continue; */
-			if (use.Get_surface_ptr()->Get_type() == cxxSurface::DDL)
+			if (use.Get_surface_ptr()->Get_type() == cxxSurface::DDL || use.Get_surface_ptr()->Get_type() == cxxSurface::CCM)
 			{
 				/*
 				 *   Setup surface-potential unknown
@@ -4001,7 +4010,7 @@ calc_PR(std::vector<struct phase *> phase_ptrs, LDBLE P, LDBLE TK, LDBLE V_m)
 				it = 0;
 				halved = false;
 				ddp = 1e-9;
-				v1 = vinit = 0.429;
+				v1 = vinit = 0.729;
 				dp_dv = f_Vm(v1, this);
 				while (fabs(dp_dv) > 1e-11 && it < 40)
 				{
@@ -4010,7 +4019,10 @@ calc_PR(std::vector<struct phase *> phase_ptrs, LDBLE P, LDBLE TK, LDBLE V_m)
 					v1 -= (dp_dv * ddp / (dp_dv - dp_dv2));
 					if (!halved && (v1 > vinit || v1 < 0.03))
 					{
-						vinit -= 0.05;
+						if (vinit > 0.329)
+							vinit -= 0.1;
+						else
+							vinit -=0.05;
 						if (vinit < 0.03)
 						{
 							vinit = halve(f_Vm, 0.03, 1.0, 1e-3);
@@ -5017,6 +5029,8 @@ switch_bases(void)
 	{
 		if (x[i]->type != MB)
 			continue;
+		if (x[i]->type == PITZER_GAMMA)
+			break;
 		first = 0;
 		la = x[i]->master[0]->s->la;
 		for (j = 1; x[i]->master[j] != NULL; j++)
@@ -5045,7 +5059,7 @@ switch_bases(void)
 					   x[i]->master[0]->s->name, iterations, la, x[i]->master[0]->s->la);
  */
 			x[i]->master[0]->s->la = la;
-
+			x[i]->la = la;
 			log_msg(sformatf( "Switching bases to %s.\tIteration %d\n",
 					   x[i]->master[0]->s->name, iterations));
 			return_value = TRUE;
@@ -5538,7 +5552,7 @@ calc_lk_phase(phase *p_ptr, LDBLE TK, LDBLE pa)
 	}
 	d_v -= p_ptr->logk[vm0];
 	r_ptr->logk[delta_v] = d_v;
-	if (!strcmp(r_ptr->token[0].name, "H2O(g)"))
+	if (r_ptr->token[0].name && !strcmp(r_ptr->token[0].name, "H2O(g)"))
 		r_ptr->logk[delta_v] = 0.0;
 
 	return k_calc(r_ptr->logk, TK, pa * PASCAL_PER_ATM);
@@ -6124,6 +6138,7 @@ build_min_exch(void)
 		error_string = sformatf( "Exchange %d not found.",
 				use.Get_n_exchange_user());
 		error_msg(error_string, CONTINUE);
+		return ERROR;
 	}
 	n_user = exchange_ptr->Get_n_user();
 	if (!exchange_ptr->Get_related_phases())

@@ -70,7 +70,7 @@ IPhreeqc::IPhreeqc(void)
 
 IPhreeqc::~IPhreeqc(void)
 {
-#ifdef _DEBUG
+#if !defined(NDEBUG)
 	this->OutputFileOn = false;
 #endif
 	delete this->PhreeqcPtr;
@@ -742,6 +742,20 @@ int IPhreeqc::RunAccumulated(void)
 	{
 		// do nothing
 	}
+	catch(std::exception &e)
+	{
+		std::string errmsg("RunAccumulated: ");
+		errmsg += e.what();
+		try
+		{
+			this->PhreeqcPtr->error_msg(errmsg.c_str(), STOP); // throws PhreeqcStop
+		}
+		catch (IPhreeqcStop)
+		{
+			// do nothing
+		}
+		throw;
+	}
 	catch(...)
 	{
 		const char *errmsg = "RunAccumulated: An unhandled exception occured.\n";
@@ -799,6 +813,20 @@ int IPhreeqc::RunFile(const char* filename)
 	{
 		this->close_input_files();
 	}
+	catch(std::exception &e)
+	{
+		std::string errmsg("RunFile: ");
+		errmsg += e.what();
+		try
+		{
+			this->PhreeqcPtr->error_msg(errmsg.c_str(), STOP); // throws PhreeqcStop
+		}
+		catch (IPhreeqcStop)
+		{
+			// do nothing
+		}
+		throw;
+	}
 	catch(...)
 	{
 		const char *errmsg = "RunFile: An unhandled exception occured.\n";
@@ -848,6 +876,20 @@ int IPhreeqc::RunString(const char* input)
 	{
 		this->close_input_files();
 	}
+	catch(std::exception &e)
+	{
+		std::string errmsg("RunString: ");
+		errmsg += e.what();
+		try
+		{
+			this->PhreeqcPtr->error_msg(errmsg.c_str(), STOP); // throws PhreeqcStop
+		}
+		catch (IPhreeqcStop)
+		{
+			// do nothing
+		}
+		throw;
+	}
 	catch(...)
 	{
 		const char *errmsg = "RunString: An unhandled exception occured.\n";
@@ -873,12 +915,17 @@ void IPhreeqc::SetBasicCallback(double (*fcn)(double x1, double x2, const char *
 {
 	this->PhreeqcPtr->register_basic_callback(fcn, cookie1);
 }
-
+#ifdef IPHREEQC_NO_FORTRAN_MODULE
 void IPhreeqc::SetBasicFortranCallback(double (*fcn)(double *x1, double *x2, char *str, size_t l))
 {
 	this->PhreeqcPtr->register_fortran_basic_callback(fcn);
 }
-
+#else
+void IPhreeqc::SetBasicFortranCallback(double (*fcn)(double *x1, double *x2, const char *str, int l))
+{
+	this->PhreeqcPtr->register_fortran_basic_callback(fcn);
+}
+#endif
 VRESULT IPhreeqc::SetCurrentSelectedOutputUserNumber(int n)
 {
 	if (0 <= n)
@@ -1308,12 +1355,14 @@ void IPhreeqc::do_run(const char* sz_routine, std::istream* pis, PFN_PRERUN_CALL
 			this->PhreeqcPtr->pr.all = (this->OutputFileOn || this->OutputStringOn) ? TRUE : FALSE;
 			//this->PhreeqcPtr->pr.punch = (this->SelectedOutputFileOn || this->SelectedOutputStringOn) ? TRUE : FALSE;
 		}
-
-
 		/* the converse is not necessarily true */
 
 		this->PhreeqcPtr->n_user_punch_index = -1;
 #endif // SWIG_SHARED_OBJ
+		{
+			this->PhreeqcPtr->pr.all = (this->OutputFileOn || this->OutputStringOn) ? TRUE : FALSE;
+		}
+
 		this->PhreeqcPtr->tidy_model();
 #ifdef PHREEQ98
                 if (!phreeq98_debug)
@@ -1608,42 +1657,48 @@ void IPhreeqc::open_output_files(const char* sz_routine)
 	{
 		if (this->output_ostream != NULL)
 		{
-			delete this->output_ostream;
-			this->output_ostream = NULL;
+			safe_close(&this->output_ostream);
 		}
-		if ( (this->output_ostream = new std::ofstream(this->OutputFileName.c_str())) == NULL)
+		if (!this->output_ostream)
 		{
-			std::ostringstream oss;
-			oss << sz_routine << ": Unable to open:" << "\"" << this->OutputFileName << "\".\n";
-			this->warning_msg(oss.str().c_str());
+			if ( (this->output_ostream = new std::ofstream(this->OutputFileName.c_str())) == NULL)
+			{
+				std::ostringstream oss;
+				oss << sz_routine << ": Unable to open:" << "\"" << this->OutputFileName << "\".\n";
+				this->warning_msg(oss.str().c_str());
+			}
 		}
 	}
 	if (this->ErrorFileOn)
 	{
 		if (this->error_ostream != NULL)
 		{
-			delete this->error_ostream;
-			this->error_ostream = NULL;
+			safe_close(&this->error_ostream);
 		}
-		if ( (this->error_ostream = new std::ofstream(this->ErrorFileName.c_str())) == NULL)
+		if (!this->error_ostream)
 		{
-			std::ostringstream oss;
-			oss << sz_routine << ": Unable to open:" << "\"" << this->ErrorFileName << "\".\n";
-			this->warning_msg(oss.str().c_str());
+			if ( (this->error_ostream = new std::ofstream(this->ErrorFileName.c_str())) == NULL)
+			{
+				std::ostringstream oss;
+				oss << sz_routine << ": Unable to open:" << "\"" << this->ErrorFileName << "\".\n";
+				this->warning_msg(oss.str().c_str());
+			}
 		}
 	}
 	if (this->LogFileOn)
 	{
 		if (this->log_ostream != NULL)
 		{
-			delete this->log_ostream;
-			this->log_ostream = NULL;
+			safe_close(&this->log_ostream);
 		}
-		if ( (this->log_ostream = new std::ofstream(this->LogFileName.c_str())) == NULL)
+		if (!this->log_ostream)
 		{
-			std::ostringstream oss;
-			oss << sz_routine << ": Unable to open:" << "\"" << this->LogFileName << "\".\n";
-			this->warning_msg(oss.str().c_str());
+			if ( (this->log_ostream = new std::ofstream(this->LogFileName.c_str())) == NULL)
+			{
+				std::ostringstream oss;
+				oss << sz_routine << ": Unable to open:" << "\"" << this->LogFileName << "\".\n";
+				this->warning_msg(oss.str().c_str());
+			}
 		}
 	}
 }
@@ -1667,23 +1722,20 @@ int IPhreeqc::close_output_files(void)
 {
 	int ret = 0;
 
-	delete this->output_ostream;
-	delete this->log_ostream;
-	delete this->dump_ostream;
-	delete this->error_ostream;
+	safe_close(&this->output_ostream);
+	safe_close(&this->log_ostream);
+	safe_close(&this->dump_ostream);
+	safe_close(&this->error_ostream);
 
 	std::map< int, SelectedOutput >::iterator it = this->PhreeqcPtr->SelectedOutput_map.begin();
 	for (; it != this->PhreeqcPtr->SelectedOutput_map.end(); ++it)
 	{
-		delete (*it).second.Get_punch_ostream();
+		std::ostream *ptr = (*it).second.Get_punch_ostream();
+		safe_close(&ptr);
 		(*it).second.Set_punch_ostream(NULL);
 	}
 
-	this->error_ostream  = 0;
-	this->output_ostream = 0;
-	this->log_ostream    = 0;
-	this->punch_ostream  = 0;
-	this->dump_ostream   = 0;
+	this->punch_ostream = 0;
 
 	return ret;
 }

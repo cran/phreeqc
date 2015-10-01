@@ -31,8 +31,10 @@ class SelectedOutput;
  * @brief This class is derived from std::exception and is thrown
  * when an unrecoverable error has occured.
  */
-class IPQ_DLL_EXPORT IPhreeqcStop : std::exception
+class IPQ_DLL_EXPORT IPhreeqcStop : public std::exception 
 {
+public:
+  virtual const char *what() const throw () {return "Failure in IPhreeqc\n";}
 };
 
 /**
@@ -42,6 +44,7 @@ class IPQ_DLL_EXPORT IPhreeqcStop : std::exception
  * Program for Speciation, Batch-Reaction, One-Dimensional Transport,
  * and Inverse Geochemical Calculations
  */
+
 class IPQ_DLL_EXPORT IPhreeqc : public PHRQ_io
 {
 public:
@@ -710,7 +713,11 @@ public:
 	 *  @param fcn              The name of a user-defined function.
 	 *  @see                    SetBasicCallback
 	 */
+#ifdef IPHREEQC_NO_FORTRAN_MODULE
 	void                     SetBasicFortranCallback(double (*fcn)(double *x1, double *x2, char *str, size_t l));
+#else
+	void                     SetBasicFortranCallback(double (*fcn)(double *x1, double *x2, const char *str, int l));
+#endif
 
 	/**
 	 *  Sets the current <B>SELECTED_OUTPUT</B> user number for use in subsequent calls to (@ref GetSelectedOutputColumnCount, 

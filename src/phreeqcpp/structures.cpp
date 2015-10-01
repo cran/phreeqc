@@ -1212,7 +1212,7 @@ master_bsearch_secondary(char *ptr)
 	int l;
 	char *ptr1;
 	char elt[MAX_LENGTH];
-	struct master *master_ptr_primary, *master_ptr, *master_ptr_secondary=NULL;
+	struct master *master_ptr_primary, *master_ptr=NULL, *master_ptr_secondary=NULL;
 	int j;
 /*
  *   Find element name
@@ -1233,35 +1233,38 @@ master_bsearch_secondary(char *ptr)
 /*
  *  If last in list or not redox
 */
-	if ((master_ptr_primary->number >= count_master - 1) || 
-		(master[master_ptr_primary->number + 1]->elt->primary != master_ptr_primary))
+	if (master_ptr_primary)
 	{
-		return(master_ptr_primary);
-	}
-/*
- *  Find secondary master with same species as primary
- */
-	master_ptr = NULL;
-	for (j = master_ptr_primary->number + 1; j < count_master; j++)
-	{
-		if (master[j]->s == master_ptr_primary->s)
+		if ((master_ptr_primary->number >= count_master - 1) || 
+			(master[master_ptr_primary->number + 1]->elt->primary != master_ptr_primary))
 		{
-			master_ptr = master[j];
+			return(master_ptr_primary);
+		}
+		/*
+		*  Find secondary master with same species as primary
+		*/
+		master_ptr = NULL;
+		for (j = master_ptr_primary->number + 1; j < count_master; j++)
+		{
+			if (master[j]->s == master_ptr_primary->s)
+			{
+				master_ptr = master[j];
+			}
 		}
 	}
 /*
  *
  */
-	if (master_ptr->elt->primary != master_ptr_primary)
+	if (master_ptr != NULL && master_ptr->elt != NULL && (master_ptr->elt->primary == master_ptr_primary))
 	{
+		master_ptr_secondary = master_ptr;
+	}
+	else
+	{		
 		input_error++;
 		error_string = sformatf(
 				"Could not find secondary master species for %s.", ptr);
 		error_msg(error_string, STOP);
-	}
-	else
-	{
-		master_ptr_secondary = master_ptr;
 	}
 
 
@@ -3446,7 +3449,7 @@ logk_search(const char *name_in)
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-entity_exists(char *name, int n_user)
+entity_exists(const char *name, int n_user)
 /* ---------------------------------------------------------------------- */
 {
 /*
@@ -3462,15 +3465,14 @@ entity_exists(char *name, int n_user)
  *	 reaction_temperature	9 Temperature
  *	 unknown		     10 UnKnown
  */
-	int i, return_value;
-	char *ptr;
+	int return_value;
 	char token[MAX_LENGTH];
 	enum entity_type type;
 /*
  *   Read keyword
  */
-	ptr = name;
-	copy_token(token, &ptr, &i);
+	strncpy(token, name, MAX_LENGTH-1);
+	token[MAX_LENGTH-1] = '\0';
 	type = get_entity_enum(token);
 	return_value = TRUE;
 	switch (type)

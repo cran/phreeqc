@@ -322,7 +322,9 @@ public:
 		tokeq_frac,
 		tokequiv_frac,
 		tokcallback,
-		tokdiff_c
+		tokdiff_c,
+		toksa_declercq,
+		tokedl_species
 	};
 
 #if !defined(PHREEQCI_GUI)
