@@ -1,7 +1,6 @@
 #include <memory>                       // auto_ptr
 #include <map>
 #include <string.h>
-
 #include "IPhreeqchpp.h"                 // IPhreeqc
 #include "Phreeqc.h"                    // Phreeqc
 #include "thread.h"
@@ -10,7 +9,7 @@
 #include "Debug.h"                      // ASSERT
 #include "ErrorReporterhxx.h"            // CErrorReporter
 #include "CSelectedOutputhxx.h"          // CSelectedOutput
-#include "phreeqcpp/SelectedOutput.h"   // SelectedOutput
+#include "SelectedOutput.h"             // SelectedOutput
 #include "dumper.h"                     // dumper
 
 // statics
@@ -1306,7 +1305,6 @@ void IPhreeqc::do_run(const char* sz_routine, std::istream* pis, PFN_PRERUN_CALL
 						// another do_run without SELECTED_OUTPUT
 						//
 						ASSERT(!this->SelectedOutputFileNameMap[(*it).first].empty());
-						ASSERT(this->SelectedOutputFileNameMap[(*it).first] == this->PhreeqcPtr->SelectedOutput_map[(*it).first].Get_file_name());
 						std::string filename = this->SelectedOutputFileNameMap[(*it).first];
 						if (!punch_open(filename.c_str(), std::ios_base::out, (*it).first))
 						{
@@ -1575,7 +1573,7 @@ void IPhreeqc::log_msg(const char * str)
 
 void IPhreeqc::error_msg(const char *str, bool stop)
 {
-	ASSERT(!(this->ErrorFileOn != (this->error_ostream != 0)));
+	ASSERT(this->error_ostream == &std::cerr || (!(this->ErrorFileOn != (this->error_ostream != 0))));
 
 	if (this->error_ostream != NULL && this->error_on)
 	{
@@ -1603,7 +1601,7 @@ void IPhreeqc::error_msg(const char *str, bool stop)
 
 void IPhreeqc::warning_msg(const char *str)
 {
-	ASSERT(!(this->ErrorFileOn != (this->error_ostream != 0)));
+	ASSERT(this->error_ostream == &std::cerr || (!(this->ErrorFileOn != (this->error_ostream != 0))));
 
 	if (this->error_ostream != NULL && this->error_on)
 	{

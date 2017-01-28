@@ -230,8 +230,12 @@ RESTART:   // if limiting rates, jump to here
 						if (0.9 * surface_comp_ptr->Get_phase_proportion() *
 							(kinetics_comp_ptr->Get_m()) < MIN_RELATED_SURFACE)
 						{
-							master_ptr = master_bsearch(ptr);
-							master_ptr->total = 0.0;
+							//master_ptr = master_bsearch(ptr);
+							master_ptr = master_bsearch(surface_comp_ptr->Get_master_element().c_str());
+							if (master_ptr != NULL) 
+							{
+								master_ptr->total = 0.0;
+							}
 						}
 						else
 						{
@@ -1265,6 +1269,7 @@ set_and_run_wrapper(int i, int use_mix, int use_kinetics, int nsaver,
 	old_pe = pe_step_size;
 	old_min_value = min_value;
 	old_pp_column_scale = pp_column_scale;
+	int old_equi_delay = equi_delay;
 
 	if (state == TRANSPORT || state == PHAST)
 	{
@@ -1301,7 +1306,7 @@ set_and_run_wrapper(int i, int use_mix, int use_kinetics, int nsaver,
 	}
 	else
 	{
-		max_try = 13;
+		max_try = 14;
 	}
 	max_try = (max_tries < max_try) ? max_tries : max_try;
 	/*max_try = 1; */
@@ -1398,6 +1403,22 @@ set_and_run_wrapper(int i, int use_mix, int use_kinetics, int nsaver,
 		}
 		else if (j == 8)
 		{
+			if (use.Get_pp_assemblage_ptr() == NULL) continue;
+			if (equi_delay > 0)
+			{
+				equi_delay = 0;
+			}
+			else
+			{
+				equi_delay = 1;
+			}
+			error_string = sformatf( "Trying delay removal of equilibrium phases %g ...\n",
+					(double) equi_delay);
+			warning_msg(error_string);
+		}
+
+		else if (j == 9)
+		{
 			if (pitzer_model == TRUE || sit_model == TRUE) continue;
 			itmax *= 2;
 			min_value *= 10;
@@ -1405,7 +1426,7 @@ set_and_run_wrapper(int i, int use_mix, int use_kinetics, int nsaver,
 					(double) min_value);
 			warning_msg(error_string);
 		}
-		else if (j == 9)
+		else if (j == 10)
 		{
 			if (pitzer_model == TRUE || sit_model == TRUE) continue;
 			aqueous_only = 5;
@@ -1414,7 +1435,7 @@ set_and_run_wrapper(int i, int use_mix, int use_kinetics, int nsaver,
 					aqueous_only);
 			warning_msg(error_string);
 		}
-		else if (j == 10)
+		else if (j == 11)
 		{
 			if (pitzer_model == TRUE || sit_model == TRUE) continue;
 			negative_concentrations = TRUE;
@@ -1422,7 +1443,7 @@ set_and_run_wrapper(int i, int use_mix, int use_kinetics, int nsaver,
 					"Adding inequality to make concentrations greater than zero.\n");
 			warning_msg(error_string);
 		}
-		else if (j == 11)
+		else if (j == 12)
 		{
 			itmax *= 2;
 			ineq_tol /= 100.;
@@ -1430,7 +1451,7 @@ set_and_run_wrapper(int i, int use_mix, int use_kinetics, int nsaver,
 					(double) ineq_tol);
 			warning_msg(error_string);
 		}
-		else if (j == 12)
+		else if (j == 13)
 		{
 			itmax *= 2;
 			ineq_tol /= 1000.;
@@ -1468,6 +1489,7 @@ set_and_run_wrapper(int i, int use_mix, int use_kinetics, int nsaver,
 		pe_step_size = old_pe;
 		min_value = old_min_value;
 		pp_column_scale = old_pp_column_scale;
+		equi_delay = old_equi_delay;
 		aqueous_only = 0;
 		negative_concentrations = FALSE;
 		always_full_pitzer = FALSE;

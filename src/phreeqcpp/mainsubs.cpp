@@ -619,15 +619,17 @@ initial_solutions(int print)
 			k_temp(solution_ref.Get_tc(), solution_ref.Get_patm());
 			set(TRUE);
 			always_full_pitzer = FALSE;
+			bool diag = (diagonal_scale == TRUE) ? true : false;
+			diagonal_scale = TRUE;
 			converge = model();
-			if (converge == ERROR && diagonal_scale == FALSE)
+			if (converge == ERROR /*&& diagonal_scale == FALSE*/)
 			{
 				diagonal_scale = TRUE;
 				always_full_pitzer = TRUE;
 				set(TRUE);
 				converge = model();
-				diagonal_scale = FALSE;
 			}
+			diagonal_scale = (diag) ? TRUE : FALSE;
 			converge1 = check_residuals();
 			sum_species();
 			add_isotopes(solution_ref);
@@ -2373,7 +2375,7 @@ run_simulations(void)
 {
 	char token[MAX_LENGTH];
 //#ifdef SKIP_KEEP
-#if defined(WIN32)
+#if defined(_MSC_VER) && (_MSC_VER < 1900)  // removed in vs2015
 	unsigned int old_exponent_format;
 	old_exponent_format = _set_output_format(_TWO_DIGIT_EXPONENT);
 #endif

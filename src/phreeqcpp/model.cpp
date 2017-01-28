@@ -1125,15 +1125,19 @@ ineq(int in_kode)
 			/* not in model, ignore */
 			if (x[i]->phase->in == FALSE)
 				continue;		
+			// delay removing phase
+			if (x[i]->moles > 0.0 || x[i]->f <= 0.0 || iterations == 0 || equi_delay == 0)
+			{
+				x[i]->iteration = iterations;
+			}
 			cxxPPassemblageComp * comp_ptr = (cxxPPassemblageComp *) x[i]->pp_assemblage_comp_ptr;
 			//if (it->second.Get_force_equality())
 			if (comp_ptr->Get_force_equality())
 				continue;
 			/*   Undersaturated and no mass, ignore */
-			//if (x[i]->f > 1e-14/*0e-8*/ && x[i]->moles <= 0
 			if (x[i]->f > 0e-8 && x[i]->moles <= 0
-				//&& it->second.Get_add_formula().size() == 0)
-					&& comp_ptr->Get_add_formula().size() == 0)
+				&& iterations >= x[i]->iteration + equi_delay
+				&& comp_ptr->Get_add_formula().size() == 0)
 			{
 				continue;
 			}
@@ -1675,19 +1679,19 @@ ineq(int in_kode)
 	}
 #define SHRINK_ARRAY
 #ifdef SHRINK_ARRAY
-	if (sit_model && full_pitzer == FALSE)
+	if ((sit_model || pitzer_model) && full_pitzer == FALSE)
 	{
 		n = count_unknowns - (int) s_list.size();
 		for (int i = 0; i < l_count_rows; i++)
 		{
-			//for (int j = 0; j < n; j++)
-			//{
-			//	ineq_array[i*(n+2) + j] = ineq_array[i*(count_unknowns+2) +j];
-			//}
-			if (i > 0)
+			for (int j = 0; j < n; j++)
 			{
-				memcpy((void *) &ineq_array[i*(n+2)], (void *) &ineq_array[i*(count_unknowns+2)], (size_t) (n) * sizeof(LDBLE));
+				ineq_array[i*(n+2) + j] = ineq_array[i*(count_unknowns+2) +j];
 			}
+			//if (i > 0)
+			//{
+			//	memcpy((void *) &ineq_array[i*(n+2)], (void *) &ineq_array[i*(count_unknowns+2)], (size_t) (n) * sizeof(LDBLE));
+			//}
 			ineq_array[i*(n+2) + n] = ineq_array[i*(count_unknowns+2) + count_unknowns];
 		}
 	}

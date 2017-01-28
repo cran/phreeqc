@@ -100,6 +100,7 @@ public:
 	LDBLE activity_coefficient(const char *species_name);
 	LDBLE log_activity_coefficient(const char *species_name);
 	LDBLE aqueous_vm(const char *species_name);
+	LDBLE phase_vm(const char *phase_name);
 	LDBLE diff_c(const char *species_name);
 	LDBLE sa_declercq(double type, double sa, double d, double m, double m0, double gfw);
 	LDBLE calc_SC(void);
@@ -147,6 +148,7 @@ public:
 	static int system_species_compare(const void *ptr1, const void *ptr2);
 	LDBLE system_total(const char *total_name, LDBLE * count, char ***names,
 		char ***types, LDBLE ** moles);
+	std::string kinetics_formula(std::string kinetics_name, cxxNameDouble &stoichiometry);
 	std::string phase_formula(std::string phase_name, cxxNameDouble &stoichiometry);
 	std::string species_formula(std::string phase_name, cxxNameDouble &stoichiometry);
 	LDBLE list_ss(std::string ss_name, cxxNameDouble &composition);
@@ -157,6 +159,7 @@ public:
 	int system_total_surf(void);
 	int system_total_gas(void);
 	int system_total_equi(void);
+	int system_total_kin(void);
 	int system_total_ss(void);
 	int system_total_elt(const char *total_name);
 	int system_total_elt_secondary(const char *total_name);
@@ -1146,6 +1149,19 @@ public:
 	size_t list_components(std::list<std::string> &list_c);
 	PHRQ_io * Get_phrq_io(void) {return this->phrq_io;}
 	void Set_run_cells_one_step(const bool tf) {this->run_cells_one_step = tf;}
+
+
+	std::map<int, cxxSolution> & Get_Rxn_solution_map() {return this->Rxn_solution_map;}
+	std::map<int, cxxExchange> & Get_Rxn_exchange_map() {return this->Rxn_exchange_map;}
+	std::map<int, cxxGasPhase> & Get_Rxn_gas_phase_map() {return this->Rxn_gas_phase_map;}
+	std::map<int, cxxKinetics> & Get_Rxn_kinetics_map() {return this->Rxn_kinetics_map;}
+	std::map<int, cxxPPassemblage> & Get_Rxn_pp_assemblage_map() {return this->Rxn_pp_assemblage_map;}
+	std::map<int, cxxSSassemblage> & Get_Rxn_ss_assemblage_map() {return this->Rxn_ss_assemblage_map;}
+	std::map<int, cxxSurface> & Get_Rxn_surface_map() {return this->Rxn_surface_map;}
+	std::map<int, cxxTemperature> & Get_Rxn_temperature_map() {return this->Rxn_temperature_map;}
+	std::map<int, cxxPressure> & Get_Rxn_pressure_map() {return this->Rxn_pressure_map;}
+
+
 protected:
 	void init(void);
 
@@ -1585,6 +1601,13 @@ protected:
 	int stop_program;
 	int incremental_reactions;
 
+	double MIN_LM;
+	double LOG_ZERO_MOLALITY;
+	double MIN_TOTAL;
+	double MIN_TOTAL_SS;
+	double MIN_RELATED_SURFACE;
+	double MIN_RELATED_LOG_ACTIVITY;
+
 	int count_strings;
 	int max_strings;
 
@@ -1627,6 +1650,7 @@ protected:
 	int diagonal_scale;	/* 0 not used, 1 used */
 	int mass_water_switch;
 	int delay_mass_water;
+	int equi_delay;
 	bool dampen_ah2o;
 	LDBLE censor;
 	int aqueous_only;

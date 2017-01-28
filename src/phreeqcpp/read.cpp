@@ -3259,15 +3259,16 @@ read_master_species(void)
 			space((void **) ((void *) &master), count_master + 1,
 				  &max_master, sizeof(struct master *));
 		}
-		master[count_master] = master_alloc();
+		master[count_master++] = master_alloc();
 /*
  *   Set type to AQ
  */
-		master[count_master]->type = AQ;
+		master[count_master-1]->type = AQ;
 /*
  *   Save element name
  */
-		master[count_master]->elt = element_store(token);
+		master[count_master-1]->elt = element_store(token);
+		std::string ename = token;
 /*
  *   Save pointer to species data for master species
  */
@@ -3283,20 +3284,33 @@ read_master_species(void)
 		s_ptr = s_search(token);
 		if (s_ptr != NULL)
 		{
-			master[count_master]->s = s_ptr;
+			master[count_master-1]->s = s_ptr;
 		}
 		else
 		{
 			ptr1 = token;
 			get_token(&ptr1, token1, &l_z, &l);
-			master[count_master]->s = s_store(token1, l_z, FALSE);
+			master[count_master-1]->s = s_store(token1, l_z, FALSE);
+		}
+		
+		std::string sname = token;
+		replace("("," ", ename);
+		std::istringstream iss(ename);
+		iss >> ename;
+		if (ename != "e" && ename != "E" && ename != "Alkalinity" && std::string::npos == sname.find(ename))
+		{
+			input_error++;
+			std::ostringstream oss;
+			oss << "Master species, " << sname << " must contain the element, " << ename;
+			error_msg(oss.str().c_str(), CONTINUE);
+			continue;
 		}
 
 /*
  *   Read alkalinity for species
  */
 		copy_token(token, &ptr, &l);
-		i = sscanf(token, SCANFORMAT, &master[count_master]->alk);
+		i = sscanf(token, SCANFORMAT, &master[count_master-1]->alk);
 		if (i != 1)
 		{
 			input_error++;
@@ -3320,11 +3334,11 @@ read_master_species(void)
 		i = copy_token(token, &ptr, &l);
 		if (i == DIGIT)
 		{
-			sscanf(token, SCANFORMAT, &master[count_master]->gfw);
+			sscanf(token, SCANFORMAT, &master[count_master-1]->gfw);
 		}
 		else if (i == UPPER)
 		{
-			master[count_master]->gfw_formula = string_hsave(token);
+			master[count_master-1]->gfw_formula = string_hsave(token);
 		}
 		else
 		{
@@ -3346,13 +3360,13 @@ read_master_species(void)
 /*
  *   MAKE LISTS OF PRIMARY AND SECONDARY MASTER SPECIES
  */
-		if (strchr(master[count_master]->elt->name, '(') == NULL)
+		if (strchr(master[count_master-1]->elt->name, '(') == NULL)
 		{
-			master[count_master]->primary = TRUE;
+			master[count_master-1]->primary = TRUE;
 			/* Read gram formula weight for primary */
-			if (strcmp(master[count_master]->elt->name, "E") != 0)
+			if (strcmp(master[count_master-1]->elt->name, "E") != 0)
 			{
-				elts_ptr = master[count_master]->elt;
+				elts_ptr = master[count_master-1]->elt;
 				i = copy_token(token, &ptr, &l);
 				if (i == DIGIT)
 				{
@@ -3380,9 +3394,8 @@ read_master_species(void)
 		}
 		else
 		{
-			master[count_master]->primary = FALSE;
+			master[count_master-1]->primary = FALSE;
 		}
-		count_master++;
 		if (count_master >= max_master)
 		{
 			space((void **) ((void *) &master), count_master, &max_master,
@@ -4207,6 +4220,12 @@ read_pp_assemblage(void)
 			if (j == EMPTY)
 				continue;
 			j = sscanf(token.c_str(), SCANFORMAT, &dummy);
+			if (dummy < 0)
+			{
+				error_string = sformatf( "Moles of mineral < 0, reset to 0.");
+				dummy = 0;
+				warning_msg(error_string);
+			}
 			comp->Set_moles(dummy);
 			if (j != 1)
 			{
@@ -4748,12 +4767,17 @@ read_selected_output(void)
 	else if (n_user == 1 && so == SelectedOutput_map.end())
 	{
 		// n_user = 1, new definition, do nothing use; constructor default
+		temp_selected_output.Set_new_def(true);
 	}
 	else 
 	{
 		// n_user != 1 then reset false
 
 		temp_selected_output.Reset(false);
+		if (so == SelectedOutput_map.end())
+		{
+			temp_selected_output.Set_new_def(true);
+		}
 	}
 
 	CParser parser(this->phrq_io);
@@ -5755,6 +5779,14 @@ read_solution(void)
 					input_error++;
 					error_string = sformatf( "Expected isotope name to"
 						" begin with an isotopic number.");
+					error_msg(error_string, PHRQ_io::OT_CONTINUE);
+					error_string = sformatf( "In read_solution\n");
+					error_msg(error_string, PHRQ_io::OT_CONTINUE);
+					error_string = sformatf( "\t%s\t%s\n", "token:     ", token.c_str());
+					error_msg(error_string, PHRQ_io::OT_CONTINUE);
+					error_string = sformatf( "\t%s\t%s\n", "next_char: ", next_char);
+					error_msg(error_string, PHRQ_io::OT_CONTINUE);
+					error_string = sformatf( "\t%s\t%s\n", "line_save: ", line_save);
 					error_msg(error_string, PHRQ_io::OT_CONTINUE);
 					continue;
 				}
@@ -8241,11 +8273,14 @@ read_debug(void)
 		"convergence_tolerance",	/* 14 */
 		"numerical_derivatives",	/* 15 */
 		"tries",					/* 16 */
-		"try",						/* 17 */
-		"numerical_fixed_volume",    /* 18 */
-		"force_numerical_fixed_volume"    /* 19 */
+		"try",						       /* 17 */
+		"numerical_fixed_volume",          /* 18 */
+		"force_numerical_fixed_volume",    /* 19 */
+		"equi_delay",                      /* 20 */
+		"minimum_total",                   /* 21 */  
+		"min_total"                        /* 22 */   
 	};
-	int count_opt_list = 20;
+	int count_opt_list = 23;
 /*
  *   Read parameters:
  *	ineq_tol;
@@ -8337,6 +8372,15 @@ read_debug(void)
 			break;
 		case 19:				/* debug_inverse */
 			force_numerical_fixed_volume = (get_true_false(next_char, TRUE) == TRUE);
+			break;
+		case 20:				/* equi_delay */
+			sscanf(next_char, "%d", &equi_delay);
+			break;
+		case 21:				/* minimum_total */
+		case 22:				/* min_total */
+			sscanf(next_char, SCANFORMAT, &MIN_TOTAL);
+			MIN_TOTAL_SS = MIN_TOTAL/100;
+			MIN_RELATED_SURFACE = MIN_TOTAL*100;
 			break;
 		}
 		if (return_value == EOF || return_value == KEYWORD)
