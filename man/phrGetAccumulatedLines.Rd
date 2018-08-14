@@ -28,4 +28,3 @@ Other Accumulate: \code{\link{phrAccumulateLine}},
   \code{\link{phrClearAccumulatedLines}},
   \code{\link{phrRunAccumulated}}
 }
-

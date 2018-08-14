@@ -45,4 +45,3 @@ Other Dump: \code{\link{phrGetDumpFileOn}},
   \code{\link{phrSetDumpFileOn}},
   \code{\link{phrSetDumpStringsOn}}
 }
-

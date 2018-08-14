@@ -2,8 +2,8 @@
 % Please edit documentation in R/phreeqc.R
 \docType{package}
 \name{phreeqc-package}
-\alias{phreeqc}
 \alias{phreeqc-package}
+\alias{phreeqc}
 \title{R interface to the PHREEQC geochemical modeling program.}
 \description{
 An interface to PHREEQC (Version 3). PHREEQC is a geochemical
@@ -13,7 +13,7 @@ including speciation, batch-reaction, one-dimensional
 reactive-transport, and inverse geochemical calculations.
 }
 \details{
-\tabular{ll}{Package: \tab phreeqc\cr Type: \tab Package\cr Version: \tab 3.3.10\cr Date: \tab 2017-01-12\cr License: \tab BSD_3_clause + file LICENSE\cr}
+\tabular{ll}{Package: \tab phreeqc\cr Type: \tab Package\cr Version: \tab 3.4.8\cr Date: \tab 2018-08-13\cr License: \tab BSD_3_clause + file LICENSE\cr}
 }
 \examples{
 
@@ -41,11 +41,10 @@ points(temp.C., si_anhydrite, col = "darkgreen")
 legend("bottomright", c("Gypsum", "Anhydrite"),
        col = c("darkred", "darkgreen"), pch = c(1, 1))
 }
-\author{
-S.R. Charlton, D.L. Parkhurst, and C.A.J. Appelo, with contributions from D. Gillespie for Chipmunk BASIC (p2c) and S.D. Cohen, A.C. Hindmarsh, R. Serban, D. Shumaker, and A.G. Taylor for CVODE (SUNDIALS) \cr Maintainer: S.R. Charlton \email{charlton@usgs.gov}
-}
 \references{
 \url{ftp://brrftp.cr.usgs.gov/pub/charlton/iphreeqc/IPhreeqc.pdf}\cr \url{http://computation.llnl.gov/casc/sundials/main.html}
 }
+\author{
+S.R. Charlton, D.L. Parkhurst, and C.A.J. Appelo, with contributions from D. Gillespie for Chipmunk BASIC (p2c) and S.D. Cohen, A.C. Hindmarsh, R. Serban, D. Shumaker, and A.G. Taylor for CVODE (SUNDIALS) \cr Maintainer: S.R. Charlton \email{charlton@usgs.gov}
+}
 \keyword{package}
-

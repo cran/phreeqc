@@ -38,4 +38,3 @@ Other Error: \code{\link{phrGetErrorFileName}},
   \code{\link{phrSetErrorFileName}},
   \code{\link{phrSetErrorStringsOn}}
 }
-

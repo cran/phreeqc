@@ -26,4 +26,3 @@ for (comp in phrGetComponentList()) {
 \references{
 \url{ftp://brrftp.cr.usgs.gov/pub/charlton/iphreeqc/IPhreeqc.pdf}
 }
-

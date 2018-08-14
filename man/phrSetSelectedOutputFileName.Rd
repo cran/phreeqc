@@ -50,4 +50,3 @@ Other Selected Output: \code{\link{phrGetSelectedOutputFileName}},
   \code{\link{phrGetSelectedOutput}},
   \code{\link{phrSetSelectedOutputFileOn}}
 }
-

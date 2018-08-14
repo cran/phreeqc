@@ -37,4 +37,3 @@ unlink(tf)
 \seealso{
 Other Load Database: \code{\link{phrLoadDatabaseString}}
 }
-

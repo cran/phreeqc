@@ -43,4 +43,3 @@ Other Output: \code{\link{phrGetOutputFileName}},
   \code{\link{phrSetOutputFileOn}},
   \code{\link{phrSetOutputStringsOn}}
 }
-

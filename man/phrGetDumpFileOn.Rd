@@ -23,4 +23,3 @@ Other Dump: \code{\link{phrGetDumpFileName}},
   \code{\link{phrSetDumpFileOn}},
   \code{\link{phrSetDumpStringsOn}}
 }
-

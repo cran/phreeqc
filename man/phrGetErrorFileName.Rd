@@ -26,4 +26,3 @@ Other Error: \code{\link{phrGetErrorFileOn}},
   \code{\link{phrSetErrorFileOn}},
   \code{\link{phrSetErrorStringsOn}}
 }
-

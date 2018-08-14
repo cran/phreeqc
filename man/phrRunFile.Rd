@@ -38,4 +38,3 @@ unlink("ex2")  # tidy up
 Other Run: \code{\link{phrRunAccumulated}},
   \code{\link{phrRunString}}
 }
-

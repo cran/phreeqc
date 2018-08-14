@@ -634,9 +634,10 @@ read_pitzer(void)
 		"eta",					/* 15 */
 		"etheta",				/* 16 */
 		"use_etheta",			/* 17 */
-		"lambda"                /* 18 */
+		"lambda",               /* 18 */
+		"aphi"                  /* 19 */
 	};
-	int count_opt_list = 19;
+	int count_opt_list = 20;
 	/*
 	 *   Read lines
 	 */
@@ -664,7 +665,15 @@ read_pitzer(void)
 			if (pzp_ptr != NULL)
 			{
 				pzp_ptr->type = pzp_type;
-				pitz_param_store(pzp_ptr, false);
+				if (pzp_type == TYPE_APHI)
+				{
+					aphi = (struct pitz_param *) free_check_null(aphi);
+					aphi = pzp_ptr;
+				}
+				else
+				{
+					pitz_param_store(pzp_ptr, false);
+				}
 			}
 			break;
 		case OPTION_ERROR:
@@ -744,6 +753,11 @@ read_pitzer(void)
 			opt_save = OPTION_ERROR;
 			use_etheta = get_true_false(next_char, TRUE);
 			break;
+		case 19:				/* aphi */
+			pzp_type = TYPE_APHI;
+			n = 0;
+			opt_save = OPTION_DEFAULT;
+			break;
 		}
 		if (return_value == EOF || return_value == KEYWORD)
 			break;
@@ -779,6 +793,10 @@ C
 	{
 		int i = param_list[j];
 		calc_pitz_param(pitz_params[i], TK, TR);
+	}
+	if (aphi)
+	{
+		calc_pitz_param(aphi, TK, TR);
 	}
 	if (mcb0) 
 	{
@@ -857,6 +875,9 @@ calc_pitz_param(struct pitz_param *pz_ptr, LDBLE TK, LDBLE TR)
 	case TYPE_ETA:
 		pz_ptr->U.eta = param;
 		break;
+	case TYPE_APHI:
+		pz_ptr->U.aphi = param;
+		break;
 	case TYPE_Other:
 	default:
 		error_msg("Should not be TYPE_Other in function calc_pitz_param",
@@ -887,7 +908,7 @@ pitzer(void)
 	   C     INITIALIZE
 	   C
 	 */
-	CONV = 1.0 / log(10.0);
+	CONV = 1.0 / LOG_10;
 	XX = 0.0;
 	OSUM = 0.0;
 	/*n
@@ -1222,7 +1243,7 @@ pitzer(void)
 	   C     INITIALIZE
 	   C
 	 */
-	CONV = 1.0 / log(10.0);
+	CONV = 1.0 / LOG_10;
 	XX = 0.0;
 	OSUM = 0.0;
 	I = mu_x;
@@ -1668,6 +1689,7 @@ pitzer_clean_up(void)
 	LGAMMA = (LDBLE *) free_check_null(LGAMMA);
 	IPRSNT = (int *) free_check_null(IPRSNT);
 	spec = (struct species **) free_check_null(spec);
+	aphi = (struct pitz_param *) free_check_null(aphi);
 	M = (LDBLE *) free_check_null(M);
 
 	return OK;
@@ -1709,6 +1731,7 @@ set_pz(int initial)
 	tk_x = tc_x + 273.15;
 
 	patm_x = solution_ptr->Get_patm();  // done in calc_rho_0(tc, pa)
+	potV_x = solution_ptr->Get_potV(); // added in DL_pitz
 
 /*
  *   H+, e-, H2O
@@ -1812,7 +1835,8 @@ pitzer_revise_guesses(void)
 	LDBLE weight, f;
 
 	max_iter = 100;
-	/* gammas(mu_x); */
+	if (iterations < 0 && (use.Get_surface_in() || use.Get_exchange_in()))
+		gammas_pz(); // DL_pitz : for SURF estimates
 	l_iter = 0;
 	repeat = TRUE;
 	fail = FALSE;
@@ -1894,7 +1918,7 @@ pitzer_revise_guesses(void)
 				{
 					repeat = TRUE;
 					x[i]->master[0]->s->la += logd;
-/*!!!!*/ if (x[i]->master[0]->s->la < -999.)
+					if (x[i]->master[0]->s->la < -999.)
 						x[i]->master[0]->s->la = MIN_RELATED_LOG_ACTIVITY;
 				}
 				else if (f > d * fabs(x[i]->moles)
@@ -1953,7 +1977,7 @@ pitzer_revise_guesses(void)
 	{
 		mu_x = 1e-8;
 	}
-	/*gammas(mu_x); */
+	//gammas_pz();
 	return (OK);
 }
 
@@ -1961,11 +1985,12 @@ pitzer_revise_guesses(void)
 int Phreeqc::
 jacobian_pz(void)
 /* ---------------------------------------------------------------------- */
-{
+{ // calculate the derivatives numerically
 	LDBLE *base;
 	LDBLE d, d1, d2;
 	int i, j;
 
+	calculating_deriv = 1;
 Restart:
 	int pz_max_unknowns = max_unknowns;
 	//k_temp(tc_x, patm_x);
@@ -1983,7 +2008,7 @@ Restart:
 		base[i] = residual[i];
 	}
 	d = 0.0001;
-	d1 = d * log(10.0);
+	d1 = d * LOG_10;
 	d2 = 0;
 	for (i = 0; i < count_unknowns; i++)
 	{
@@ -1999,11 +2024,13 @@ Restart:
 		case SURFACE_CB1:
 		case SURFACE_CB2:
 			x[i]->master[0]->s->la += d;
-			d2 = d1;
+			//d2 = d1;
+			d2 = d * LOG_10;
 			break;
 		case AH2O:
 			x[i]->master[0]->s->la += d;
-			d2 = d1;
+			//d2 = d1;
+			d2 = d * LOG_10;
 			break;
 		case PITZER_GAMMA:
 			if (!full_pitzer) 
@@ -2012,15 +2039,25 @@ Restart:
 			d2 = d;
 			break;
 		case MH2O:
-			mass_water_aq_x *= (1.0 + d);
+			//mass_water_aq_x *= (1 + d);
+			//x[i]->master[0]->s->moles = mass_water_aq_x / gfw_water;
+			//d2 = log(1.0 + d);
+			//break;
+			// DL_pitz
+			d1 = mass_water_aq_x * d;
+			mass_water_aq_x += d1;
+			if (use.Get_surface_in() && dl_type_x == cxxSurface::DONNAN_DL)
+				mass_water_bulk_x += d1;
 			x[i]->master[0]->s->moles = mass_water_aq_x / gfw_water;
-			d2 = log(1.0 + d);
+			//d2 = log(1.0 + d);
+			d2 = d1;
 			break;
 		case MH:
 			if (pitzer_pe == TRUE)
 			{
 				s_eminus->la += d;
-				d2 = d1;
+				//d2 = d1;
+				d2 = d * LOG_10;
 				break;
 			}
 			else
@@ -2043,8 +2080,21 @@ Restart:
 			gammas(mu_x);
 			break;
 		case PP:
-		case SS_MOLES:
 			continue;
+			break;
+		case SS_MOLES:
+			//continue;
+			//break;
+			if (x[i]->ss_in == FALSE)
+				continue;
+			for (j = 0; j < count_unknowns; j++)
+			{
+				delta[j] = 0.0;
+			}
+			d2 = d * 10 * x[i]->moles;
+			delta[i] = d2;
+			reset();
+			d2 = delta[i];
 			break;
 		}
 		molalities(TRUE);
@@ -2061,8 +2111,9 @@ Restart:
 		residuals();
 		for (j = 0; j < count_unknowns; j++)
 		{
-			array[j * (count_unknowns + 1) + i] =
-				-(residual[j] - base[j]) / d2;
+			my_array[j * (count_unknowns + 1) + i] = -(residual[j] - base[j]) / d2;
+			if (x[i]->type == MH2O) // DL_pitz
+				my_array[j * (count_unknowns + 1) + i] *= mass_water_aq_x;
 		}
 		switch (x[i]->type)
 		{
@@ -2080,9 +2131,9 @@ Restart:
 			break;
 		case MH:
 			s_eminus->la -= d;
-			if (array[i * (count_unknowns + 1) + i] == 0)
+			if (my_array[i * (count_unknowns + 1) + i] == 0)
 			{
-				array[i * (count_unknowns + 1) + i] =
+				my_array[i * (count_unknowns + 1) + i] =
 					exp(s_h2->lm * LOG_10) * 2;
 			}
 			break;
@@ -2090,7 +2141,13 @@ Restart:
 			x[i]->s->lg -= d;
 			break;
 		case MH2O:
-			mass_water_aq_x /= (1 + d);
+			//mass_water_aq_x /= (1 + d);
+			//x[i]->master[0]->s->moles = mass_water_aq_x / gfw_water;
+			//break;
+			//DL_pitz
+			mass_water_aq_x -= d1;
+			if (use.Get_surface_in() && dl_type_x == cxxSurface::DONNAN_DL)
+				mass_water_bulk_x -= d1;
 			x[i]->master[0]->s->moles = mass_water_aq_x / gfw_water;
 			break;
 		case MU:
@@ -2103,7 +2160,10 @@ Restart:
 				continue;
 			x[i]->moles -= d2;
 			break;
-
+		case SS_MOLES:
+			delta[i] = -d2;
+			reset();
+			break;
 		}
 	}
 	molalities(TRUE);
@@ -2112,6 +2172,7 @@ Restart:
 	mb_sums();
 	residuals();
 	free_check_null(base);
+	calculating_deriv = 0;
 	return OK;
 }
 
@@ -2195,6 +2256,7 @@ model_pz(void)
 			PhreeqcIWait(this);
 #endif
 			iterations++;
+			overall_iterations++;
 			if (iterations > itmax - 1 && debug_model == FALSE
 				&& pr.logfile == TRUE)
 			{
@@ -2281,17 +2343,17 @@ model_pz(void)
 			{
 				
 				count_basis_change++;
-				count_unknowns -= (int) s_list.size();
+				count_unknowns -= count_s_x;
 				reprep();
 				full_pitzer = false;
 			}
-			/* debug
-			   species_list_sort();
-			   sum_species();
-			   print_species();
-			   print_exchange();
-			   print_surface();
-			 */
+			 //debug
+			   //species_list_sort();
+			   //sum_species();
+			   //print_species();
+			   //print_exchange();
+			   //print_surface();
+			 
 			if (stop_program == TRUE)
 			{
 				break;
@@ -2400,7 +2462,7 @@ gammas_pz()
  *   Need exchange gammas for pitzer
  */
 	int i, j;
-	LDBLE coef;
+	LDBLE coef, equiv;
 	/* Initialize */
 	k_temp(tc_x, patm_x);
 /*
@@ -2434,9 +2496,18 @@ gammas_pz()
 					break;
 				}
 			}
+			if (use.Get_surface_ptr()->Get_type() == cxxSurface::CD_MUSIC) // DL_pitz
+			{
+				/*  mole fraction */
+				equiv = 1.0;
+			}
+			else
+			{
+				equiv = s_x[i]->equiv;
+			}
 			if (s_x[i]->alk > 0)
 			{
-				s_x[i]->lg = log10(s_x[i]->equiv / s_x[i]->alk);
+				s_x[i]->lg = log10(equiv / s_x[i]->alk);
 				s_x[i]->dg = 0.0;
 			}
 			else

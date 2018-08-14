@@ -361,7 +361,7 @@ clean_up(void)
 	free_spread();
 #endif
 	title_x = (char *) free_check_null(title_x);
-
+	last_title_x.clear();
 	count_elements = 0;
 	count_master = 0;
 	count_phases = 0;
@@ -2071,6 +2071,9 @@ s_init(struct species *s_ptr)
 	s_ptr->gfw = 0.0;
 	s_ptr->z = 0.0;
 	s_ptr->dw = 0.0;
+	s_ptr->dw_t = 0.0;
+	s_ptr->dw_a = 0.0;
+	s_ptr->dw_a2 = 0.0;
 	s_ptr->erm_ddl = 1.0;
 	s_ptr->equiv = 0;
 	s_ptr->alk = 0.0;
@@ -2085,6 +2088,10 @@ s_init(struct species *s_ptr)
 	for (i = 0; i < MAX_LOG_K_INDICES; i++)
 	{
 		s_ptr->logk[i] = 0.0;
+	}
+	for (i = 0; i < 10; i++)
+	{
+		s_ptr->Jones_Dole[i] = 0.0;
 	}
 /* VP: Density Start */
 	for (i = 0; i < 6; i++)
@@ -2109,8 +2116,6 @@ s_init(struct species *s_ptr)
 	s_ptr->next_secondary = NULL;
 	s_ptr->next_sys_total = NULL;
 	s_ptr->check_equation = TRUE;
-	s_ptr->original_deltav_units = cm3_per_mol;
-
 	s_ptr->rxn = NULL;
 	s_ptr->rxn_s = NULL;
 	s_ptr->rxn_x = NULL;
@@ -2124,6 +2129,7 @@ s_init(struct species *s_ptr)
 	{
 		s_ptr->dz[i] = 0.0;
 	}
+	s_ptr->original_deltav_units = cm3_per_mol;
 	return (OK);
 }
 
@@ -3185,6 +3191,7 @@ unknown_alloc(void)
 	unknown_ptr->si = 0.0;
 	unknown_ptr->s = NULL;
 	unknown_ptr->exch_comp = NULL;
+	unknown_ptr->pp_assemblage_comp_name = NULL;
 	unknown_ptr->pp_assemblage_comp_ptr = NULL;
 	unknown_ptr->ss_name = NULL;
 	unknown_ptr->ss_ptr = NULL;
@@ -3203,6 +3210,11 @@ unknown_alloc(void)
 	unknown_ptr->surface_charge = NULL;
 	unknown_ptr->mass_water = 0.0;
 	unknown_ptr->dissolve_only = FALSE;
+	unknown_ptr->inert_moles = 0.0;
+	unknown_ptr->V_m = 0.0;
+	unknown_ptr->pressure = 0.0;
+	unknown_ptr->mb_number = 0;
+	unknown_ptr->iteration = 0;
 
 	return (unknown_ptr);
 }

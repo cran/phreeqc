@@ -554,6 +554,12 @@ std::list< std::string > IPhreeqc::ListComponents(void)
 	{
 		this->Components.clear();
 		this->PhreeqcPtr->list_components(this->Components);
+		this->PhreeqcPtr->list_EquilibriumPhases(this->EquilibriumPhasesList);
+		this->PhreeqcPtr->list_GasComponents(this->GasComponentsList);
+		this->PhreeqcPtr->list_KineticReactions(this->KineticReactionsList);
+		this->PhreeqcPtr->list_SolidSolutions(this->SolidSolutionComponentsList,this->SolidSolutionNamesList);
+		this->PhreeqcPtr->list_Surfaces(this->SurfaceTypeList, this->SurfaceNamesList);
+		this->PhreeqcPtr->list_Exchangers(this->ExchangeNamesList);
 		this->UpdateComponents = false;
 	}
 	return this->Components;
@@ -1192,7 +1198,11 @@ void IPhreeqc::do_run(const char* sz_routine, std::istream* pis, PFN_PRERUN_CALL
 /*
  *   set read callback
  */
+#if (__GNUC__ && (__cplusplus >= 201103L)) || (_MSC_VER >= 1600)
+	std::unique_ptr<std::istringstream> auto_iss=NULL;
+#else
 	std::auto_ptr<std::istringstream> auto_iss(0);
+#endif
 	if (!pis)
 	{
 		auto_iss.reset(new std::istringstream(this->GetAccumulatedLines()));

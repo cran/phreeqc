@@ -106,7 +106,11 @@ calc_kinetic_reaction(cxxKinetics *kinetics_ptr, LDBLE time_step)
 						kinetics_comp_ptr->Get_rate_name().c_str());
 				error_msg(error_string, STOP);
 			}
+#ifdef NPP
+			if (isnan(rate_moles))
+#else
 			if (rate_moles == NAN)
+#endif
 			{
 				error_string = sformatf( "Moles of reaction not SAVEed for %s.",
 						kinetics_comp_ptr->Get_rate_name().c_str());
@@ -1253,9 +1257,15 @@ set_and_run_wrapper(int i, int use_mix, int use_kinetics, int nsaver,
 	int old_diag, old_itmax;
 	LDBLE old_tol, old_min_value, old_step, old_pe, old_pp_column_scale;
 	LDBLE small_pe_step, small_step;
+#if (__GNUC__ && (__cplusplus >= 201103L)) || (_MSC_VER >= 1600)
+	std::unique_ptr<cxxPPassemblage> pp_assemblage_save=NULL;
+	std::unique_ptr<cxxSSassemblage> ss_assemblage_save=NULL;
+	std::unique_ptr<cxxKinetics> kinetics_save=NULL;
+#else
 	std::auto_ptr<cxxPPassemblage> pp_assemblage_save(NULL);
 	std::auto_ptr<cxxSSassemblage> ss_assemblage_save(NULL);
 	std::auto_ptr<cxxKinetics> kinetics_save(NULL);
+#endif
 
 	
 	small_pe_step = 5.;
@@ -1640,6 +1650,7 @@ set_and_run(int i, int use_mix, int use_kinetics, int nsaver,
 		converge = model();
 	}
 	sum_species();
+	viscosity();
 	return (converge);
 }
 
@@ -1685,8 +1696,8 @@ set_transport(int i, int use_mix, int use_kinetics, int nsaver)
 			use.Set_solution_ptr(Utilities::Rxn_find(Rxn_solution_map, i));
 			if (use.Get_solution_ptr() == NULL)
 			{
-				error_string = sformatf( "Solution %d not found.",
-						use.Get_n_solution_user());
+				error_string = sformatf( "Solution %d not found, while searching mix structure for solution %d.",
+						i, use.Get_n_solution_user());
 				error_msg(error_string, STOP);
 			}
 			use.Set_n_solution_user(i);
@@ -1698,8 +1709,8 @@ set_transport(int i, int use_mix, int use_kinetics, int nsaver)
 		use.Set_solution_ptr(Utilities::Rxn_find(Rxn_solution_map, i));
 		if (use.Get_solution_ptr() == NULL)
 		{
-			error_string = sformatf( "Solution %d not found.",
-					use.Get_n_solution_user());
+			error_string = sformatf( "Solution %d not found, while searching mix structure for solution %d.",
+					i, use.Get_n_solution_user());
 			error_msg(error_string, STOP);
 		}
 		use.Set_n_solution_user(i);
@@ -2439,6 +2450,7 @@ run_reactions(int i, LDBLE kin_time, int use_mix, LDBLE step_fraction)
  *   Set nsaver
  */
 	run_reactions_iterations = 0;
+	overall_iterations = 0;
 	kin_time_x = kin_time;
 	rate_kin_time = kin_time;
 	nsaver = i;
@@ -2528,7 +2540,6 @@ run_reactions(int i, LDBLE kin_time, int use_mix, LDBLE step_fraction)
 				iopt[j] = 0;
 				ropt[j] = 0;
 			}
-
 /*
  *	Do mix first
  */
@@ -2541,9 +2552,9 @@ run_reactions(int i, LDBLE kin_time, int use_mix, LDBLE step_fraction)
 			cvode_rate_sim_time = rate_sim_time;
 
 			if (multi_Dflag)
-				converge = set_and_run_wrapper(i, NOMIX, FALSE, i, 0.0);
+				converge = set_and_run_wrapper(i, NOMIX, FALSE, i, step_fraction);
 			else
-				converge = set_and_run_wrapper(i, use_mix, FALSE, i, 0.0);
+				converge = set_and_run_wrapper(i, use_mix, FALSE, i, step_fraction);
 			if (converge == MASS_BALANCE)
 				error_msg
 					("Negative concentration in system. Stopping calculation.",
@@ -2559,7 +2570,6 @@ run_reactions(int i, LDBLE kin_time, int use_mix, LDBLE step_fraction)
 			{
 				cvode_ss_assemblage_save = new cxxSSassemblage(*ss_assemblage_ptr);
 			}
-
 			/* allocate space for CVODE */
 			kinetics_machEnv = M_EnvInit_Serial(n_reactions);
 			kinetics_machEnv->phreeqc_ptr = this;
@@ -2724,8 +2734,8 @@ run_reactions(int i, LDBLE kin_time, int use_mix, LDBLE step_fraction)
 				use.Set_ss_assemblage_ptr(Utilities::Rxn_find(Rxn_ss_assemblage_map, cvode_ss_assemblage_save->Get_n_user()));
 			}
 			calc_final_kinetic_reaction(kinetics_ptr);
-			if (set_and_run_wrapper(i, NOMIX, TRUE, nsaver, 1.0) ==
-				MASS_BALANCE)
+			if (set_and_run_wrapper(i, NOMIX, TRUE, nsaver, 0) ==
+					MASS_BALANCE)
 			{
 				/*error_msg("FAIL 2 after successful integration in CVode", CONTINUE); */
 				warning_msg("FAIL 2 after successful integration in CVode");

@@ -48,4 +48,3 @@ Other Dump: \code{\link{phrGetDumpFileName}},
   \code{\link{phrSetDumpFileName}},
   \code{\link{phrSetDumpFileOn}}
 }
-

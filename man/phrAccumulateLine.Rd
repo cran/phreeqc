@@ -47,4 +47,3 @@ Other Accumulate: \code{\link{phrClearAccumulatedLines}},
   \code{\link{phrGetAccumulatedLines}},
   \code{\link{phrRunAccumulated}}
 }
-

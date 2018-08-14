@@ -44,4 +44,3 @@ Other Log: \code{\link{phrGetLogFileName}},
   \code{\link{phrSetLogFileName}},
   \code{\link{phrSetLogStringsOn}}
 }
-

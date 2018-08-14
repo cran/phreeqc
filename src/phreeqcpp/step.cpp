@@ -54,6 +54,7 @@ step(LDBLE step_fraction)
 	else if (use.Get_solution_ptr() != NULL)
 	{
 		add_solution(use.Get_solution_ptr(), 1.0, 1.0);
+		cell_no = use.Get_n_solution_user();
 	}
 	else
 	{
@@ -106,11 +107,11 @@ step(LDBLE step_fraction)
 		tc_x = t_ptr->Temperature_for_step(step_number);
 	}
 	if ((state == TRANSPORT) && (transport_step != 0) &&
-		(cell > 0) && (cell != count_cells + 1))
+		(cell > 0) && (cell != count_cells + 1)) // ** needs potV correction
 	{
-		difftemp = tc_x - cell_data[cell - 1].temp;
-		cell_data[cell - 1].temp += difftemp / tempr;
-		tc_x = cell_data[cell - 1].temp;
+		difftemp = tc_x - cell_data[cell].temp;
+		cell_data[cell].temp += difftemp / tempr;
+		tc_x = cell_data[cell].temp;
 	}
 /*
  *   Pressure
@@ -305,6 +306,7 @@ xsolution_zero(void)
 
 	tc_x = 0.0;
 	patm_x = 0;
+	potV_x = 0;
 	ph_x = 0.0;
 	solution_pe_x = 0.0;
 	mu_x = 0.0;
@@ -357,6 +359,7 @@ add_solution(cxxSolution *solution_ptr, LDBLE extensive, LDBLE intensive)
 	tc_x += solution_ptr->Get_tc() * intensive;
 	ph_x += solution_ptr->Get_ph() * intensive;
 	patm_x += solution_ptr->Get_patm() * intensive;
+	potV_x += solution_ptr->Get_potV() * intensive;
 	solution_pe_x += solution_ptr->Get_pe() * intensive;
 	mu_x += solution_ptr->Get_mu() * intensive;
 	ah2o_x += solution_ptr->Get_ah2o() * intensive;
@@ -1468,8 +1471,8 @@ solution_check(void)
 		   master_ptr->elt->name, (LDBLE) master_ptr->total);
 		 */
 		error_string = sformatf(
-				"Negative moles in solution for %s, %e. Recovering...",
-				master_ptr->elt->name, (double) master_ptr->total);
+				"Negative moles in solution %d for %s, %e. Recovering...",
+				cell_no, master_ptr->elt->name, (double) master_ptr->total);
 		warning_msg(error_string);
 		return (MASS_BALANCE);
 	}

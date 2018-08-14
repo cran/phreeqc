@@ -15,6 +15,8 @@
 #include "Utils.h"
 #include "Solution.h"
 
+#define register
+
 /* Run-time library for PhreeqcPtr->use with "p2c", the Pascal to C translator */
 
 /* "p2c"  Copyright (C) 1989, 1990, 1991 Free Software Foundation.
@@ -1405,6 +1407,10 @@ listtokens(FILE * f, tokenrec * l_buf)
 			output_msg("DESCRIPTION");
 			break;
 
+		case toktitle:
+			output_msg("TITLE");
+			break;
+
 		case toksys:
 			output_msg("SYS");
 			break;
@@ -1590,6 +1596,9 @@ listtokens(FILE * f, tokenrec * l_buf)
  		case tokphase_vm:
  			output_msg("PHASE_VM"); // mole volume of a phase 
  			break;
+ 		case tokaphi:
+ 			output_msg("APHI"); // mole volume of a phase 
+ 			break;
  		case tokdh_a:
  			output_msg("DH_A"); // Debye-Hueckel A
  			break;
@@ -1627,8 +1636,29 @@ listtokens(FILE * f, tokenrec * l_buf)
 		case tokdiff_c:
 			output_msg("DIFF_C");
 			break;
+		case toksetdiff_c:
+			output_msg("SETDIFF_C");
+			break;
 		case toksa_declercq:
 			output_msg("SA_DECLERCQ");
+			break;
+		case tokviscos:
+			output_msg("VISCOS");
+			break;
+		case tokviscos_0:
+			output_msg("VISCOS_0");
+			break;
+		case tokcurrent_a:
+			output_msg("CURRENT_A");
+			break;
+		case tokpot_v:
+			output_msg("POT_V");
+			break;
+		case tokt_sc:
+			output_msg("T_SC");
+			break;
+		case tokiterations:
+			output_msg("ITERATIONS");
 			break;
 		}
 		l_buf = l_buf->next;
@@ -2261,7 +2291,7 @@ factor(struct LOC_exec * LINK)
 					break;
 				}
 				else
-					n.UU.val = PhreeqcPtr->cell_data[i - 1].por;
+					n.UU.val = PhreeqcPtr->cell_data[i].por;
 				break;
 			}
 			else
@@ -2499,6 +2529,16 @@ factor(struct LOC_exec * LINK)
 				n.UU.sval = PhreeqcPtr->string_duplicate("Unknown");
 			}
 		}
+		while (PhreeqcPtr->replace("\t", " ", n.UU.sval));
+		break;
+
+	case toktitle:
+		n.stringval = true;
+		if (strlen(PhreeqcPtr->last_title_x.c_str()) == 0)
+		{
+			PhreeqcPtr->last_title_x = " ";
+		}
+		n.UU.sval = PhreeqcPtr->string_duplicate(PhreeqcPtr->last_title_x.c_str());
 		while (PhreeqcPtr->replace("\t", " ", n.UU.sval));
 		break;
 
@@ -3268,7 +3308,7 @@ factor(struct LOC_exec * LINK)
 		}
 		else if (PhreeqcPtr->state == TRANSPORT)
 		{
-			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->cell_data[PhreeqcPtr->cell - 1].mid_cell_x;
+			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->cell_data[PhreeqcPtr->cell].mid_cell_x;
 		}
 		else if (PhreeqcPtr->state == ADVECTION)
 		{
@@ -3611,6 +3651,9 @@ factor(struct LOC_exec * LINK)
 	case tokeps_r:
 		n.UU.val = PhreeqcPtr->eps_r;
 		break;
+	case tokaphi:
+		n.UU.val = PhreeqcPtr->A0;
+		break;
 	case tokdh_a:
 		n.UU.val = PhreeqcPtr->DH_A;
 		break;
@@ -3637,6 +3680,45 @@ factor(struct LOC_exec * LINK)
   	case toksoln_vol:
  		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->calc_solution_volume();
  		break;
+  	case tokvm:
+		{
+			const char * str = stringfactor(STR1, LINK);
+ 			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->aqueous_vm(str);
+		}
+ 		break;
+  	case tokphase_vm:
+		{
+			const char * str = stringfactor(STR1, LINK);
+ 			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->phase_vm(str);
+		}
+ 		break;
+  	case tokviscos:
+		{
+ 			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->viscos;
+		}
+ 		break;
+  	case tokviscos_0:
+		{
+ 			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->viscos_0;
+		}
+ 		break;
+	case tokcurrent_a:
+		//n.UU.val = (parse_all) ? 1 : PhreeqcPtr->current_x;
+		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->current_A;
+		break;
+	case tokpot_v:
+		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->use.Get_solution_ptr()->Get_potV();
+		break;
+	case tokt_sc:
+		{
+			const char * str = stringfactor(STR1, LINK);
+			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->calc_t_sc(str);
+		}
+		break;
+	case tokiterations:
+		n.UU.val = (parse_all) ? 0 : PhreeqcPtr->overall_iterations;
+		break;
+
 	case toklog10:
 		{
 			LDBLE t = realfactor(LINK);
@@ -3650,19 +3732,6 @@ factor(struct LOC_exec * LINK)
 			//}
 		}
 		break;
-  	case tokvm:
-		{
-			const char * str = stringfactor(STR1, LINK);
- 			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->aqueous_vm(str);
-		}
- 		break;
-  	case tokphase_vm:
-		{
-			const char * str = stringfactor(STR1, LINK);
- 			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->phase_vm(str);
-		}
- 		break;
-
 	case toksin:
 		n.UU.val = sin(realfactor(LINK));
 		break;
@@ -3791,6 +3860,7 @@ factor(struct LOC_exec * LINK)
 		}
 		break;
 	case tokeq_frac:
+	case tokequiv_frac:
 		{			
 			// left parenthesis
 			require(toklp, LINK);
@@ -3913,6 +3983,24 @@ factor(struct LOC_exec * LINK)
 		}
 		break;
 			
+	case toksetdiff_c:
+		{
+			double d;
+
+			require(toklp, LINK);
+
+			const char * str = stringfactor(STR1, LINK);
+			require(tokcomma, LINK);
+
+			// double arugument
+			d = realexpr(LINK);
+			require(tokrp, LINK);
+
+ 			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->setdiff_c(str, d);
+			
+			//PhreeqcPtr->PHRQ_free((void *) str);
+		}
+		break;
 	case tokval:
 		l_s = strfactor(LINK);
 		tok1 = LINK->t;
@@ -4632,7 +4720,7 @@ cmdchange_por(struct LOC_exec *LINK)
 	require(tokrp, LINK);
 	if (j > 0 && j <= PhreeqcPtr->count_cells * (1 + PhreeqcPtr->stag_data->count_stag) + 1
 		&& j != PhreeqcPtr->count_cells + 1)
-		PhreeqcPtr->cell_data[j - 1].por = TEMP;
+		PhreeqcPtr->cell_data[j].por = TEMP;
 }
 
 void PBasic::
@@ -7173,6 +7261,7 @@ const std::map<const std::string, PBasic::BASIC_TOKEN>::value_type temp_tokens[]
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("sum_s_s",            PBasic::toksum_s_s),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("calc_value",         PBasic::tokcalc_value),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("description",        PBasic::tokdescription),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("title",              PBasic::toktitle),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("sys",                PBasic::toksys),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("instr",              PBasic::tokinstr),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("ltrim",              PBasic::tokltrim),
@@ -7244,10 +7333,18 @@ const std::map<const std::string, PBasic::BASIC_TOKEN>::value_type temp_tokens[]
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("diff_c",             PBasic::tokdiff_c),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("sa_declercq",        PBasic::toksa_declercq),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("edl_species",        PBasic::tokedl_species),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("viscos",             PBasic::tokviscos),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("viscos_0",           PBasic::tokviscos_0),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("rho_0",              PBasic::tokrho_0),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("kinetics_formula",   PBasic::tokkinetics_formula),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("kinetics_formula$",  PBasic::tokkinetics_formula),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("phase_vm",           PBasic::tokphase_vm)
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("phase_vm",           PBasic::tokphase_vm),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("current_a",          PBasic::tokcurrent_a),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("pot_v",              PBasic::tokpot_v),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("t_sc",               PBasic::tokt_sc),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("setdiff_c",          PBasic::toksetdiff_c),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("aphi",               PBasic::tokaphi),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("iterations",         PBasic::tokiterations)
 };
 std::map<const std::string, PBasic::BASIC_TOKEN> PBasic::command_tokens(temp_tokens, temp_tokens + sizeof temp_tokens / sizeof temp_tokens[0]);
 

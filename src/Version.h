@@ -1,10 +1,10 @@
 #define NAME          "IPhreeqc"
 #define VER_MAJOR      3
-#define VER_MINOR      0
-#define VER_PATCH      0
-#define VER_REVISION   0
+#define VER_MINOR      4
+#define VER_PATCH      8
+#define VER_REVISION   13021
 
-#define RELEASE_DATE           "@RELEASE_DATE@"
+#define RELEASE_DATE           "August 13, 2018"
 
 #define APR_STRINGIFY(n) APR_STRINGIFY_HELPER(n)
 #define APR_STRINGIFY_HELPER(n) #n

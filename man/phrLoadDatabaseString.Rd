@@ -37,4 +37,3 @@ if (is.null(phrRunString(ex2))) {
 Other Load Database: \code{\link{phrLoadDatabase}}
 }
 \keyword{interface}
-

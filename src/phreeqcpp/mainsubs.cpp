@@ -44,8 +44,21 @@ initialize(void)
 /*
  *   Allocate space
  */
-	space((void **) ((void *) &cell_data), INIT, &count_cells,
+	cell_data_max_cells = count_cells + 2;
+	space((void **) ((void *) &cell_data), INIT, &cell_data_max_cells,
 		  sizeof(struct cell_data));
+	for (int i = 0; i < cell_data_max_cells; i++)
+	{
+		cell_data[i].length = 1.0;
+		cell_data[i].mid_cell_x = 1.0;
+		cell_data[i].disp = 1.0;
+		cell_data[i].temp = 25.0;
+		cell_data[i].por = 0.1;
+		cell_data[i].por_il = 0.01;
+		cell_data[i].potV = 0;
+		cell_data[i].punch = FALSE;
+		cell_data[i].print = FALSE;
+	}
 
 	space((void **) ((void *) &elements), INIT, &max_elements,
 		  sizeof(struct element *));
@@ -615,23 +628,53 @@ initial_solutions(int print)
 				dup_print(token, FALSE);
 			}
 			use.Set_solution_ptr(&solution_ref);
-			prep();
-			k_temp(solution_ref.Get_tc(), solution_ref.Get_patm());
-			set(TRUE);
-			always_full_pitzer = FALSE;
+			LDBLE d0 = solution_ref.Get_density();
+			//LDBLE d1 = 0;
 			bool diag = (diagonal_scale == TRUE) ? true : false;
-			diagonal_scale = TRUE;
-			converge = model();
-			if (converge == ERROR /*&& diagonal_scale == FALSE*/)
+			int count_iterations = 0;
+			std::string input_units = solution_ref.Get_initial_data()->Get_units();
+			cxxISolution *initial_data_ptr = solution_ref.Get_initial_data();
+			for (;;)
 			{
-				diagonal_scale = TRUE;
-				always_full_pitzer = TRUE;
+				prep();
+				k_temp(solution_ref.Get_tc(), solution_ref.Get_patm());
 				set(TRUE);
+				always_full_pitzer = FALSE;
+				
+				diagonal_scale = TRUE;
 				converge = model();
-			}
+				if (converge == ERROR /*&& diagonal_scale == FALSE*/)
+				{
+					diagonal_scale = TRUE;
+					always_full_pitzer = TRUE;
+					set(TRUE);
+					converge = model();
+				}
+				if (solution_ref.Get_initial_data()->Get_calc_density())
+				{
+					solution_ref.Set_density(calc_dens());
+					if (!equal(d0, solution_ref.Get_density(), 1e-8))
+					{
+						initial_data_ptr->Set_units(input_units);
+						d0 = solution_ref.Get_density();
+						if (count_iterations++ < 20) 
+						{
+							diag = (diagonal_scale == TRUE) ? true : false;
+							continue;
+						}
+						else
+						{
+							error_msg(sformatf("%s %d.", "Density calculation failed for initial solution ", solution_ref.Get_n_user()),
+								STOP);
+						}
+					}
+				}
+				break;
+			} 
 			diagonal_scale = (diag) ? TRUE : FALSE;
 			converge1 = check_residuals();
 			sum_species();
+			viscosity();
 			add_isotopes(solution_ref);
 			punch_all();
 			print_all();
@@ -753,6 +796,7 @@ initial_exchangers(int print)
 			converge = model();
 			converge1 = check_residuals();
 			sum_species();
+			viscosity();
 			species_list_sort();
 			print_exchange();
 			xexchange_save(n_user);
@@ -1041,6 +1085,7 @@ reactions(void)
 	rate_sim_time = 0;
 	for (reaction_step = 1; reaction_step <= count_steps; reaction_step++)
 	{
+		overall_iterations = 0;
 		sprintf(token, "Reaction step %d.", reaction_step);
 		if (reaction_step > 1 && incremental_reactions == FALSE)
 		{
@@ -1447,6 +1492,7 @@ xsolution_save(int n_user)
 	temp_solution.Set_description(description_x);
 	temp_solution.Set_tc(tc_x);
 	temp_solution.Set_patm(patm_x);
+	temp_solution.Set_potV(potV_x);
 	temp_solution.Set_ph(ph_x);
 	temp_solution.Set_pe(solution_pe_x);
 	temp_solution.Set_mu(mu_x);
@@ -1554,14 +1600,23 @@ xsolution_save(int n_user)
 	for (it = temp_solution.Get_isotopes().begin(); it != temp_solution.Get_isotopes().end(); it++)
 	{
 		struct master *iso_master_ptr = master_bsearch(it->second.Get_elt_name().c_str());
-		it->second.Set_total(iso_master_ptr->total);
-		if (iso_master_ptr == s_hplus->secondary)
+		if (iso_master_ptr != NULL)
 		{
-			it->second.Set_total(2 * mass_water_aq_x / gfw_water);
+			it->second.Set_total(iso_master_ptr->total);
+			if (iso_master_ptr == s_hplus->secondary)
+			{
+				it->second.Set_total(2 * mass_water_aq_x / gfw_water);
+			}
+			if (iso_master_ptr == s_h2o->secondary)
+			{
+				it->second.Set_total(mass_water_aq_x / gfw_water);
+			}
 		}
-		if (iso_master_ptr == s_h2o->secondary)
+		else
 		{
-			it->second.Set_total(mass_water_aq_x / gfw_water);
+			error_string = sformatf("Ignoring failed attempt to interpret %s as an isotope of element %s.",
+				it->second.Get_isotope_name().c_str(), it->second.Get_elt_name().c_str());
+			warning_msg(error_string);
 		}
 	}
 #ifdef SKIP

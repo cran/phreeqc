@@ -42,4 +42,3 @@ Other Selected Output: \code{\link{phrGetSelectedOutputFileName}},
   \code{\link{phrSetSelectedOutputFileName}},
   \code{\link{phrSetSelectedOutputFileOn}}
 }
-

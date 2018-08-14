@@ -44,4 +44,3 @@ Other Examples: \code{\link{ex10}}, \code{\link{ex11}},
   \code{\link{ex7}}, \code{\link{ex8}}, \code{\link{ex9}}
 }
 \keyword{dataset}
-

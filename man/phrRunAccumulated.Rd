@@ -62,4 +62,3 @@ Other Accumulate: \code{\link{phrAccumulateLine}},
 Other Run: \code{\link{phrRunFile}},
   \code{\link{phrRunString}}
 }
-

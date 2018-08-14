@@ -34,4 +34,3 @@ Other Log: \code{\link{phrGetLogFileOn}},
   \code{\link{phrSetLogFileOn}},
   \code{\link{phrSetLogStringsOn}}
 }
-

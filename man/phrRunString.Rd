@@ -53,4 +53,3 @@ Other Run: \code{\link{phrRunAccumulated}},
   \code{\link{phrRunFile}}
 }
 \keyword{interface}
-
