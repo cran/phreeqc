@@ -1,7 +1,7 @@
-219597113f9a11ffdca7aa9a20b6fe2d *DESCRIPTION
+9c4696d9703dd58570e441d7e0d135b5 *DESCRIPTION
 67793a3687708f9f3dd358098a6feb50 *LICENSE.note
 12d8baabead524f7d9bf3e89f941f833 *NAMESPACE
-d3757e684b6e2c09aaea8bbc843732a0 *R/phreeqc.R
+f1a270fa5a3e198d29aecfe94e90b9bb *R/phreeqc.R
 c184101881958722c79c38e43690b863 *data/databases.rda
 273205c97728e1444110b60e96d22c24 *data/examples.rda
 39ed79797a89a5b29b43fc080c8b359c *inst/CITATION
@@ -76,7 +76,7 @@ a5b78212b57a4edbbf237b6e30172c6a *man/phrSetOutputFileOn.Rd
 8827bbcb1f42d1e94dc70fa27727a42a *man/phrSetOutputStringsOn.Rd
 969ab8888d834007a9f7c6a4443d4a4e *man/phrSetSelectedOutputFileName.Rd
 b0ee3fd77bd8b34c963d1cb0457225a6 *man/phrSetSelectedOutputFileOn.Rd
-b081f09657dcaf0ec817f4270b829477 *man/phreeqc-package.Rd
+5af6be291e12f67a68d60da8c70a8ff1 *man/phreeqc-package.Rd
 76094ac3d32b692c49f679e9b3bc3acc *man/phreeqc.dat.Rd
 ccfe0f98c576e40b11e2d7a54b4dd1ee *man/pitzer.dat.Rd
 f09279d9e4fee9ee83ecef753d98f040 *man/sit.dat.Rd
@@ -87,7 +87,7 @@ c803b10b4176853664d4d3852588270b *src/CSelectedOutputhxx.h
 22c41c8cbffb1c6ac277eb50e1b958c7 *src/Debug.h
 32023d95baa6d74abe5952a40dfbc0e6 *src/ErrorReporterhxx.h
 460b588c72dbcbe4f3e32341a2a2b8bd *src/IPhreeqc.cpp
-73563176b792868a98eeaf6554c3e58c *src/IPhreeqc.h
+0c2af15053d62b0d5f2bc4123e5b3dbb *src/IPhreeqc.h
 a25b53313199d405c6512d137149c13c *src/IPhreeqcCallbacks.h
 f92ade22fb2791c6cee6bfd19cd53cdf *src/IPhreeqcLib.cpp
 01da2445e84b9fb31258bd4240176a2f *src/IPhreeqchpp.h
@@ -95,7 +95,7 @@ e0551340c996e20266e61afc305657bd *src/Makevars
 fffebafeeb71650aa7b513bb92e41676 *src/R.cpp
 8874027427ef3305af8c24d8de9a7a41 *src/Var.c
 8997baa021f221e3a691c08a541abf6f *src/Var.h
-4907289f1273eaacd3547abe24976c98 *src/Version.h
+089809d5838ca9b2a282524b1ca61265 *src/Version.h
 b7557b6dd8b9546325489a491b29fbfd *src/phreeqcpp/ChartHandler.cpp
 47a57d633c07edc82a2a8609301ec4d7 *src/phreeqcpp/ChartHandler.h
 0110c3821c166b107ad93a6d03a02857 *src/phreeqcpp/ChartObject.cpp
@@ -125,8 +125,8 @@ b15ea20cafafa517d7344d1c3a9fe160 *src/phreeqcpp/KineticsComp.cpp
 a6735f97b9b5c5b1bc94b2e02fea776d *src/phreeqcpp/NameDouble.h
 8c4e4af84253fe215ad2a94219aa9d81 *src/phreeqcpp/NumKeyword.cpp
 eacae8f3a9e93e501097de0933e468c1 *src/phreeqcpp/NumKeyword.h
-ee7d03141ecad0f20b06cb1cfa79a8d2 *src/phreeqcpp/PBasic.cpp
-0046d9f35a11380f0b0d199847d23b18 *src/phreeqcpp/PBasic.h
+71c79acd0b8795cc1b832ab1f91d34b2 *src/phreeqcpp/PBasic.cpp
+d18e289cbcc9cbad57f6fc09b01876a4 *src/phreeqcpp/PBasic.h
 0b2118236fcc57502c6573e3a2649a43 *src/phreeqcpp/PHRQ_base.cpp
 8e8394b100b44eba5bc646eb3cdfdeec *src/phreeqcpp/PHRQ_base.h
 0bbf12bbb06c5b66d0f27f10d1cb689b *src/phreeqcpp/PHRQ_io.cpp
@@ -138,7 +138,7 @@ aacfd22861357a60831739d501c21e7a *src/phreeqcpp/PPassemblage.h
 11b9d79be2db9d821d088f58961a73e5 *src/phreeqcpp/PPassemblageComp.h
 f9c3650773968e6d6b9be0d75b5e098d *src/phreeqcpp/Parser.cpp
 8c8088d865054e2b0d95cab7a1378fb0 *src/phreeqcpp/Parser.h
-c245e1804d2ddb87b6ecc2eba49d85fc *src/phreeqcpp/Phreeqc.cpp
+ec84e3950ebe83fce6a8172ef1dc160e *src/phreeqcpp/Phreeqc.cpp
 fb1ea74752b2eba2e570224404c8e409 *src/phreeqcpp/Phreeqc.h
 2996a7d2db355c4b1779d62da38bed91 *src/phreeqcpp/Pressure.cpp
 4e0b0065d87d395414a9e0563e9c8256 *src/phreeqcpp/Pressure.h
@@ -181,7 +181,7 @@ f601a4fe382bfa2f844ce4d921a07cc1 *src/phreeqcpp/Utils.cpp
 14ed98a4298ffb54370b1753e77a5951 *src/phreeqcpp/Utils.h
 efacdfee3b101c76676cdfa8c39c920f *src/phreeqcpp/advection.cpp
 3c094d3ba1def03022275b4ff86a0d9d *src/phreeqcpp/basicsubs.cpp
-4c9c0640535b099c24da1fe722bd2b9d *src/phreeqcpp/cl1.cpp
+cef9d67e5c14b046200188c51ecbb815 *src/phreeqcpp/cl1.cpp
 550b18040dc5680e584202de36c07197 *src/phreeqcpp/cvdense.cpp
 aa03f13248d9f6fbe8cc82a6ef5363dc *src/phreeqcpp/cvdense.h
 9b77894462d9a4a38941f73e60eec492 *src/phreeqcpp/cvode.cpp
@@ -230,6 +230,6 @@ e34cbaa0216f95d1c5a1bc0bd1686d9b *src/phreeqcpp/step.cpp
 c58a235638e4450bd393ebdcc6bb9204 *src/phreeqcpp/sundialstypes.h
 2d33be0bc190703936f1cc44e08d3761 *src/phreeqcpp/tally.cpp
 a250ac543ecbaadaac4d1adf2aa83d53 *src/phreeqcpp/tidy.cpp
-cde0701ed5715a3eabce9fdd60345437 *src/phreeqcpp/transport.cpp
-2aa059d7d73bdfa25bb8d2400fe8565e *src/phreeqcpp/utilities.cpp
+e68097b6a12fe9f0e31313a41bd48873 *src/phreeqcpp/transport.cpp
+7ebf20ac2c48b19600cf90cc566fd8d1 *src/phreeqcpp/utilities.cpp
 5e0f4db7ce81ab62231b89493d194c7e *src/thread.h
