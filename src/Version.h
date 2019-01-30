@@ -1,10 +1,11 @@
 #define NAME          "IPhreeqc"
 #define VER_MAJOR      3
 #define VER_MINOR      4
-#define VER_PATCH      9
+#define VER_PATCH      10
 #define VER_REVISION   13021
+#define GIT_COMMIT     9c72ce05b8ba3332c721bcda614566ec1a0dd184
 
-#define RELEASE_DATE           "August 14, 2018"
+#define RELEASE_DATE           "January 29, 2019"
 
 #define APR_STRINGIFY(n) APR_STRINGIFY_HELPER(n)
 #define APR_STRINGIFY_HELPER(n) #n
