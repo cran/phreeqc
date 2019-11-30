@@ -7,7 +7,7 @@
 phrGetDumpStringsOn()
 }
 \value{
-TRUE if errors are currently being written to file.
+TRUE if output as defined by the DUMP data block are currently being stored as a character vector.
 }
 \description{
 Retrieve the current value of the dump strings switch.

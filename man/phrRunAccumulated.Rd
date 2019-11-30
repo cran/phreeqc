@@ -25,6 +25,7 @@ has been successfully loaded by calls to either
 
 # turn on the output file
 phrSetOutputFileOn(TRUE)
+phrSetOutputFileName(file.path(tempdir(), "ex2.out"))
 
 # load the phreeqc.dat database
 phrLoadDatabaseString(phreeqc.dat)

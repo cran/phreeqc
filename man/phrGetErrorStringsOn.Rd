@@ -7,7 +7,7 @@
 phrGetErrorStringsOn()
 }
 \value{
-TRUE if errors are currently being written to file.
+TRUE if error messages are currently being stored as a character vector.
 }
 \description{
 Retrieve the current value of the error strings switch.

@@ -7,7 +7,7 @@
 phrGetLogStringsOn()
 }
 \value{
-TRUE if errors are currently being written to file.
+TRUE if log messages are currently being stored as a character vector.
 }
 \description{
 Retrieve the current value of the log strings switch.

@@ -1,5 +1,5 @@
 Package: phreeqc
-Version: 3.4.10
+Version: 3.6.0
 Title: R Interface to Geochemical Modeling Software
 License: GPL-3
 NeedsCompilation: yes
@@ -15,6 +15,6 @@ Description: A geochemical modeling program developed by the US Geological
 Maintainer: S.R. Charlton <charlton@usgs.gov>
 LazyData: yes
 RoxygenNote: 6.0.1
-Packaged: 2019-01-30 00:05:24 UTC; jenkins
+Packaged: 2019-11-29 23:54:44 UTC; jenkins
 Repository: CRAN
-Date/Publication: 2019-01-30 10:50:03 UTC
+Date/Publication: 2019-11-30 06:10:02 UTC

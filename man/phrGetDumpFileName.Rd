@@ -17,6 +17,7 @@ specified within DUMP input. The default value is dump.0.out.
 
 phrLoadDatabaseString(phreeqc.dat)
 phrSetDumpFileOn(TRUE)
+phrSetDumpFileName(file.path(tempdir(), "dump.out"))
 
 input <-              "SOLUTION 1 Pure water     \\n"
 input <- paste(input, "EQUILIBRIUM_PHASES 1      \\n")
@@ -30,7 +31,7 @@ input <- paste(input, "    -equilibrium_phases  1\\n")
 if (!is.null(phrRunString(input))) {
   cat(phrGetErrorStrings())
 }
-cat(paste("see ", phrGetDumpFileName(), "."))
+cat(paste("see ", phrGetDumpFileName(), ".\\n", sep = ""))
 
 
 }

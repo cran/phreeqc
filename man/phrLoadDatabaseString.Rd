@@ -25,6 +25,7 @@ All previous definitions are cleared.
 # output file and runs ex2 as a string
 phrLoadDatabaseString(phreeqc.dat)
 phrSetOutputFileOn(TRUE)
+phrSetOutputFileName(file.path(tempdir(), "ex2.load-database.out"))
 if (is.null(phrRunString(ex2))) {
   cat(paste("see ", phrGetOutputFileName(), ".\\n", sep = ""))
 }

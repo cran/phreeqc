@@ -31,7 +31,7 @@ input <- c(
   )
 
 if (is.null(phrRunString(input))) {
-  cat("see", phrGetDumpFileName(), "\\n")
+  cat(paste("see ", phrGetDumpFileName(), ".\\n", sep = ""))
 }
 
 }

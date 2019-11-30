@@ -39,10 +39,11 @@ input <- c(input, "  pH    7.0")
 
 # turn on output
 phrSetOutputFileOn(TRUE)
+phrSetOutputFileName(file.path(tempdir(), "pure_water.out"))
 
 # run input
 phrRunString(input)
-cat(paste("see", phrGetOutputFileName(), "."))
+cat(paste("see ", phrGetOutputFileName(), ".\\n", sep=""))
 
 }
 \references{

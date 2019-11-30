@@ -24,7 +24,7 @@ The selected_output file must be turned on using the \code{\link{phrSetSelectedO
 # and displays the name of the selected_output file.
 phrLoadDatabaseString(phreeqc.dat)
 phrSetSelectedOutputFileOn(1, TRUE)
-phrSetSelectedOutputFileName(1, "ex2.sel")
+phrSetSelectedOutputFileName(1, file.path(tempdir(), "ex2.sel"))
 
 input <- c( 
   'SOLUTION 1 Pure water     ',
@@ -39,7 +39,7 @@ input <- c(
 
 
 if (is.null(phrRunString(input))) {
-  cat("see", phrGetSelectedOutputFileName(1))
+  cat(paste("see ", phrGetSelectedOutputFileName(1), ".\\n", sep = ""))
 }
 
 }

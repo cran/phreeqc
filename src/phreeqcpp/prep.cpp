@@ -1405,11 +1405,11 @@ build_model(void)
 			write_mass_action_eqn_x(STOP);
 			trxn_reverse_k();
 			rxn_free(phases[i]->rxn_x);
-			if (debug_prep == TRUE)
-			{
-				output_msg(sformatf( "\nPhase: %s\n", phases[i]->name));
-				trxn_print();
-			}
+			//if (debug_prep == TRUE)
+			//{
+			//	output_msg(sformatf( "\nPhase: %s\n", phases[i]->name));
+			//	trxn_print();
+			//}
 			phases[i]->rxn_x = rxn_alloc(count_trxn + 1);
 			trxn_copy(phases[i]->rxn_x);
 			write_phase_sys_total(i);
@@ -4026,8 +4026,14 @@ calc_PR(std::vector<struct phase *> phase_ptrs, LDBLE P, LDBLE TK, LDBLE V_m)
 					a_aa *= 0.51;
 				else if (!strcmp(phase_ptr1->name, "Mtg(g)"))
 					a_aa *= 0.51;
+				else if (!strcmp(phase_ptr1->name, "Methane(g)"))
+					a_aa *= 0.51;
 				else if (!strcmp(phase_ptr1->name, "N2(g)"))
 					a_aa *= 0.51;
+				else if (!strcmp(phase_ptr1->name, "Ethane(g)"))
+					a_aa *= 0.51;
+				else if (!strcmp(phase_ptr1->name, "Propane(g)"))
+					a_aa *= 0.45;
 			}
 			if (!strcmp(phase_ptr1->name, "H2O(g)"))
 			{
@@ -4039,8 +4045,14 @@ calc_PR(std::vector<struct phase *> phase_ptrs, LDBLE P, LDBLE TK, LDBLE V_m)
 					a_aa *= 0.51;
 				else if (!strcmp(phase_ptr->name, "Mtg(g)"))
 					a_aa *= 0.51;
+				else if (!strcmp(phase_ptr->name, "Methane(g)"))
+					a_aa *= 0.51;
 				else if (!strcmp(phase_ptr->name, "N2(g)"))
 					a_aa *= 0.51;
+				else if (!strcmp(phase_ptr->name, "Ethane(g)"))
+					a_aa *= 0.51;
+				else if (!strcmp(phase_ptr->name, "Propane(g)"))
+					a_aa *= 0.45;
 			}
 			a_aa_sum += phase_ptr->fraction_x * phase_ptr1->fraction_x * a_aa;
 			a_aa_sum2 += phase_ptr1->fraction_x * a_aa;
@@ -5601,7 +5613,8 @@ calc_lk_phase(phase *p_ptr, LDBLE TK, LDBLE pa)
 				}
 			}
 		}
-		else if (s_x[i]->millero[0])
+		//else if (s_x[i]->millero[0])
+		else if (s_ptr->millero[0])
 		{
 		/* Millero volume at I = 0... */
 			d_v += s_ptr->millero[0] + tc * (s_ptr->millero[1] + tc * s_ptr->millero[2]);
@@ -6021,6 +6034,8 @@ check_same_model(void)
 		last_model.force_prep = FALSE;
 		return (FALSE);
 	}
+	if (state == TRANSPORT && cell_data[cell_no].same_model)
+		return TRUE;
 /*
  *   Check master species
  */

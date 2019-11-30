@@ -532,15 +532,15 @@ check_residuals(void)
 		{
 			if (x[i]->ss_in == FALSE)
 				continue;
-			if (x[i]->moles <= MIN_TOTAL_SS)
-				continue;
+			//if (x[i]->moles <= 1e2*MIN_TOTAL)
+			//	continue;
 			if (residual[i] >= epsilon
 				|| residual[i] <= -epsilon /* || stop_program == TRUE */ )
 			{
 				error_string = sformatf(
 						"%20s Total moles in solid solution has not converged. "
-						"\tResidual: %e\n", x[i]->description,
-						(double) residual[i]);
+						"\tResidual: %e  %e\n", x[i]->description,
+						(double) residual[i], x[i]->moles);
 				error_msg(error_string, CONTINUE);
 			}
 		}
@@ -563,14 +563,14 @@ gammas(LDBLE mu)
  */
 	int i, j;
 	int ifirst, ilast;
-	LDBLE d1, d2, d3, f, a_llnl, b_llnl, bdot_llnl, log_g_co2, dln_g_co2, c2_llnl;
+	LDBLE f, a_llnl, b_llnl, bdot_llnl, log_g_co2, dln_g_co2, c2_llnl;
 
 	LDBLE c1, c2, a, b;
 	LDBLE muhalf, equiv;
 	/* Initialize */
 	if (mu <= 0) mu = 1e-10;
 	if (pitzer_model == TRUE)
-		return gammas_pz();
+		return gammas_pz(true);
 	if (sit_model == TRUE)
 		return gammas_sit();
 	a_llnl = b_llnl = bdot_llnl = log_g_co2 = dln_g_co2 = c2_llnl = 0;
@@ -683,105 +683,102 @@ gammas(LDBLE mu)
 /*
  *   Find CEC
  *   z contains charge of cation for exchange species, alk contains cec
+ *   correct activity for Gapon-type exchange eqns: Ca0.5X uses (gamma_Ca)^0.5
  */
-/* !!!!! */
-			for (j = 1; s_x[i]->rxn_x->token[j].s != NULL; j++)
+			if (calculating_deriv)
+				continue;
 			{
-				if (s_x[i]->rxn_x->token[j].s->type == EX)
+				LDBLE coef = 0, z = 0;
+				for (j = 1; s_x[i]->rxn_x->token[j].s != NULL; j++)
 				{
-					s_x[i]->alk =
-						s_x[i]->rxn_x->token[j].s->primary->unknown->moles;
-					break;
+					if (s_x[i]->rxn_x->token[j].s->type == EX)
+					{
+						s_x[i]->alk =
+							s_x[i]->rxn_x->token[j].s->primary->unknown->moles;
+						//break;
+					}
+					else if (s_x[i]->rxn_x->token[j].s->type <= HPLUS)
+					{
+						coef = s_x[i]->rxn_x->token[j].coef;
+						z = s_x[i]->rxn_x->token[j].s->z;
+					}
 				}
-			}
-			if (s_x[i]->exch_gflag == 1 && s_x[i]->alk > 0)
-			{
-				/* Davies */
-				d1 = s_x[i]->lg;
-				s_x[i]->lg = -s_x[i]->equiv * s_x[i]->equiv * a *
-					(muhalf / (1.0 + muhalf) - 0.3 * mu) +
-					log10(fabs(s_x[i]->equiv) / s_x[i]->alk);
-				if (s_x[i]->a_f && s_x[i]->primary == NULL)
+				if (!use.Get_exchange_ptr()->Get_pitzer_exchange_gammas())
 				{
-					d2 = s_x[i]->moles * s_x[i]->equiv / s_x[i]->alk;
-					if (d2 > 1) d2 = 1;
-					d2 = s_x[i]->lg - s_x[i]->a_f * (1 - d2);
-					d3 = 0.89;
-					if (iterations < 10) d3 = 0.7; else d3 = 0.89;
-					s_x[i]->lg = d3 * d1 + (1 - d3) * d2;
-				}
-				s_x[i]->dg =
-					c1 * s_x[i]->equiv * s_x[i]->equiv * s_x[i]->moles;
-			}
-			else if (s_x[i]->exch_gflag == 2 && s_x[i]->alk > 0)
-			{
-				/* Extended D-H, WATEQ D-H */
-				d1 = s_x[i]->lg;
-				s_x[i]->lg = -a * muhalf * s_x[i]->equiv * s_x[i]->equiv /
-					(1.0 + s_x[i]->dha * b * muhalf) + s_x[i]->dhb * mu +
-					log10(fabs(s_x[i]->equiv) / s_x[i]->alk);
-				if (s_x[i]->a_f && s_x[i]->primary == NULL)
-				{
-					d2 = s_x[i]->moles * s_x[i]->equiv / s_x[i]->alk;
-					if (d2 > 1) d2 = 1;
-					d2 = s_x[i]->lg - s_x[i]->a_f * (1 - d2);
-					d3 = 0.89;
-					if (iterations < 10) d3 = 0.7; else d3 = 0.89;
-					s_x[i]->lg = d3 * d1 + (1 - d3) * d2;
-				}
-				s_x[i]->dg = (c2 * s_x[i]->equiv * s_x[i]->equiv /
-							  ((1.0 + s_x[i]->dha * b * muhalf) * (1.0 +
-																   s_x[i]->
-																   dha * b *
-																   muhalf)) +
-							  s_x[i]->dhb) * LOG_10 * s_x[i]->moles;
-			}
-			else if (s_x[i]->exch_gflag == 7 && s_x[i]->alk > 0)
-			{
-				if (llnl_count_temp > 0)
-				{
-					s_x[i]->lg =
-						-a_llnl * muhalf * s_x[i]->equiv * s_x[i]->equiv /
-						(1.0 + s_x[i]->dha * b_llnl * muhalf) +
-						bdot_llnl * mu +
-						log10(fabs(s_x[i]->equiv) / s_x[i]->alk);
-					s_x[i]->dg =
-						(c2_llnl * s_x[i]->equiv * s_x[i]->equiv /
-						 ((1.0 + s_x[i]->dha * b_llnl * muhalf) * (1.0 +
-																   s_x[i]->
-																   dha *
-																   b_llnl *
-																   muhalf)) +
-						 bdot_llnl) * LOG_10 * s_x[i]->moles;
-				}
-				else
-				{
-					error_msg("LLNL_AQUEOUS_MODEL_PARAMETERS not defined.",
-							  STOP);
-				}
-			}
-			else
-			{
-/*
- *   Master species is a dummy variable with meaningless activity and mass
- */
-				if (s_x[i]->primary != NULL)
-				{
-					s_x[i]->lg = 0.0;
-					s_x[i]->dg = 0.0;
-				}
-				else
-				{
-					if (s_x[i]->alk <= 0)
+					if (s_x[i]->primary != NULL)
 					{
 						s_x[i]->lg = 0.0;
+						s_x[i]->dg = 0.0;
 					}
 					else
 					{
-						s_x[i]->lg = log10(fabs(s_x[i]->equiv) / s_x[i]->alk);
+						if (s_x[i]->alk <= 0)
+							s_x[i]->lg = 0.0;
+						else
+							s_x[i]->lg = log10(fabs(s_x[i]->equiv) / s_x[i]->alk);
+						s_x[i]->dg = 0.0;
 					}
-					s_x[i]->dg = 0.0;
 				}
+				else if (s_x[i]->exch_gflag == 1 && s_x[i]->alk > 0)
+				{
+					/* Davies */
+					s_x[i]->lg = -coef * z * z * a *
+						(muhalf / (1.0 + muhalf) - 0.3 * mu) +
+						log10(fabs(s_x[i]->equiv) / s_x[i]->alk);
+					s_x[i]->dg =
+						c1 * coef * z * z * s_x[i]->moles;
+				}
+				else if (s_x[i]->exch_gflag == 2 && s_x[i]->alk > 0)
+				{
+					/* Extended D-H, WATEQ D-H */
+					s_x[i]->lg = coef * (-a * muhalf * z * z /
+						(1.0 + s_x[i]->dha * b * muhalf) + s_x[i]->dhb * mu) +
+						log10(fabs(s_x[i]->equiv) / s_x[i]->alk);
+					s_x[i]->dg = coef * (c2 * z * z /
+						((1.0 + s_x[i]->dha * b * muhalf) * (1.0 + s_x[i]->dha * b * muhalf)) +
+						s_x[i]->dhb) * LOG_10 * s_x[i]->moles;
+				}
+				else if (s_x[i]->exch_gflag == 7 && s_x[i]->alk > 0)
+				{
+					if (llnl_count_temp > 0)
+					{
+						s_x[i]->lg =
+							coef * (-a_llnl * muhalf * z * z /
+							(1.0 + s_x[i]->dha * b_llnl * muhalf) +
+								bdot_llnl * mu) +
+							log10(fabs(s_x[i]->equiv) / s_x[i]->alk);
+						s_x[i]->dg =
+							coef * (c2_llnl * z * z /
+							((1.0 + s_x[i]->dha * b_llnl * muhalf) * (1.0 + s_x[i]->dha * b_llnl * muhalf)) +
+								bdot_llnl) * LOG_10 * s_x[i]->moles;
+					}
+					else
+					{
+						error_msg("LLNL_AQUEOUS_MODEL_PARAMETERS not defined.",
+							STOP);
+					}
+				}
+				else
+				{
+					/*
+					 *   Master species is a dummy variable with meaningless activity and mass
+					 */
+					if (s_x[i]->primary != NULL)
+					{
+						s_x[i]->lg = 0.0;
+						s_x[i]->dg = 0.0;
+					}
+					else
+					{
+						if (s_x[i]->alk <= 0)
+							s_x[i]->lg = 0.0;
+						else
+							s_x[i]->lg = log10(fabs(s_x[i]->equiv) / s_x[i]->alk);
+						s_x[i]->dg = 0.0;
+					}
+				}
+				if (s_x[i]->a_f && s_x[i]->primary == NULL && s_x[i]->moles)
+					gammas_a_f(i); // appt
 			}
 			break;
 		case 5:				/* Always 1.0 */
@@ -877,6 +874,57 @@ gammas(LDBLE mu)
  */
 	}
 	return (OK);
+}
+/* ------------------------------------------------------------------------------- */
+int Phreeqc::gammas_a_f(int i1)
+/* ------------------------------------------------------------------------------- */
+{
+	int i, j;
+	//LDBLE d2, d3, coef = 0, sum = 0;
+	LDBLE d2, d3, sum = 0;
+	char name[MAX_LENGTH];
+	//struct master *m_ptr;
+
+	i = i1;
+	for (j = 1; s_x[i]->rxn_x->token[j].s != NULL; j++)
+	{
+		if (s_x[i]->rxn_x->token[j].s->type == EX)
+		{
+			strcpy(name, s_x[i]->rxn_x->token[j].s->name);
+			//m_ptr = s_x[i]->rxn_x->token[j].s->primary->elt->master; // appt debug
+			break;
+		}
+	}
+
+	for (i = 0; i < count_s_x; i++)
+	{
+		if (s_x[i]->gflag != 4 || s_x[i]->primary)
+			continue;
+		for (j = 1; s_x[i]->rxn_x->token[j].s != NULL; j++)
+		{
+			if (s_x[i]->rxn_x->token[j].s->type == EX)
+			{
+				if (!strcmp(name, s_x[i]->rxn_x->token[j].s->name))
+					sum += s_x[i]->moles * s_x[i]->equiv;
+				break;
+			}
+		}
+	}
+	i = i1;
+	d2 = s_x[i]->moles * s_x[i]->equiv / sum;
+	if (d2 > 1) d2 = 1;
+	//if (iterations > 19)
+	//	i += 0; // appt debug
+
+	d3 = 0.5;
+	if (s_x[i]->a_f > 2)
+	{
+		d3 += (s_x[i]->a_f - 2) / 10; if (d3 > 0.8) d3 = 0.8;
+	}
+	d2 = s_x[i]->dw_a * d3 + (1 - d3) * d2;
+	s_x[i]->lg -= s_x[i]->a_f * (1 - d2);
+	s_x[i]->dw_a = d2;
+	return 0;
 }
 /* ------------------------------------------------------------------------------- */
 int Phreeqc::
@@ -1650,7 +1698,7 @@ ineq(int in_kode)
  */
 	for (i = 0; i < count_unknowns; i++)
 	{
-		if ((x[i]->type == PP || x[i]->type == SS_MOLES)
+		if ((x[i]->type == PP || x[i]->type == SS_MOLES) && x[i]->phase->in == TRUE 
 			&& pp_column_scale != 1.0)
 		{
 			for (j = 0; j < l_count_rows; j++)
@@ -2173,12 +2221,20 @@ mb_ss(void)
 	{
 		cxxSS *ss_ptr = ss_ptrs[i];
 		total_moles = 0;
+		//bool ss_in = true;
 		for (size_t j = 0; j < ss_ptr->Get_ss_comps().size(); j++)
 		{
+			int l;
+			struct phase *phase_ptr = phase_bsearch(ss_ptr->Get_ss_comps()[j].Get_name().c_str(), &l, FALSE);
+			if (phase_ptr->in == FALSE)
+			{
+				continue;
+			}
 			cxxSScomp *comp_ptr = &(ss_ptr->Get_ss_comps()[j]);
 			total_moles += comp_ptr->Get_moles();
+
 		}
-		if (total_moles > 1e-13)
+		if (total_moles > 1.e10*MIN_TOTAL)
 		{
 			ss_ptr->Set_ss_in(true);
 		}
@@ -2190,7 +2246,7 @@ mb_ss(void)
 			/*
 			 *  Calculate IAPc and IAPb
 			 */
-			if (phase0_ptr->rxn_x != NULL)
+			if (phase0_ptr->in == TRUE && phase0_ptr->rxn_x != NULL)
 			{
 				log10_iap = 0;
 				for (rxn_ptr = phase0_ptr->rxn_x->token + 1;
@@ -2204,7 +2260,7 @@ mb_ss(void)
 			{
 				iapc = 1e-99;
 			}
-			if (phase1_ptr->rxn_x != NULL)
+			if (phase1_ptr->in == TRUE && phase1_ptr->rxn_x != NULL)
 			{
 				log10_iap = 0;
 				for (rxn_ptr = phase1_ptr->rxn_x->token + 1;
@@ -2294,9 +2350,12 @@ mb_ss(void)
 	{
 		if (x[i]->type != SS_MOLES)
 			break;
-		//cxxSS *ss_ptr = use.Get_ss_assemblage_ptr()->Find(x[i]->ss_name);
 		cxxSS *ss_ptr = (cxxSS *) x[i]->ss_ptr;
-		x[i]->ss_in = ss_ptr->Get_ss_in() ? TRUE : FALSE;
+		x[i]->ss_in = FALSE;
+		if (x[i]->phase->in == TRUE && ss_ptr->Get_ss_in())
+		{
+			x[i]->ss_in = TRUE;
+		}
 	}
 	return (OK);
 }
@@ -2963,7 +3022,8 @@ ss_binary(cxxSS *ss_ptr)
 /* ---------------------------------------------------------------------- */
 {
 	LDBLE nb, nc, n_tot, xb, xc, dnb, dnc, l_a0, l_a1;
-	LDBLE xb2, xb3, xb4, xc2, xc3;
+	//LDBLE xb2, xb3, xb4, xc2, xc3;
+	LDBLE xb2, xc2;
 	LDBLE xb1, xc1;
 /*
  * component 0 is major component
@@ -3050,10 +3110,10 @@ ss_binary(cxxSS *ss_ptr)
 			comp1_ptr->Get_log10_lambda();
 
 		xc2 = xc * xc;
-		xc3 = xc2 * xc;
+		//xc3 = xc2 * xc;
 		xb2 = xb * xb;
-		xb3 = xb2 * xb;
-		xb4 = xb3 * xb;
+		//xb3 = xb2 * xb;
+		//xb4 = xb3 * xb;
 		/* xb4 = xb4; */
 		/* xc3 = xc3; */
 
@@ -3167,7 +3227,7 @@ reset(void)
  */
 		for (i = 0; i < count_unknowns; i++)
 		{
-			if (x[i]->type == PP || x[i]->type == SS_MOLES)
+			if ((x[i]->type == PP || x[i]->type == SS_MOLES) && x[i]->phase->in == TRUE)
 			{
 
 				if (delta[i] < -1e8)
@@ -3186,21 +3246,21 @@ reset(void)
 					assert(comp_ptr);
 					if ((delta[i] < 0.0)
 						&& (-delta[i] >
-							(comp_ptr->Get_initial_moles() - x[i]->moles)))
+						(comp_ptr->Get_initial_moles() - x[i]->moles)))
 					{
 						if ((comp_ptr->Get_initial_moles() - x[i]->moles) !=
 							0.0)
 						{
 							f0 = fabs(delta[i] /
-									  (comp_ptr->Get_initial_moles() -
-									   x[i]->moles));
+								(comp_ptr->Get_initial_moles() -
+									x[i]->moles));
 							if (f0 > factor)
 							{
 								if (debug_model == TRUE)
 								{
 									output_msg(sformatf(
-											   "%-10.10s, Precipitating too much dissolve_only mineral.\tDelta %e\tCurrent %e\tInitial %e\n",
-											   x[i]->description,
+										"%-10.10s, Precipitating too much dissolve_only mineral.\tDelta %e\tCurrent %e\tInitial %e\n",
+										x[i]->description,
 											   (double) delta[i],
 											   (double) x[i]->moles,
 											   (double) comp_ptr->Get_initial_moles()));
@@ -3213,9 +3273,9 @@ reset(void)
 							if (debug_model == TRUE)
 							{
 								output_msg(sformatf(
-										   "%-10.10s, Precipitating dissolve_only mineral.\tDelta %e\n",
-										   x[i]->description,
-										   (double) delta[i]));
+									"%-10.10s, Precipitating dissolve_only mineral.\tDelta %e\n",
+									x[i]->description,
+								    (double) delta[i]));
 							}
 							delta[i] = 0;
 						}
@@ -3230,7 +3290,7 @@ reset(void)
 						if (debug_model == TRUE)
 						{
 							output_msg(sformatf(
-									   "%-10.10s, Removing more than total mineral.\t%f\n",
+								"%-10.10s, Removing more than total mineral.\t%f\n",
 									   x[i]->description, (double) f0));
 						}
 						factor = f0;
@@ -3241,17 +3301,17 @@ reset(void)
 					if (debug_model == TRUE)
 					{
 						output_msg(sformatf(
-								   "%-10.10s\tDelta: %e\tMass: %e   "
-								   "Dissolving mineral with 0.0 mass.\n ",
+							"%-10.10s\tDelta: %e\tMass: %e   "
+							"Dissolving mineral with 0.0 mass.\n ",
 								   x[i]->description, (double) delta[i],
 								   (double) x[i]->moles));
 					}
 					delta[i] = 0.0;
 				}
 				else if (x[i]->ss_comp_name != NULL && delta[i] < -x[i]->phase->delta_max)
-				// Uses delta_max computed in step
-				// delta_max is the maximum amount of the mineral that could form based
-				// on the limiting element in the system
+					// Uses delta_max computed in step
+					// delta_max is the maximum amount of the mineral that could form based
+					// on the limiting element in the system
 				{
 					f0 = -delta[i] / x[i]->phase->delta_max;
 					if (f0 > factor)
@@ -3259,8 +3319,36 @@ reset(void)
 						if (debug_model == TRUE)
 						{
 							output_msg(sformatf(
-									   "%-10.10s, Precipitating too much mineral.\t%f\n",
+								"%-10.10s, Precipitating too much mineral.\t%f\n",
 									   x[i]->description, (double) f0));
+						}
+						factor = f0;
+					}
+				}
+				else if (x[i]->ss_comp_name != NULL && delta[i] < -pe_step_size*x[i]->moles)
+				{
+					f0 = (-delta[i]) / (pe_step_size*x[i]->moles);
+					if (f0 > factor)
+					{
+						if (debug_model == TRUE)
+						{
+							output_msg(sformatf(
+								"%-10.10s, Precipitating too much mineral.\t%f\n",
+								x[i]->description, (double)f0));
+						}
+						factor = f0;
+					}
+				}
+				else if (x[i]->ss_comp_name != NULL && delta[i] > x[i]->moles/ pe_step_size)
+				{
+					f0 = (delta[i]) / (x[i]->moles/ pe_step_size);
+					if (f0 > factor)
+					{
+						if (debug_model == TRUE)
+						{
+							output_msg(sformatf(
+								"%-10.10s, Precipitating too much mineral.\t%f\n",
+								x[i]->description, (double)f0));
 						}
 						factor = f0;
 					}
@@ -3848,7 +3936,7 @@ reset(void)
 			}
 			last_patm_x = patm_x;
 		}
-		else if (x[i]->type == SS_MOLES)
+		else if (x[i]->type == SS_MOLES && x[i]->ss_in == TRUE)
 		{
 
 			/*if (fabs(delta[i]) > epsilon) converge=FALSE; */
@@ -4206,8 +4294,10 @@ residuals(void)
 		}
 		else if (x[i]->type == SS_MOLES)
 		{
+			if (x[i]->ss_in == FALSE)
+				continue;
 			residual[i] = x[i]->f * LOG_10;
-			if (fabs(residual[i]) > l_toler && x[i]->ss_in == TRUE)
+			if (fabs(residual[i]) > l_toler)
 			{
 				if (print_fail)
 					output_msg(sformatf(
@@ -4758,7 +4848,7 @@ initial_guesses(void)
  */
 	int i;
 	cxxSolution *solution_ptr;
-
+	// mu_x is reset here, but the real, already calculated mu_x must be used for INITIAL_EXCHANGE & _SURFACE appt
 	solution_ptr = use.Get_solution_ptr();
 	mu_x =
 		s_hplus->moles +
@@ -5477,11 +5567,11 @@ numerical_jacobian(void)
 	int i, j;
 	cxxGasPhase *gas_phase_ptr = use.Get_gas_phase_ptr();
 	if (!
-		(numerical_deriv || 
+		(numerical_deriv ||
 		(use.Get_surface_ptr() != NULL && use.Get_surface_ptr()->Get_type() == cxxSurface::CD_MUSIC) ||
-		(gas_phase_ptr != NULL && gas_phase_ptr->Get_type() == cxxGasPhase::GP_VOLUME && 
-		(gas_phase_ptr->Get_pr_in() || force_numerical_fixed_volume) && numerical_fixed_volume) 
-		))
+			(gas_phase_ptr != NULL && gas_phase_ptr->Get_type() == cxxGasPhase::GP_VOLUME &&
+			(gas_phase_ptr->Get_pr_in() || force_numerical_fixed_volume) && numerical_fixed_volume)
+			))
 		return(OK);
 
 	calculating_deriv = TRUE;

@@ -22,14 +22,15 @@ option in order to receive an log messages.
 
 # This example runs ex2 with the log file turned on.
 phrLoadDatabaseString(phreeqc.dat)
-phrSetLogStringsOn(TRUE)
+phrSetLogFileOn(TRUE)
+phrSetLogFileName(file.path(tempdir(), "ex2.log"))
 
 # turn logging on
 phrAccumulateLine("KNOBS; -logfile true")
 phrRunAccumulated()
 
 if (is.null(phrRunString(ex2))) {
-  cat("see", phrGetLogFileName(), "\\n")
+  cat(paste("see ", phrGetLogFileName(), ".\\n", sep = ""))
 }
 
 }

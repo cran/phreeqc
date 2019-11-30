@@ -7,7 +7,7 @@
 phrGetDumpFileOn()
 }
 \value{
-TRUE if errors are currently being written to file.
+TRUE if output as defined by the DUMP data block are currently being written to file.
 }
 \description{
 Retrieve the current value of the dump file switch.

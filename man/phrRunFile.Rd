@@ -25,7 +25,7 @@ if (!file.exists("ex2")) writeLines(ex2, "ex2")
 
 # run ex2
 if (is.null(phrRunFile("ex2"))) {
-  cat("use phrGetSelectedOutput() to see results.")
+  cat("use phrGetSelectedOutput() to see results.\\n")
 }
 
 unlink("ex2")  # tidy up

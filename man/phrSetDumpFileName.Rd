@@ -19,7 +19,7 @@ within the DUMP keyword block. The default value is dump.0.out.
 # dump results to file.
 phrLoadDatabaseString(phreeqc.dat)
 phrSetDumpFileOn(TRUE)
-phrSetDumpFileName("phreeqc.dump")
+phrSetDumpFileName(file.path(tempdir(), "phreeqc.dump"))
 input <- c( 
   'SOLUTION 1 Pure water     ',
   'EQUILIBRIUM_PHASES 1      ',
@@ -32,7 +32,7 @@ input <- c(
   )
 
 if (is.null(phrRunString(input))) {
-  cat("see", phrGetDumpFileName(), "\\n")
+  cat(paste("see ", phrGetDumpFileName(), ".\\n", sep = ""))
 }
 
 }

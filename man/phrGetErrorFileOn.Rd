@@ -7,7 +7,7 @@
 phrGetErrorFileOn()
 }
 \value{
-TRUE if errors are currently being written to file.
+TRUE if error messages are currently being written to file.
 }
 \description{
 Retrieve the current value of the error file switch.

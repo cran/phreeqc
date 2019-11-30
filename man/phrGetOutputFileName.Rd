@@ -17,6 +17,7 @@ Retrieves the name of the output file. The default name is phreeqc.0.out.
 # This example equilibrates pure water with gypsum with the output file on.
 phrLoadDatabaseString(phreeqc.dat)
 phrSetOutputFileOn(TRUE)
+phrSetOutputFileName(file.path(tempdir(), "gypsum.out"))
 
 input <- vector(mode="character")
 input <- c(input, "SOLUTION 1 Pure water ")

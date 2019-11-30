@@ -24,6 +24,8 @@ phrSetOutputStringsOn(TRUE)
 phrSetSelectedOutputFileOn(1, TRUE)
 phrRunString(ex8)
 phrGetOutputStrings()
+# cleanup
+unlink(c("ex8.sel", "Zn1e_7", "Zn1e_4"))
 
 }
 \references{

@@ -7,7 +7,7 @@
 phrGetLogFileOn()
 }
 \value{
-TRUE if errors are currently being written to file.
+TRUE if log messages are currently being written to file.
 }
 \description{
 Retrieve the current value of the log file switch.

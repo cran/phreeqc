@@ -21,9 +21,9 @@ The try is necessary to keep the error message from displaying immediately.
 # This example attempts to run ex1, fails, and writes the error
 # message to the error file (no database is loaded).
 phrSetErrorFileOn(TRUE)
-phrSetErrorFileName("phreeqc.errors")
+phrSetErrorFileName(file.path(tempdir(), "phreeqc.errors"))
 if (!is.null(try(phrRunString(ex1), silent=TRUE))) {
-  cat("see", phrGetErrorFileName(), "\\n")
+  cat(paste("see ", phrGetErrorFileName(), ".\\n", sep = ""))
 }
 
 }

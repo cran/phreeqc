@@ -34,6 +34,7 @@ phrAccumulateLine("        -temperature")
 phrAccumulateLine("        -si     anhydrite  gypsum")
 phrAccumulateLine("END")
 phrSetOutputFileOn(TRUE)
+phrSetOutputFileName(file.path(tempdir(), "ex2.output"))
 if (is.null(phrRunAccumulated())) {
   cat(paste("see ", phrGetOutputFileName(), ".\\n", sep = ""))
 }

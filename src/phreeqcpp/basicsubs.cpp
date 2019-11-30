@@ -1392,8 +1392,9 @@ get_calculate_value(const char *name)
 	{
 		error_string = sformatf( "CALC_VALUE Basic function, %s not found.",
 				name);
-		error_msg(error_string, CONTINUE);
-		input_error++;
+		//error_msg(error_string, CONTINUE);
+		//input_error++;
+		warning_msg(error_string);
 		return (MISSING);
 	}
 	if (name == NULL)
@@ -1469,7 +1470,8 @@ kinetics_moles(const char *kinetics_name)
 
 	error_string = sformatf( "No data for rate %s in KINETICS keyword.",
 			kinetics_name);
-	warning_msg(error_string);
+	//if (count_warnings >= 0) // appt debug cvode
+	//	warning_msg(error_string);
 	return (0);
 }
 /* ---------------------------------------------------------------------- */
@@ -2444,43 +2446,58 @@ surf_total(const char *total_name, const char *surface_name)
 
 		// surface matches, now match element or redox state
 		struct rxn_token *rxn_ptr;
-		for (rxn_ptr = s_x[j]->rxn_s->token + 1; rxn_ptr->s != NULL; rxn_ptr++)
+		if (s_x[j]->mole_balance == NULL)
 		{
-			if (redox && rxn_ptr->s->secondary)
+			for (rxn_ptr = s_x[j]->rxn_s->token + 1; rxn_ptr->s != NULL; rxn_ptr++)
 			{
-				token = rxn_ptr->s->secondary->elt->name;
-			}
-			else if (!redox && rxn_ptr->s->secondary)
-			{
-				token = rxn_ptr->s->secondary->elt->primary->elt->name;
-			}
-			else if (!redox && rxn_ptr->s->primary)
-			{
-				token = rxn_ptr->s->primary->elt->name;
-			}
-			else
-			{
-				continue;
-			}
-			if (strcmp(token.c_str(), total_name) == 0)
-			{
-				t += rxn_ptr->coef * s_x[j]->moles;
-				break;
-			}
-			else
-			// sum all sites in case total_name is a surface name without underscore surf ("Hfo_w", "Hfo")
-			{
-				if (rxn_ptr->s->type == SURF)
+				if (redox && rxn_ptr->s->secondary)
 				{
-					if (token.find("_") != std::string::npos)
+					token = rxn_ptr->s->secondary->elt->name;
+				}
+				else if (!redox && rxn_ptr->s->secondary)
+				{
+					token = rxn_ptr->s->secondary->elt->primary->elt->name;
+				}
+				else if (!redox && rxn_ptr->s->primary)
+				{
+					token = rxn_ptr->s->primary->elt->name;
+				}
+				else
+				{
+					continue;
+				}
+				if (strcmp(token.c_str(), total_name) == 0)
+				{
+					t += rxn_ptr->coef * s_x[j]->moles;
+					break;
+				}
+				else
+					// sum all sites in case total_name is a surface name without underscore surf ("Hfo_w", "Hfo")
+				{
+					if (rxn_ptr->s->type == SURF)
 					{
-						token = token.substr(0, token.find("_"));
+						if (token.find("_") != std::string::npos)
+						{
+							token = token.substr(0, token.find("_"));
+						}
+						if (strcmp(token.c_str(), total_name) == 0)
+						{
+							t += rxn_ptr->coef * s_x[j]->moles;
+							break;
+						}
 					}
-					if (strcmp(token.c_str(), total_name) == 0)
-					{
-						t += rxn_ptr->coef * s_x[j]->moles;
-						break;
-					}
+				}
+			}
+		}
+		else
+		{
+			for (int i = 0; s_x[j]->next_secondary[i].elt != NULL; i++)
+			{
+				token = s_x[j]->next_secondary[i].elt->name;
+				if (strcmp(token.c_str(), total_name) == 0)
+				{
+					t += s_x[j]->next_secondary[i].coef * s_x[j]->moles;
+					break;
 				}
 			}
 		}

@@ -22,7 +22,7 @@ option in order to receive any log messages.
 # the log file name.
 phrLoadDatabaseString(phreeqc.dat)
 phrSetLogFileOn(TRUE)
-phrSetLogFileName("phreeqc.log")
+phrSetLogFileName(file.path(tempdir(), "phreeqc.log"))
 input <- c( 
   'SOLUTION 1 Pure water ',
   'EQUILIBRIUM_PHASES 1  ',
@@ -32,7 +32,7 @@ input <- c(
   )
 
 if (is.null(phrRunString(input))) {
-  cat("see", phrGetLogFileName(), "\\n")
+  cat(paste("see ", phrGetLogFileName(), ".\\n", sep = ""))
 }
 
 }

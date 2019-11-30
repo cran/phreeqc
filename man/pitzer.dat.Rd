@@ -8,7 +8,7 @@
 \url{http://wwwbrr.cr.usgs.gov/projects/GWC_coupled/phreeqc}
 }
 \usage{
-pitzer  # phrLoadDatabaseString(pitzer.dat)
+pitzer.dat  # phrLoadDatabaseString(pitzer.dat)
 }
 \description{
 pitzer.dat is a database for the specific-ion-interaction model

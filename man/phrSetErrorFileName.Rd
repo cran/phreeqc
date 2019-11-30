@@ -14,11 +14,10 @@ Sets the name of the error file. The default value is phreeqc.0.err.
 }
 \examples{
 
-# This example equilibrates pure water with calcite and displays
-# the log file name.
-phrLoadDatabaseString(phreeqc.dat)
-phrSetLogFileOn(TRUE)
-phrSetLogFileName("phreeqc.log")
+# This example attempts to run a input string, fails and writes
+# the error message to the error file (no database is loaded).
+phrSetErrorFileOn(TRUE)
+phrSetErrorFileName(file.path(tempdir(), "phreeqc.errors"))
 input <- c( 
   'SOLUTION 1 Pure water ',
   'EQUILIBRIUM_PHASES 1  ',
@@ -26,7 +25,7 @@ input <- c(
   )
 
 if (is.null(phrRunString(input))) {
-  cat("see", phrGetErrorFileName(), "\\n")
+  cat(paste("see ", phrGetErrorFileName(), ".\\n", sep = ""))
 }
 
 }

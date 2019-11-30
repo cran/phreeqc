@@ -12,6 +12,7 @@
 #include "SSassemblage.h"
 #include "cxxKinetics.h"
 #include "Solution.h"
+#include "Surface.h"
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 array_print(LDBLE * array_l, int row_count, int column_count,
@@ -519,8 +520,7 @@ print_exchange(void)
 /*
  *   Print species data
  */
-/* !!!!! */
-		if (master_ptr->total > 1.0e-10)
+		if (master_ptr->total > 1.0e-16)
 		{
 			if (species_list[i].s->equiv != 0.0)
 			{
@@ -1353,8 +1353,9 @@ print_pp_assemblage(void)
 	{
 		if (x[j]->type != PP)
 			continue;
+		//cxxPPassemblage * pp_assemblage_ptr = Utilities::Rxn_find(Rxn_pp_assemblage_map, use.Get_n_pp_assemblage_user());
 		//cxxPPassemblageComp * comp_ptr = pp_assemblage_ptr->Find(x[j]->pp_assemblage_comp_name);
-		cxxPPassemblageComp * comp_ptr = (cxxPPassemblageComp * ) x[j]->pp_assemblage_comp_ptr;
+		cxxPPassemblageComp * comp_ptr = (cxxPPassemblageComp * ) x[j]->pp_assemblage_comp_ptr; // appt, is sometimes lost??
 /*
  *   Print saturation index
  */

@@ -493,6 +493,7 @@ public:
 	int calc_fixed_volume_gas_pressures(void);
 	int calc_ss_fractions(void);
 	int gammas(LDBLE mu);
+	int gammas_a_f(int i);
 	int initial_guesses(void);
 	int revise_guesses(void);
 	int ss_binary(cxxSS *ss_ptr);
@@ -535,7 +536,8 @@ public:
 	struct theta_param *theta_param_alloc(void);
 	int theta_param_init(struct theta_param *theta_param_ptr);
 	void pitzer_make_lists(void);
-	int gammas_pz(void);
+	//int gammas_pz(void);
+	int gammas_pz(bool exch_a_f);
 	int model_pz(void);
 	int pitzer(void);
 	int pitzer_clean_up(void);
@@ -912,6 +914,7 @@ protected:
 public:
 	struct rate *rate_bsearch(char *ptr, int *j);
 	int rate_free(struct rate *rate_ptr);
+	struct rate * rate_copy(struct rate *rate_ptr);
 	struct rate *rate_search(const char *name, int *n);
 	int rate_sort(void);
 	struct reaction *rxn_alloc(int ntokens);
@@ -1062,10 +1065,13 @@ public:
 	LDBLE viscosity(void);
 	LDBLE calc_vm_Cl(void);
 	int multi_D(LDBLE DDt, int mobile_cell, int stagnant);
-	int find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant);
-	int fill_spec(int cell_no);
-	void define_ct_structures(void);
-	int fill_m_s(struct J_ij *J_ij, int J_ij_count_spec);
+	LDBLE find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant);
+	void diffuse_implicit(LDBLE DDt, int stagnant);
+	int fill_spec(int cell_no, int ref_cell);
+	LDBLE moles_from_redox_states(cxxSolution *sptr, const char *name);
+	LDBLE moles_from_donnan_layer(cxxSurface *sptr, const char *name, LDBLE moles_needed);
+	LDBLE add_MCD_moles(LDBLE moles, LDBLE min_mol, int i, cxxSolution *sptr, const char *name);
+	int fill_m_s(struct J_ij *J_ij, int J_ij_count_spec, int i, int stagnant);
 	static int sort_species_name(const void *ptr1, const void *ptr2);
 	int disp_surf(LDBLE stagkin_time);
 	int diff_stag_surf(int mobile_cell);
@@ -1423,6 +1429,9 @@ protected:
 	int old_cells, max_cells, all_cells;
 	int multi_Dflag;		/* signals calc'n of multicomponent diffusion */
 	int interlayer_Dflag;	/* multicomponent diffusion and diffusion through interlayer porosity */
+	int implicit;	    /* implicit calculation of diffusion */
+	LDBLE max_mixf;     /* the maximum value of the implicit mixfactor = De * Dt / (Dx^2) */
+	LDBLE min_dif_LM;    /* the minimal log10(molality) for including a species in multicomponent diffusion */
 	LDBLE default_Dw;		/* default species diffusion coefficient in water at 25oC, m2/s */
 	int correct_Dw;         /* if true, Dw is adapted in calc_SC */
 	LDBLE multi_Dpor;		/* uniform porosity of free porewater in solid medium */
@@ -2071,6 +2080,22 @@ namespace Utilities
 	}
 
 	template < typename T >
+	void Rxn_dump_raw_range(const T & b, std::ostream & s_oss, int start, int end, unsigned int indent)
+	{
+		typename T::const_iterator it;
+		for (int i = start; i <= end; i++)
+		{
+			if (i < 0) continue;
+			it = b.find(i);
+			if (it != b.end())
+			{
+				it->second.dump_raw(s_oss, indent);
+			}
+		}
+		return;
+	}
+
+	template < typename T >
 	T * Rxn_find(std::map < int, T > &b, int i)
 	{
 		if (b.find(i) != b.end())
@@ -2225,6 +2250,40 @@ namespace Utilities
 		s.insert(entity_ptr->Get_n_user());
 
 		return phreeqc_cookie->cleanup_after_parser(parser);
+	}
+
+	template < typename T >
+	int SB_read_modify(std::map < int, T > &m, CParser &parser)
+	{
+		typename std::map < int, T >::iterator it;
+
+		std::string key_name;
+		std::string::iterator b = parser.line().begin();
+		std::string::iterator e = parser.line().end();
+		CParser::copy_token(key_name, b, e);
+
+		cxxNumKeyword nk;
+		nk.read_number_description(parser);
+		T * entity_ptr = Utilities::Rxn_find(m, nk.Get_n_user());
+		if (!entity_ptr)
+		{
+			std::ostringstream errstr;
+			errstr << "Could not find " << key_name << " " << nk.Get_n_user() << ", ignoring modify data.\n";
+			//io->warning_msg(errstr.str().c_str());
+
+			// Don't throw, read data into dummy entity, then ignore
+			T entity;
+			entity_ptr = &entity;
+			entity_ptr->read_raw(parser, false);
+			return FALSE;
+		}
+
+		entity_ptr->read_raw(parser, false);
+		entity_ptr->Set_n_user(nk.Get_n_user());
+		entity_ptr->Set_n_user_end(nk.Get_n_user_end());
+		entity_ptr->Set_description(nk.Get_description());
+
+		return TRUE;
 	}
 
 	template < typename T >

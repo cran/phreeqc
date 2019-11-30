@@ -21,7 +21,7 @@ The output file must be turned on using the \code{\link{phrSetOutputFileOn}} fun
 # the resulting file name.
 phrLoadDatabaseString(phreeqc.dat)
 phrSetOutputFileOn(TRUE)
-phrSetOutputFileName("phreeqc.output")
+phrSetOutputFileName(file.path(tempdir(), "calcite.out"))
 input <- c( 
   'SOLUTION 1 Pure water ',
   'EQUILIBRIUM_PHASES 1  ',
@@ -29,7 +29,7 @@ input <- c(
   )
 
 if (is.null(phrRunString(input))) {
-  cat("see", phrGetOutputFileName(), "\\n")
+  cat(paste("see ", phrGetOutputFileName(), ".\\n", sep = ""))
 }
 
 }

@@ -25,8 +25,9 @@ writeLines(ex2, tf)
 # load database and run input file
 phrLoadDatabaseString(phreeqc.dat)
 phrSetOutputFileOn(TRUE)
+phrSetOutputFileName(file.path(tempdir(), "ex2.out"))
 if (is.null(phrRunFile(tf))) {
-  cat("see", phrGetOutputFileName(), "\\n")
+  cat(paste("see ", phrGetOutputFileName(), ".\\n", sep = ""))
 }
 
 # delete temporary input file
