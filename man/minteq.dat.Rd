@@ -20,10 +20,12 @@ program MINTEQA2. The database has been reformatted for use by
 }
 \seealso{
 Other Databases: \code{\link{Amm.dat}},
-  \code{\link{ColdChem.dat}}, \code{\link{ex15.dat}},
-  \code{\link{iso.dat}}, \code{\link{llnl.dat}},
-  \code{\link{minteq.v4.dat}}, \code{\link{phreeqc.dat}},
-  \code{\link{pitzer.dat}}, \code{\link{sit.dat}},
-  \code{\link{wateq4f.dat}}
+  \code{\link{ColdChem.dat}},
+  \code{\link{Tipping_Hurley.dat}},
+  \code{\link{core10.dat}}, \code{\link{ex15.dat}},
+  \code{\link{frezchem.dat}}, \code{\link{iso.dat}},
+  \code{\link{llnl.dat}}, \code{\link{minteq.v4.dat}},
+  \code{\link{phreeqc.dat}}, \code{\link{pitzer.dat}},
+  \code{\link{sit.dat}}, \code{\link{wateq4f.dat}}
 }
 \keyword{dataset}
