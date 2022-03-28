@@ -16,10 +16,12 @@ Retrieve the current value of the log strings switch.
 \url{http://wwwbrr.cr.usgs.gov/projects/GWC_coupled/phreeqc}
 }
 \seealso{
-Other Log: \code{\link{phrGetLogFileName}},
-  \code{\link{phrGetLogFileOn}},
-  \code{\link{phrGetLogStrings}},
-  \code{\link{phrSetLogFileName}},
-  \code{\link{phrSetLogFileOn}},
-  \code{\link{phrSetLogStringsOn}}
+Other Log: 
+\code{\link{phrGetLogFileName}()},
+\code{\link{phrGetLogFileOn}()},
+\code{\link{phrGetLogStrings}()},
+\code{\link{phrSetLogFileName}()},
+\code{\link{phrSetLogFileOn}()},
+\code{\link{phrSetLogStringsOn}()}
 }
+\concept{Log}

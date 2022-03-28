@@ -16,13 +16,15 @@ Retrieves the name of the error file. The default value is phreeqc.0.err.
 The error file switch must be set using the \code{\link{phrSetErrorFileOn}} function.
 }
 \references{
-\url{ftp://brrftp.cr.usgs.gov/pub/charlton/iphreeqc/IPhreeqc.pdf}
+\url{https://water.usgs.gov/water-resources/software/PHREEQC/IPhreeqc.pdf}
 }
 \seealso{
-Other Error: \code{\link{phrGetErrorFileOn}},
-  \code{\link{phrGetErrorStringsOn}},
-  \code{\link{phrGetErrorStrings}},
-  \code{\link{phrSetErrorFileName}},
-  \code{\link{phrSetErrorFileOn}},
-  \code{\link{phrSetErrorStringsOn}}
+Other Error: 
+\code{\link{phrGetErrorFileOn}()},
+\code{\link{phrGetErrorStringsOn}()},
+\code{\link{phrGetErrorStrings}()},
+\code{\link{phrSetErrorFileName}()},
+\code{\link{phrSetErrorFileOn}()},
+\code{\link{phrSetErrorStringsOn}()}
 }
+\concept{Error}

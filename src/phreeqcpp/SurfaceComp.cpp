@@ -13,6 +13,14 @@
 #include "phqalloc.h"
 #include "Dictionary.h"
 
+#if defined(PHREEQCI_GUI)
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif
+#endif
+
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
@@ -432,7 +440,7 @@ cxxSurfaceComp::add(const cxxSurfaceComp & addee, LDBLE extensive)
 	{
 		std::ostringstream oss;
 		oss <<
-			"Cannot mix surface components related to phase with exchange components related to kinetics, "
+			"Cannot mix surface components related to phase with surface components related to kinetics, "
 			<< this->formula;
 		error_msg(oss.str().c_str(), CONTINUE);
 		return;

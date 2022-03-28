@@ -17,12 +17,12 @@ Retrieve a list containing the current list of components.
 # This example runs the ex2 input file and echos the list of components.
 phrLoadDatabaseString(phreeqc.dat)
 phrRunString(ex2)
-cat("components:\\n")
+cat("components:\n")
 for (comp in phrGetComponentList()) {
-  cat(comp, "\\n")
+  cat(comp, "\n")
 }
 
 }
 \references{
-\url{ftp://brrftp.cr.usgs.gov/pub/charlton/iphreeqc/IPhreeqc.pdf}
+\url{https://water.usgs.gov/water-resources/software/PHREEQC/IPhreeqc.pdf}
 }

@@ -27,7 +27,7 @@ phrLoadDatabaseString(phreeqc.dat)
 phrSetOutputFileOn(TRUE)
 phrSetOutputFileName(file.path(tempdir(), "ex2.out"))
 if (is.null(phrRunFile(tf))) {
-  cat(paste("see ", phrGetOutputFileName(), ".\\n", sep = ""))
+  cat(paste("see ", phrGetOutputFileName(), ".\n", sep = ""))
 }
 
 # delete temporary input file
@@ -35,13 +35,15 @@ unlink(tf)
 
 }
 \references{
-\url{ftp://brrftp.cr.usgs.gov/pub/charlton/iphreeqc/IPhreeqc.pdf}
+\url{https://water.usgs.gov/water-resources/software/PHREEQC/IPhreeqc.pdf}
 }
 \seealso{
-Other Output: \code{\link{phrGetOutputFileName}},
-  \code{\link{phrGetOutputFileOn}},
-  \code{\link{phrGetOutputStringsOn}},
-  \code{\link{phrGetOutputStrings}},
-  \code{\link{phrSetOutputFileName}},
-  \code{\link{phrSetOutputStringsOn}}
+Other Output: 
+\code{\link{phrGetOutputFileName}()},
+\code{\link{phrGetOutputFileOn}()},
+\code{\link{phrGetOutputStringsOn}()},
+\code{\link{phrGetOutputStrings}()},
+\code{\link{phrSetOutputFileName}()},
+\code{\link{phrSetOutputStringsOn}()}
 }
+\concept{Output}

@@ -25,18 +25,20 @@ phrAccumulateLine("KNOBS; -logfile true")
 phrRunAccumulated()
 
 if (is.null(phrRunString(ex2))) {
-  cat(phrGetLogStrings(), sep = "\\n")
+  cat(phrGetLogStrings(), sep = "\n")
 }
 
 }
 \references{
-\url{ftp://brrftp.cr.usgs.gov/pub/charlton/iphreeqc/IPhreeqc.pdf}
+\url{https://water.usgs.gov/water-resources/software/PHREEQC/IPhreeqc.pdf}
 }
 \seealso{
-Other Log: \code{\link{phrGetLogFileName}},
-  \code{\link{phrGetLogFileOn}},
-  \code{\link{phrGetLogStringsOn}},
-  \code{\link{phrGetLogStrings}},
-  \code{\link{phrSetLogFileName}},
-  \code{\link{phrSetLogFileOn}}
+Other Log: 
+\code{\link{phrGetLogFileName}()},
+\code{\link{phrGetLogFileOn}()},
+\code{\link{phrGetLogStringsOn}()},
+\code{\link{phrGetLogStrings}()},
+\code{\link{phrSetLogFileName}()},
+\code{\link{phrSetLogFileOn}()}
 }
+\concept{Log}

@@ -49,17 +49,21 @@ phrAccumulateLine("END")
 
 # run it and echo the name of the output file
 if (is.null(phrRunAccumulated())) {
-  cat(paste("see ", phrGetOutputFileName(), ".\\n", sep = ""))
+  cat(paste("see ", phrGetOutputFileName(), ".\n", sep = ""))
 }
 }
 \references{
-\url{ftp://brrftp.cr.usgs.gov/pub/charlton/iphreeqc/IPhreeqc.pdf}
+\url{https://water.usgs.gov/water-resources/software/PHREEQC/IPhreeqc.pdf}
 }
 \seealso{
-Other Accumulate: \code{\link{phrAccumulateLine}},
-  \code{\link{phrClearAccumulatedLines}},
-  \code{\link{phrGetAccumulatedLines}}
+Other Accumulate: 
+\code{\link{phrAccumulateLine}()},
+\code{\link{phrClearAccumulatedLines}()},
+\code{\link{phrGetAccumulatedLines}()}
 
-Other Run: \code{\link{phrRunFile}},
-  \code{\link{phrRunString}}
+Other Run: 
+\code{\link{phrRunFile}()},
+\code{\link{phrRunString}()}
 }
+\concept{Accumulate}
+\concept{Run}

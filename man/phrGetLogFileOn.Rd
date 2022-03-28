@@ -13,13 +13,15 @@ TRUE if log messages are currently being written to file.
 Retrieve the current value of the log file switch.
 }
 \references{
-\url{ftp://brrftp.cr.usgs.gov/pub/charlton/iphreeqc/IPhreeqc.pdf}
+\url{https://water.usgs.gov/water-resources/software/PHREEQC/IPhreeqc.pdf}
 }
 \seealso{
-Other Log: \code{\link{phrGetLogFileName}},
-  \code{\link{phrGetLogStringsOn}},
-  \code{\link{phrGetLogStrings}},
-  \code{\link{phrSetLogFileName}},
-  \code{\link{phrSetLogFileOn}},
-  \code{\link{phrSetLogStringsOn}}
+Other Log: 
+\code{\link{phrGetLogFileName}()},
+\code{\link{phrGetLogStringsOn}()},
+\code{\link{phrGetLogStrings}()},
+\code{\link{phrSetLogFileName}()},
+\code{\link{phrSetLogFileOn}()},
+\code{\link{phrSetLogStringsOn}()}
 }
+\concept{Log}

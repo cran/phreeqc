@@ -13,13 +13,15 @@ TRUE if output messages are currently being written to file.
 Retrieve the current value of the output file switch.
 }
 \references{
-\url{ftp://brrftp.cr.usgs.gov/pub/charlton/iphreeqc/IPhreeqc.pdf}
+\url{https://water.usgs.gov/water-resources/software/PHREEQC/IPhreeqc.pdf}
 }
 \seealso{
-Other Output: \code{\link{phrGetOutputFileName}},
-  \code{\link{phrGetOutputStringsOn}},
-  \code{\link{phrGetOutputStrings}},
-  \code{\link{phrSetOutputFileName}},
-  \code{\link{phrSetOutputFileOn}},
-  \code{\link{phrSetOutputStringsOn}}
+Other Output: 
+\code{\link{phrGetOutputFileName}()},
+\code{\link{phrGetOutputStringsOn}()},
+\code{\link{phrGetOutputStrings}()},
+\code{\link{phrSetOutputFileName}()},
+\code{\link{phrSetOutputFileOn}()},
+\code{\link{phrSetOutputStringsOn}()}
 }
+\concept{Output}

@@ -31,13 +31,15 @@ if (is.null(phrRunString(input))) {
 
 }
 \references{
-\url{ftp://brrftp.cr.usgs.gov/pub/charlton/iphreeqc/IPhreeqc.pdf}
+\url{https://water.usgs.gov/water-resources/software/PHREEQC/IPhreeqc.pdf}
 }
 \seealso{
-Other Log: \code{\link{phrGetLogFileName}},
-  \code{\link{phrGetLogFileOn}},
-  \code{\link{phrGetLogStringsOn}},
-  \code{\link{phrSetLogFileName}},
-  \code{\link{phrSetLogFileOn}},
-  \code{\link{phrSetLogStringsOn}}
+Other Log: 
+\code{\link{phrGetLogFileName}()},
+\code{\link{phrGetLogFileOn}()},
+\code{\link{phrGetLogStringsOn}()},
+\code{\link{phrSetLogFileName}()},
+\code{\link{phrSetLogFileOn}()},
+\code{\link{phrSetLogStringsOn}()}
 }
+\concept{Log}

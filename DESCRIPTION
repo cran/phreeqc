@@ -1,20 +1,22 @@
 Package: phreeqc
-Version: 3.6.3
 Title: R Interface to Geochemical Modeling Software
+Version: 3.7.4
 License: GPL-3
 NeedsCompilation: yes
-Depends: R (>= 2.10)
-Author: S.R. Charlton, D.L. Parkhurst, and C.A.J. Appelo, with contributions  
-    from D. Gillespie for Chipmunk BASIC and S.D. Cohen, A.C. Hindmarsh,  
-    R. Serban, D. Shumaker, and A.G. Taylor for CVODE/SUNDIALS
+Depends: R (>= 3.5.0)
+Author: S.R. Charlton [aut, cre], D.L. Parkhurst [aut], and C.A.J. Appelo [aut], with contributions
+    from D. Gillespie [ctb] for Chipmunk BASIC and S.D. Cohen [ctb], A.C. Hindmarsh [ctb],
+    R. Serban [ctb], D. Shumaker [ctb], and A.G. Taylor [ctb] for CVODE/SUNDIALS
 URL: https://www.usgs.gov/software/phreeqc-version-3
 Description: A geochemical modeling program developed by the US Geological
     Survey that is designed to perform a wide variety of aqueous geochemical
     calculations, including speciation, batch-reaction, one-dimensional 
     reactive-transport, and inverse geochemical calculations.
 Maintainer: S.R. Charlton <charlton@usgs.gov>
+BugReports: https://github.com/usgs-coupled/iphreeqc/issues
 LazyData: yes
-RoxygenNote: 6.0.1
-Packaged: 2020-05-11 18:49:57 UTC; jenkins
+Encoding: UTF-8
+RoxygenNote: 7.1.2
+Packaged: 2022-03-26 19:10:22 UTC; runner
 Repository: CRAN
-Date/Publication: 2020-05-11 19:40:03 UTC
+Date/Publication: 2022-03-28 06:50:07 UTC

@@ -25,18 +25,20 @@ input <- c(
   )
 
 if (is.null(phrRunString(input))) {
-  cat(paste("see ", phrGetErrorFileName(), ".\\n", sep = ""))
+  cat(paste("see ", phrGetErrorFileName(), ".\n", sep = ""))
 }
 
 }
 \references{
-\url{ftp://brrftp.cr.usgs.gov/pub/charlton/iphreeqc/IPhreeqc.pdf}
+\url{https://water.usgs.gov/water-resources/software/PHREEQC/IPhreeqc.pdf}
 }
 \seealso{
-Other Error: \code{\link{phrGetErrorFileName}},
-  \code{\link{phrGetErrorFileOn}},
-  \code{\link{phrGetErrorStringsOn}},
-  \code{\link{phrGetErrorStrings}},
-  \code{\link{phrSetErrorFileOn}},
-  \code{\link{phrSetErrorStringsOn}}
+Other Error: 
+\code{\link{phrGetErrorFileName}()},
+\code{\link{phrGetErrorFileOn}()},
+\code{\link{phrGetErrorStringsOn}()},
+\code{\link{phrGetErrorStrings}()},
+\code{\link{phrSetErrorFileOn}()},
+\code{\link{phrSetErrorStringsOn}()}
 }
+\concept{Error}

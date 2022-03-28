@@ -30,10 +30,11 @@ phrAccumulateLine("DATABASE wateq4f.dat")
 phrAccumulateLine("SOLUTION 1")
 phrRunAccumulated()
 if (!is.null(phrGetWarningStrings())) {
-  cat(phrGetWarningStrings(), sep = "\\n")
+  cat(phrGetWarningStrings(), sep = "\n")
 }
 
 }
 \references{
-\url{ftp://brrftp.cr.usgs.gov/pub/charlton/iphreeqc/IPhreeqc.pdf}
+\url{https://water.usgs.gov/water-resources/software/PHREEQC/IPhreeqc.pdf}
 }
+\concept{Warning}

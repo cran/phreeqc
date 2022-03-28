@@ -20,13 +20,20 @@ aqueous species. The database has been reformatted for use by
 \url{http://pubs.usgs.gov/tm/06/a43/pdf/tm6-A43.pdf}
 }
 \seealso{
-Other Databases: \code{\link{Amm.dat}},
-  \code{\link{ColdChem.dat}},
-  \code{\link{Tipping_Hurley.dat}},
-  \code{\link{core10.dat}}, \code{\link{ex15.dat}},
-  \code{\link{frezchem.dat}}, \code{\link{iso.dat}},
-  \code{\link{llnl.dat}}, \code{\link{minteq.dat}},
-  \code{\link{minteq.v4.dat}}, \code{\link{pitzer.dat}},
-  \code{\link{sit.dat}}, \code{\link{wateq4f.dat}}
+Other Databases: 
+\code{\link{Amm.dat}},
+\code{\link{ColdChem.dat}},
+\code{\link{Tipping_Hurley.dat}},
+\code{\link{core10.dat}},
+\code{\link{ex15.dat}},
+\code{\link{frezchem.dat}},
+\code{\link{iso.dat}},
+\code{\link{llnl.dat}},
+\code{\link{minteq.dat}},
+\code{\link{minteq.v4.dat}},
+\code{\link{pitzer.dat}},
+\code{\link{sit.dat}},
+\code{\link{wateq4f.dat}}
 }
+\concept{Databases}
 \keyword{dataset}

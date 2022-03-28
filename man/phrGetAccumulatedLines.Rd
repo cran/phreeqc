@@ -17,14 +17,16 @@ Returns the accumulated input as a character vector.
 # This example loads some keyword input and displays the contents.
 phrAccumulateLine("SOLUTION 1")
 phrAccumulateLine("END")
-cat("The accumulated input is:", phrGetAccumulatedLines(), sep = "\\n")
+cat("The accumulated input is:", phrGetAccumulatedLines(), sep = "\n")
 
 }
 \references{
-\url{ftp://brrftp.cr.usgs.gov/pub/charlton/iphreeqc/IPhreeqc.pdf}
+\url{https://water.usgs.gov/water-resources/software/PHREEQC/IPhreeqc.pdf}
 }
 \seealso{
-Other Accumulate: \code{\link{phrAccumulateLine}},
-  \code{\link{phrClearAccumulatedLines}},
-  \code{\link{phrRunAccumulated}}
+Other Accumulate: 
+\code{\link{phrAccumulateLine}()},
+\code{\link{phrClearAccumulatedLines}()},
+\code{\link{phrRunAccumulated}()}
 }
+\concept{Accumulate}

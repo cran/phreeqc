@@ -27,14 +27,16 @@ phrLoadDatabaseString(phreeqc.dat)
 phrSetOutputFileOn(TRUE)
 phrSetOutputFileName(file.path(tempdir(), "ex2.load-database.out"))
 if (is.null(phrRunString(ex2))) {
-  cat(paste("see ", phrGetOutputFileName(), ".\\n", sep = ""))
+  cat(paste("see ", phrGetOutputFileName(), ".\n", sep = ""))
 }
 
 }
 \references{
-\url{ftp://brrftp.cr.usgs.gov/pub/charlton/iphreeqc/IPhreeqc.pdf}
+\url{https://water.usgs.gov/water-resources/software/PHREEQC/IPhreeqc.pdf}
 }
 \seealso{
-Other Load Database: \code{\link{phrLoadDatabase}}
+Other Load Database: 
+\code{\link{phrLoadDatabase}()}
 }
+\concept{Load Database}
 \keyword{interface}

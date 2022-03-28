@@ -32,18 +32,20 @@ input <- c(
   )
 
 if (is.null(phrRunString(input))) {
-  cat(paste("see ", phrGetLogFileName(), ".\\n", sep = ""))
+  cat(paste("see ", phrGetLogFileName(), ".\n", sep = ""))
 }
 
 }
 \references{
-\url{ftp://brrftp.cr.usgs.gov/pub/charlton/iphreeqc/IPhreeqc.pdf}
+\url{https://water.usgs.gov/water-resources/software/PHREEQC/IPhreeqc.pdf}
 }
 \seealso{
-Other Log: \code{\link{phrGetLogFileName}},
-  \code{\link{phrGetLogFileOn}},
-  \code{\link{phrGetLogStringsOn}},
-  \code{\link{phrGetLogStrings}},
-  \code{\link{phrSetLogFileOn}},
-  \code{\link{phrSetLogStringsOn}}
+Other Log: 
+\code{\link{phrGetLogFileName}()},
+\code{\link{phrGetLogFileOn}()},
+\code{\link{phrGetLogStringsOn}()},
+\code{\link{phrGetLogStrings}()},
+\code{\link{phrSetLogFileOn}()},
+\code{\link{phrSetLogStringsOn}()}
 }
+\concept{Log}

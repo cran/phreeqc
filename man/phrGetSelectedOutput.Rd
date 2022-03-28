@@ -35,10 +35,12 @@ summary(df$n1)
 
 }
 \references{
-\url{ftp://brrftp.cr.usgs.gov/pub/charlton/iphreeqc/IPhreeqc.pdf}
+\url{https://water.usgs.gov/water-resources/software/PHREEQC/IPhreeqc.pdf}
 }
 \seealso{
-Other Selected Output: \code{\link{phrGetSelectedOutputFileName}},
-  \code{\link{phrSetSelectedOutputFileName}},
-  \code{\link{phrSetSelectedOutputFileOn}}
+Other Selected Output: 
+\code{\link{phrGetSelectedOutputFileName}()},
+\code{\link{phrSetSelectedOutputFileName}()},
+\code{\link{phrSetSelectedOutputFileOn}()}
 }
+\concept{Selected Output}

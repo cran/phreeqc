@@ -25,16 +25,18 @@ if (!file.exists("ex2")) writeLines(ex2, "ex2")
 
 # run ex2
 if (is.null(phrRunFile("ex2"))) {
-  cat("use phrGetSelectedOutput() to see results.\\n")
+  cat("use phrGetSelectedOutput() to see results.\n")
 }
 
 unlink("ex2")  # tidy up
 
 }
 \references{
-\url{ftp://brrftp.cr.usgs.gov/pub/charlton/iphreeqc/IPhreeqc.pdf}
+\url{https://water.usgs.gov/water-resources/software/PHREEQC/IPhreeqc.pdf}
 }
 \seealso{
-Other Run: \code{\link{phrRunAccumulated}},
-  \code{\link{phrRunString}}
+Other Run: 
+\code{\link{phrRunAccumulated}()},
+\code{\link{phrRunString}()}
 }
+\concept{Run}

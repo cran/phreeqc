@@ -32,19 +32,21 @@ input <- c(
   )
 
 if (is.null(phrRunString(input))) {
-  cat("Dump:\\n")
-  cat(phrGetDumpStrings(), sep = "\\n")
+  cat("Dump:\n")
+  cat(phrGetDumpStrings(), sep = "\n")
 }
 
 }
 \references{
-\url{ftp://brrftp.cr.usgs.gov/pub/charlton/iphreeqc/IPhreeqc.pdf}
+\url{https://water.usgs.gov/water-resources/software/PHREEQC/IPhreeqc.pdf}
 }
 \seealso{
-Other Dump: \code{\link{phrGetDumpFileName}},
-  \code{\link{phrGetDumpFileOn}},
-  \code{\link{phrGetDumpStringsOn}},
-  \code{\link{phrGetDumpStrings}},
-  \code{\link{phrSetDumpFileName}},
-  \code{\link{phrSetDumpFileOn}}
+Other Dump: 
+\code{\link{phrGetDumpFileName}()},
+\code{\link{phrGetDumpFileOn}()},
+\code{\link{phrGetDumpStringsOn}()},
+\code{\link{phrGetDumpStrings}()},
+\code{\link{phrSetDumpFileName}()},
+\code{\link{phrSetDumpFileOn}()}
 }
+\concept{Dump}

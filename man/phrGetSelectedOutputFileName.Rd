@@ -39,15 +39,17 @@ input <- c(
 
 
 if (is.null(phrRunString(input))) {
-  cat(paste("see ", phrGetSelectedOutputFileName(1), ".\\n", sep = ""))
+  cat(paste("see ", phrGetSelectedOutputFileName(1), ".\n", sep = ""))
 }
 
 }
 \references{
-\url{ftp://brrftp.cr.usgs.gov/pub/charlton/iphreeqc/IPhreeqc.pdf}
+\url{https://water.usgs.gov/water-resources/software/PHREEQC/IPhreeqc.pdf}
 }
 \seealso{
-Other Selected Output: \code{\link{phrGetSelectedOutput}},
-  \code{\link{phrSetSelectedOutputFileName}},
-  \code{\link{phrSetSelectedOutputFileOn}}
+Other Selected Output: 
+\code{\link{phrGetSelectedOutput}()},
+\code{\link{phrSetSelectedOutputFileName}()},
+\code{\link{phrSetSelectedOutputFileOn}()}
 }
+\concept{Selected Output}

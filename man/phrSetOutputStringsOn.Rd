@@ -32,18 +32,20 @@ input <- c(
   )
 
 if (is.null(phrRunString(input))) {
-  cat(phrGetOutputStrings(), sep = "\\n")
+  cat(phrGetOutputStrings(), sep = "\n")
 }
 
 }
 \references{
-\url{ftp://brrftp.cr.usgs.gov/pub/charlton/iphreeqc/IPhreeqc.pdf}
+\url{https://water.usgs.gov/water-resources/software/PHREEQC/IPhreeqc.pdf}
 }
 \seealso{
-Other Output: \code{\link{phrGetOutputFileName}},
-  \code{\link{phrGetOutputFileOn}},
-  \code{\link{phrGetOutputStringsOn}},
-  \code{\link{phrGetOutputStrings}},
-  \code{\link{phrSetOutputFileName}},
-  \code{\link{phrSetOutputFileOn}}
+Other Output: 
+\code{\link{phrGetOutputFileName}()},
+\code{\link{phrGetOutputFileOn}()},
+\code{\link{phrGetOutputStringsOn}()},
+\code{\link{phrGetOutputStrings}()},
+\code{\link{phrSetOutputFileName}()},
+\code{\link{phrSetOutputFileOn}()}
 }
+\concept{Output}

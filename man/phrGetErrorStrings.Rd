@@ -29,13 +29,15 @@ if (!is.null(n)) phrGetErrorStrings()
 
 }
 \references{
-\url{ftp://brrftp.cr.usgs.gov/pub/charlton/iphreeqc/IPhreeqc.pdf}
+\url{https://water.usgs.gov/water-resources/software/PHREEQC/IPhreeqc.pdf}
 }
 \seealso{
-Other Error: \code{\link{phrGetErrorFileName}},
-  \code{\link{phrGetErrorFileOn}},
-  \code{\link{phrGetErrorStringsOn}},
-  \code{\link{phrSetErrorFileName}},
-  \code{\link{phrSetErrorFileOn}},
-  \code{\link{phrSetErrorStringsOn}}
+Other Error: 
+\code{\link{phrGetErrorFileName}()},
+\code{\link{phrGetErrorFileOn}()},
+\code{\link{phrGetErrorStringsOn}()},
+\code{\link{phrSetErrorFileName}()},
+\code{\link{phrSetErrorFileOn}()},
+\code{\link{phrSetErrorStringsOn}()}
 }
+\concept{Error}

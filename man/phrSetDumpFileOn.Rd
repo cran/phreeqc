@@ -31,18 +31,20 @@ input <- c(
   )
 
 if (is.null(phrRunString(input))) {
-  cat(paste("see ", phrGetDumpFileName(), ".\\n", sep = ""))
+  cat(paste("see ", phrGetDumpFileName(), ".\n", sep = ""))
 }
 
 }
 \references{
-\url{ftp://brrftp.cr.usgs.gov/pub/charlton/iphreeqc/IPhreeqc.pdf}
+\url{https://water.usgs.gov/water-resources/software/PHREEQC/IPhreeqc.pdf}
 }
 \seealso{
-Other Dump: \code{\link{phrGetDumpFileName}},
-  \code{\link{phrGetDumpFileOn}},
-  \code{\link{phrGetDumpStringsOn}},
-  \code{\link{phrGetDumpStrings}},
-  \code{\link{phrSetDumpFileName}},
-  \code{\link{phrSetDumpStringsOn}}
+Other Dump: 
+\code{\link{phrGetDumpFileName}()},
+\code{\link{phrGetDumpFileOn}()},
+\code{\link{phrGetDumpStringsOn}()},
+\code{\link{phrGetDumpStrings}()},
+\code{\link{phrSetDumpFileName}()},
+\code{\link{phrSetDumpStringsOn}()}
 }
+\concept{Dump}

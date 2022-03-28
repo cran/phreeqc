@@ -213,9 +213,19 @@ bool IPhreeqc::GetErrorFileOn(void)const
 	return this->ErrorFileOn;
 }
 
+bool IPhreeqc::GetErrorOn(void)const
+{
+	return this->Get_error_on();
+}
+
 const char* IPhreeqc::GetErrorString(void)
 {
 	static const char err_msg[] = "GetErrorString: ErrorStringOn not set.\n";
+	static const char err_msg2[] = "GetErrorString: ErrorOn not set.\n";
+	if (!this->error_on)
+	{
+		return err_msg2;
+	}
 	if (!this->ErrorStringOn)
 	{
 		return err_msg;
@@ -973,6 +983,11 @@ void IPhreeqc::SetErrorFileOn(bool bValue)
 	this->ErrorFileOn = bValue;
 }
 
+void IPhreeqc::SetErrorOn(bool bValue)
+{
+	this->Set_error_on(bValue);
+}
+
 void IPhreeqc::SetErrorStringOn(bool bValue)
 {
 	this->ErrorStringOn = bValue;
@@ -1143,7 +1158,6 @@ void IPhreeqc::check_database(const char* sz_routine)
 {
  	this->ErrorReporter->Clear();
 	this->WarningReporter->Clear();
-
 	std::map< int, CSelectedOutput* >::iterator it = this->SelectedOutputMap.begin();
 	for (; it != this->SelectedOutputMap.end(); ++it)
 	{
@@ -1254,14 +1268,14 @@ void IPhreeqc::do_run(const char* sz_routine, std::istream* pis, PFN_PRERUN_CALL
 		}
 		ASSERT(this->PhreeqcPtr->SelectedOutput_map.size() == this->SelectedOutputMap.size());
 		ASSERT(this->PhreeqcPtr->SelectedOutput_map.size() == this->SelectedOutputStringMap.size());
-		if (this->PhreeqcPtr->title_x != NULL)
+		if (!this->PhreeqcPtr->title_x.empty())
 		{
 			::sprintf(token, "TITLE");
 			this->PhreeqcPtr->dup_print(token, TRUE);
 			if (this->PhreeqcPtr->pr.headings == TRUE)
 			{
-				char *p = this->PhreeqcPtr->sformatf("%s\n\n", this->PhreeqcPtr->title_x);
-				this->PhreeqcPtr->output_msg(p);
+				this->PhreeqcPtr->output_msg(this->PhreeqcPtr->title_x.c_str());
+				this->PhreeqcPtr->output_msg("\n\n");
 			}
 		}
 

@@ -43,14 +43,16 @@ phrSetOutputFileName(file.path(tempdir(), "pure_water.out"))
 
 # run input
 phrRunString(input)
-cat(paste("see ", phrGetOutputFileName(), ".\\n", sep=""))
+cat(paste("see ", phrGetOutputFileName(), ".\n", sep=""))
 
 }
 \references{
-\url{ftp://brrftp.cr.usgs.gov/pub/charlton/iphreeqc/IPhreeqc.pdf}
+\url{https://water.usgs.gov/water-resources/software/PHREEQC/IPhreeqc.pdf}
 }
 \seealso{
-Other Run: \code{\link{phrRunAccumulated}},
-  \code{\link{phrRunFile}}
+Other Run: 
+\code{\link{phrRunAccumulated}()},
+\code{\link{phrRunFile}()}
 }
+\concept{Run}
 \keyword{interface}

@@ -18,16 +18,23 @@ Contributed by Marc Neveu. The database has been reformatted for use by
 \code{\link{phrLoadDatabaseString}}.
 }
 \references{
-\url{https://dx.doi.org/10.1016/j.gca.2017.06.023}
+\doi{10.1016/j.gca.2017.06.023}
 }
 \seealso{
-Other Databases: \code{\link{Amm.dat}},
-  \code{\link{ColdChem.dat}},
-  \code{\link{Tipping_Hurley.dat}}, \code{\link{ex15.dat}},
-  \code{\link{frezchem.dat}}, \code{\link{iso.dat}},
-  \code{\link{llnl.dat}}, \code{\link{minteq.dat}},
-  \code{\link{minteq.v4.dat}}, \code{\link{phreeqc.dat}},
-  \code{\link{pitzer.dat}}, \code{\link{sit.dat}},
-  \code{\link{wateq4f.dat}}
+Other Databases: 
+\code{\link{Amm.dat}},
+\code{\link{ColdChem.dat}},
+\code{\link{Tipping_Hurley.dat}},
+\code{\link{ex15.dat}},
+\code{\link{frezchem.dat}},
+\code{\link{iso.dat}},
+\code{\link{llnl.dat}},
+\code{\link{minteq.dat}},
+\code{\link{minteq.v4.dat}},
+\code{\link{phreeqc.dat}},
+\code{\link{pitzer.dat}},
+\code{\link{sit.dat}},
+\code{\link{wateq4f.dat}}
 }
+\concept{Databases}
 \keyword{dataset}

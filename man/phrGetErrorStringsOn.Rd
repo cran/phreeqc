@@ -13,13 +13,15 @@ TRUE if error messages are currently being stored as a character vector.
 Retrieve the current value of the error strings switch.
 }
 \references{
-\url{ftp://brrftp.cr.usgs.gov/pub/charlton/iphreeqc/IPhreeqc.pdf}
+\url{https://water.usgs.gov/water-resources/software/PHREEQC/IPhreeqc.pdf}
 }
 \seealso{
-Other Error: \code{\link{phrGetErrorFileName}},
-  \code{\link{phrGetErrorFileOn}},
-  \code{\link{phrGetErrorStrings}},
-  \code{\link{phrSetErrorFileName}},
-  \code{\link{phrSetErrorFileOn}},
-  \code{\link{phrSetErrorStringsOn}}
+Other Error: 
+\code{\link{phrGetErrorFileName}()},
+\code{\link{phrGetErrorFileOn}()},
+\code{\link{phrGetErrorStrings}()},
+\code{\link{phrSetErrorFileName}()},
+\code{\link{phrSetErrorFileOn}()},
+\code{\link{phrSetErrorStringsOn}()}
 }
+\concept{Error}

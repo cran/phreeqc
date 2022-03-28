@@ -35,14 +35,28 @@ phrGetOutputStrings()
 \url{http://pubs.usgs.gov/tm/06/a43/pdf/tm6-A43.pdf}
 }
 \seealso{
-Other Examples: \code{\link{ex10}}, \code{\link{ex11}},
-  \code{\link{ex12}}, \code{\link{ex13a}},
-  \code{\link{ex14}}, \code{\link{ex15}},
-  \code{\link{ex16}}, \code{\link{ex18}},
-  \code{\link{ex19}}, \code{\link{ex1}},
-  \code{\link{ex20a}}, \code{\link{ex21}},
-  \code{\link{ex22}}, \code{\link{ex2}}, \code{\link{ex3}},
-  \code{\link{ex4}}, \code{\link{ex5}}, \code{\link{ex6}},
-  \code{\link{ex7}}, \code{\link{ex8}}, \code{\link{ex9}}
+Other Examples: 
+\code{\link{ex10}},
+\code{\link{ex11}},
+\code{\link{ex12}},
+\code{\link{ex13a}},
+\code{\link{ex14}},
+\code{\link{ex15}},
+\code{\link{ex16}},
+\code{\link{ex18}},
+\code{\link{ex19}},
+\code{\link{ex1}},
+\code{\link{ex20a}},
+\code{\link{ex21}},
+\code{\link{ex22}},
+\code{\link{ex2}},
+\code{\link{ex3}},
+\code{\link{ex4}},
+\code{\link{ex5}},
+\code{\link{ex6}},
+\code{\link{ex7}},
+\code{\link{ex8}},
+\code{\link{ex9}}
 }
+\concept{Examples}
 \keyword{dataset}

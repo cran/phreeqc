@@ -2,6 +2,14 @@
 #include "Phreeqc.h"
 #include "phqalloc.h"
 
+#if defined(PHREEQCI_GUI)
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif
+#endif
+
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 warning_msg(const char *err_str)
@@ -193,7 +201,9 @@ void Phreeqc::
 screen_msg(const char *err_str)
 /* ---------------------------------------------------------------------- */
 {
+#ifndef TESTING
 	if (phrq_io) phrq_io->screen_msg(err_str);
+#endif
 }
 // ---------------------------------------------------------------------- */
 // dump file methods

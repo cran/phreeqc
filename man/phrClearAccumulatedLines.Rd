@@ -16,16 +16,18 @@ calls to the \code{\link{phrAccumulateLine}} method.
 # the results.
 phrAccumulateLine("SOLUTION 1")
 phrAccumulateLine("END")
-cat("The accumulated input is:", phrGetAccumulatedLines(), sep = "\\n")
+cat("The accumulated input is:", phrGetAccumulatedLines(), sep = "\n")
 phrClearAccumulatedLines()
-cat("The accumulated input now is:\\n", phrGetAccumulatedLines(), sep = "\\n")
+cat("The accumulated input now is:\n", phrGetAccumulatedLines(), sep = "\n")
 
 }
 \references{
-\url{ftp://brrftp.cr.usgs.gov/pub/charlton/iphreeqc/IPhreeqc.pdf}
+\url{https://water.usgs.gov/water-resources/software/PHREEQC/IPhreeqc.pdf}
 }
 \seealso{
-Other Accumulate: \code{\link{phrAccumulateLine}},
-  \code{\link{phrGetAccumulatedLines}},
-  \code{\link{phrRunAccumulated}}
+Other Accumulate: 
+\code{\link{phrAccumulateLine}()},
+\code{\link{phrGetAccumulatedLines}()},
+\code{\link{phrRunAccumulated}()}
 }
+\concept{Accumulate}

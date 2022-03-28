@@ -22,9 +22,9 @@ tf <- tempfile()
 writeLines(phreeqc.dat, tf)
 
 if (is.null(phrLoadDatabase(tf))) {
-  cat("database ok\\n")
+  cat("database ok\n")
 } else {
-  cat("database contains errors\\n")
+  cat("database contains errors\n")
 }
 
 # delete temporary database file
@@ -32,8 +32,10 @@ unlink(tf)
 
 }
 \references{
-\url{ftp://brrftp.cr.usgs.gov/pub/charlton/iphreeqc/IPhreeqc.pdf}
+\url{https://water.usgs.gov/water-resources/software/PHREEQC/IPhreeqc.pdf}
 }
 \seealso{
-Other Load Database: \code{\link{phrLoadDatabaseString}}
+Other Load Database: 
+\code{\link{phrLoadDatabaseString}()}
 }
+\concept{Load Database}

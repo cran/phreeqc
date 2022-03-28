@@ -13,6 +13,13 @@
 #include "cxxMix.h"
 #include "phqalloc.h"
 
+#if defined(PHREEQCI_GUI)
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif
+#endif
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
@@ -35,6 +42,7 @@ cxxNumKeyword(io)
 {
 	this->n_user = this->n_user_end = l_n_user;
 	eltList.type = cxxNameDouble::ND_ELT_MOLES;
+	this->new_def = false;
 //
 //   Mix
 //
@@ -299,29 +307,6 @@ cxxPPassemblage::add(const cxxPPassemblage & addee, LDBLE extensive)
 	//cxxNameDouble eltList;
 	this->eltList.add_extensive(addee.eltList, extensive);
 }
-#ifdef SKIP
-cxxPPassemblageComp * cxxPPassemblage::
-Find(const std::string name_in)
-{
-	std::string name(name_in);
-	Utilities::str_tolower(name);
-
-	cxxPPassemblageComp * comp = NULL;
-	std::map<std::string, cxxPPassemblageComp>::iterator it;
-	it = this->pp_assemblage_comps.begin();
-	for ( ; it != this->pp_assemblage_comps.end(); it++)
-	{
-		std::string pname(it->first);
-		Utilities::str_tolower(pname);
-		if (name == pname)
-		{
-			comp = &it->second;
-			break;
-		}
-	}
-	return comp;
-}
-#endif
 cxxPPassemblageComp * cxxPPassemblage::
 Find(const std::string name_in)
 {

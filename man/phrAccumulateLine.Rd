@@ -36,15 +36,17 @@ phrAccumulateLine("END")
 phrSetOutputFileOn(TRUE)
 phrSetOutputFileName(file.path(tempdir(), "ex2.output"))
 if (is.null(phrRunAccumulated())) {
-  cat(paste("see ", phrGetOutputFileName(), ".\\n", sep = ""))
+  cat(paste("see ", phrGetOutputFileName(), ".\n", sep = ""))
 }
 
 }
 \references{
-\url{ftp://brrftp.cr.usgs.gov/pub/charlton/iphreeqc/IPhreeqc.pdf}
+\url{https://water.usgs.gov/water-resources/software/PHREEQC/IPhreeqc.pdf}
 }
 \seealso{
-Other Accumulate: \code{\link{phrClearAccumulatedLines}},
-  \code{\link{phrGetAccumulatedLines}},
-  \code{\link{phrRunAccumulated}}
+Other Accumulate: 
+\code{\link{phrClearAccumulatedLines}()},
+\code{\link{phrGetAccumulatedLines}()},
+\code{\link{phrRunAccumulated}()}
 }
+\concept{Accumulate}

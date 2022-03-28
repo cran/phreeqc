@@ -23,18 +23,20 @@ The try is necessary to keep the error message from displaying immediately.
 # (no database is loaded).
 phrSetErrorStringsOn(TRUE)
 if (!is.null(try(phrRunString(ex1), silent=TRUE))) {
-  cat(phrGetErrorStrings(), "\\n")
+  cat(phrGetErrorStrings(), "\n")
 }
 
 }
 \references{
-\url{ftp://brrftp.cr.usgs.gov/pub/charlton/iphreeqc/IPhreeqc.pdf}
+\url{https://water.usgs.gov/water-resources/software/PHREEQC/IPhreeqc.pdf}
 }
 \seealso{
-Other Error: \code{\link{phrGetErrorFileName}},
-  \code{\link{phrGetErrorFileOn}},
-  \code{\link{phrGetErrorStringsOn}},
-  \code{\link{phrGetErrorStrings}},
-  \code{\link{phrSetErrorFileName}},
-  \code{\link{phrSetErrorFileOn}}
+Other Error: 
+\code{\link{phrGetErrorFileName}()},
+\code{\link{phrGetErrorFileOn}()},
+\code{\link{phrGetErrorStringsOn}()},
+\code{\link{phrGetErrorStrings}()},
+\code{\link{phrSetErrorFileName}()},
+\code{\link{phrSetErrorFileOn}()}
 }
+\concept{Error}
