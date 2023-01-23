@@ -7,7 +7,7 @@
 #include "Var.h"
 
 /**
- * @mainpage IPhreeqc Library Documentation (-16082)
+ * @mainpage IPhreeqc Library Documentation (-16379)
  *
  *  @htmlonly
  *  <table>
