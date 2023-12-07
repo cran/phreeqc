@@ -12,7 +12,7 @@ phrSetSelectedOutputFileName(nuser, filename)
 \item{filename}{the name of the selected_output file.}
 }
 \description{
-Sets the name of the selected_output file. The default value is selected_{nuser}.0.out.
+Sets the name of the selected_output file. The default value is selected_\{nuser\}.0.out.
 }
 \details{
 The selected_output file must be turned on using the \code{\link{phrSetSelectedOutputFileOn}} function.

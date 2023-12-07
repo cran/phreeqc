@@ -32,7 +32,7 @@ phrGetOutputStrings()
 
 }
 \references{
-\url{http://pubs.usgs.gov/tm/06/a43/pdf/tm6-A43.pdf}
+\url{https://pubs.usgs.gov/tm/06/a43/pdf/tm6-A43.pdf}
 }
 \seealso{
 Other Examples: 

@@ -17,7 +17,7 @@ aqueous species. The database has been reformatted for use by
 \code{\link{phrLoadDatabaseString}}.
 }
 \references{
-\url{http://pubs.usgs.gov/tm/06/a43/pdf/tm6-A43.pdf}
+\url{https://pubs.usgs.gov/tm/06/a43/pdf/tm6-A43.pdf}
 }
 \seealso{
 Other Databases: 

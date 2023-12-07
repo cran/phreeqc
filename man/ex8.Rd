@@ -29,7 +29,7 @@ unlink(c("ex8.sel", "Zn1e_7", "Zn1e_4"))
 
 }
 \references{
-\url{http://pubs.usgs.gov/tm/06/a43/pdf/tm6-A43.pdf}
+\url{https://pubs.usgs.gov/tm/06/a43/pdf/tm6-A43.pdf}
 }
 \seealso{
 Other Examples: 
