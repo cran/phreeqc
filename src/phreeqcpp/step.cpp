@@ -327,6 +327,7 @@ xsolution_zero(void)
 	solution_pe_x = 0.0;
 	mu_x = 0.0;
 	ah2o_x = 0.0;
+	viscos = 0.0;
 	density_x = 0.0;
 	total_h_x = 0.0;
 	total_o_x = 0.0;
@@ -379,6 +380,7 @@ add_solution(cxxSolution *solution_ptr, LDBLE extensive, LDBLE intensive)
 	solution_pe_x += solution_ptr->Get_pe() * intensive;
 	mu_x += solution_ptr->Get_mu() * intensive;
 	ah2o_x += solution_ptr->Get_ah2o() * intensive;
+	viscos += solution_ptr->Get_viscosity() * intensive;
 	density_x += solution_ptr->Get_density() * intensive;
 
 	total_h_x += solution_ptr->Get_total_h() * extensive;
@@ -707,13 +709,13 @@ add_pp_assemblage(cxxPPassemblage *pp_assemblage_ptr)
 		comp_ptr->Set_delta(0.0);
 		if (comp_ptr->Get_add_formula().size() > 0)
 		{
-			strcpy(token, comp_ptr->Get_add_formula().c_str());
+			Utilities::strcpy_safe(token, MAX_LENGTH, comp_ptr->Get_add_formula().c_str());
 			cptr = &(token[0]);
 			get_elts_in_species(&cptr, 1.0);
 		}
 		else
 		{
-			strcpy(token, phase_ptr->formula);
+			Utilities::strcpy_safe(token, MAX_LENGTH, phase_ptr->formula);
 			add_elt_list(phase_ptr->next_elt, 1.0);
 		}
 		if (comp_ptr->Get_moles() > 0.0)

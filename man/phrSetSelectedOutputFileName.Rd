@@ -47,8 +47,8 @@ if (is.null(phrRunString(input))) {
 }
 \seealso{
 Other Selected Output: 
-\code{\link{phrGetSelectedOutputFileName}()},
 \code{\link{phrGetSelectedOutput}()},
+\code{\link{phrGetSelectedOutputFileName}()},
 \code{\link{phrSetSelectedOutputFileOn}()}
 }
 \concept{Selected Output}

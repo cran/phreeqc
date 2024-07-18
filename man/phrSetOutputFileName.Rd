@@ -40,8 +40,8 @@ if (is.null(phrRunString(input))) {
 Other Output: 
 \code{\link{phrGetOutputFileName}()},
 \code{\link{phrGetOutputFileOn}()},
-\code{\link{phrGetOutputStringsOn}()},
 \code{\link{phrGetOutputStrings}()},
+\code{\link{phrGetOutputStringsOn}()},
 \code{\link{phrSetOutputFileOn}()},
 \code{\link{phrSetOutputStringsOn}()}
 }

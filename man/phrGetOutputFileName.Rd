@@ -36,8 +36,8 @@ if (is.null(phrRunString(input))) {
 \seealso{
 Other Output: 
 \code{\link{phrGetOutputFileOn}()},
-\code{\link{phrGetOutputStringsOn}()},
 \code{\link{phrGetOutputStrings}()},
+\code{\link{phrGetOutputStringsOn}()},
 \code{\link{phrSetOutputFileName}()},
 \code{\link{phrSetOutputFileOn}()},
 \code{\link{phrSetOutputStringsOn}()}

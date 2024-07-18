@@ -23,6 +23,8 @@ for use by \code{\link{phrLoadDatabaseString}}.
 Other Databases: 
 \code{\link{Amm.dat}},
 \code{\link{ColdChem.dat}},
+\code{\link{Kinec.v2.dat}},
+\code{\link{PHREEQC_ThermoddemV1.10_15Dec2020.dat}},
 \code{\link{Tipping_Hurley.dat}},
 \code{\link{core10.dat}},
 \code{\link{ex15.dat}},
@@ -32,6 +34,7 @@ Other Databases:
 \code{\link{minteq.dat}},
 \code{\link{minteq.v4.dat}},
 \code{\link{phreeqc.dat}},
+\code{\link{phreeqc_rates.dat}},
 \code{\link{pitzer.dat}},
 \code{\link{wateq4f.dat}}
 }

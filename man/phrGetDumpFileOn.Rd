@@ -18,8 +18,8 @@ Retrieve the current value of the dump file switch.
 \seealso{
 Other Dump: 
 \code{\link{phrGetDumpFileName}()},
-\code{\link{phrGetDumpStringsOn}()},
 \code{\link{phrGetDumpStrings}()},
+\code{\link{phrGetDumpStringsOn}()},
 \code{\link{phrSetDumpFileName}()},
 \code{\link{phrSetDumpFileOn}()},
 \code{\link{phrSetDumpStringsOn}()}

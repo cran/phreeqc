@@ -1,6 +1,6 @@
 Package: phreeqc
 Title: R Interface to Geochemical Modeling Software
-Version: 3.7.6
+Version: 3.8.0
 License: GPL-3
 NeedsCompilation: yes
 Depends: R (>= 3.5.0)
@@ -16,7 +16,7 @@ Maintainer: S.R. Charlton <charlton@usgs.gov>
 BugReports: https://github.com/usgs-coupled/iphreeqc/issues
 LazyData: yes
 Encoding: UTF-8
-RoxygenNote: 7.2.3
-Packaged: 2023-12-07 00:03:59 UTC; runner
+RoxygenNote: 7.3.2
+Packaged: 2024-07-11 23:31:07 UTC; runner
 Repository: CRAN
-Date/Publication: 2023-12-07 04:00:02 UTC
+Date/Publication: 2024-07-18 05:50:01 UTC

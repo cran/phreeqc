@@ -43,8 +43,8 @@ if (is.null(phrRunString(input))) {
 Other Log: 
 \code{\link{phrGetLogFileName}()},
 \code{\link{phrGetLogFileOn}()},
-\code{\link{phrGetLogStringsOn}()},
 \code{\link{phrGetLogStrings}()},
+\code{\link{phrGetLogStringsOn}()},
 \code{\link{phrSetLogFileOn}()},
 \code{\link{phrSetLogStringsOn}()}
 }

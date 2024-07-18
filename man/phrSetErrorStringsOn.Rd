@@ -34,8 +34,8 @@ if (!is.null(try(phrRunString(ex1), silent=TRUE))) {
 Other Error: 
 \code{\link{phrGetErrorFileName}()},
 \code{\link{phrGetErrorFileOn}()},
-\code{\link{phrGetErrorStringsOn}()},
 \code{\link{phrGetErrorStrings}()},
+\code{\link{phrGetErrorStringsOn}()},
 \code{\link{phrSetErrorFileName}()},
 \code{\link{phrSetErrorFileOn}()}
 }

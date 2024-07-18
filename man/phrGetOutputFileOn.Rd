@@ -18,8 +18,8 @@ Retrieve the current value of the output file switch.
 \seealso{
 Other Output: 
 \code{\link{phrGetOutputFileName}()},
-\code{\link{phrGetOutputStringsOn}()},
 \code{\link{phrGetOutputStrings}()},
+\code{\link{phrGetOutputStringsOn}()},
 \code{\link{phrSetOutputFileName}()},
 \code{\link{phrSetOutputFileOn}()},
 \code{\link{phrSetOutputStringsOn}()}

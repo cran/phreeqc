@@ -29,9 +29,9 @@ typedef unsigned char boolean;
 #include <string.h>
 #include <stdlib.h>
 #include <ctype.h>
-#include <math.h>
+#include <cmath>
 #include <errno.h>
-#include <float.h>
+#include <cfloat>
 #include "phrqtype.h"
 #include "cvdense.h"	
 #include "runner.h"
@@ -110,7 +110,7 @@ public:
 	LDBLE aqueous_vm(const char* species_name);
 	LDBLE phase_vm(const char* phase_name);
 	LDBLE diff_c(const char* species_name);
-	LDBLE setdiff_c(const char* species_name, double d);
+	LDBLE setdiff_c(const char * species_name, double d, double d_v_d);
 	LDBLE flux_mcd(const char* species_name, int option);
 	LDBLE sa_declercq(double type, double sa, double d, double m, double m0, double gfw);
 	LDBLE calc_SC(void);
@@ -167,6 +167,8 @@ public:
 	std::string kinetics_formula(std::string kinetics_name, cxxNameDouble& stoichiometry);
 	std::string phase_formula(std::string phase_name, cxxNameDouble& stoichiometry);
 	std::string species_formula(std::string phase_name, cxxNameDouble& stoichiometry);
+	std::string phase_equation(std::string phase_name, std::vector<std::pair<std::string, double> >& stoichiometry);
+	std::string species_equation(std::string species_name, std::vector<std::pair<std::string, double> >& stoichiometry);
 	LDBLE list_ss(std::string ss_name, cxxNameDouble& composition);
 	int system_total_elements(void);
 	int system_total_si(void);
@@ -283,12 +285,12 @@ public:
 	int sum_diffuse_layer(cxxSurfaceCharge* surface_charge_ptr1);
 	int calc_all_donnan(void);
 	int calc_init_donnan(void);
+	LDBLE calc_psi_avg(cxxSurfaceCharge * charge_ptr, LDBLE surf_chrg_eq, LDBLE nDbl, LDBLE f_free, std::vector<LDBLE> &zcorr);
 	LDBLE g_function(LDBLE x_value);
 	LDBLE midpnt(LDBLE x1, LDBLE x2, int n);
 	void polint(LDBLE* xa, LDBLE* ya, int n, LDBLE xv, LDBLE* yv,
 		LDBLE* dy);
 	LDBLE qromb_midpnt(cxxSurfaceCharge* charge_ptr, LDBLE x1, LDBLE x2);
-	LDBLE calc_psi_avg(cxxSurfaceCharge* charge_ptr, LDBLE surf_chrg_eq);
 
 	// inverse.cpp -------------------------------
 	int inverse_models(void);
@@ -555,6 +557,7 @@ public:
 	LDBLE calc_PR(std::vector<class phase*> phase_ptrs, LDBLE P, LDBLE TK, LDBLE V_m);
 	LDBLE calc_PR();
 	int calc_vm(LDBLE tc, LDBLE pa);
+	LDBLE calc_vm0(const char *species_name, LDBLE tc, LDBLE pa, LDBLE mu);
 	int clear(void);
 	int convert_units(cxxSolution* solution_ptr);
 	class unknown* find_surface_charge_unknown(std::string& str_ptr, int plane);
@@ -693,6 +696,10 @@ public:
 	bool read_vector_ints(const char** cptr, std::vector<int>& v, int positive);
 	bool read_vector_t_f(const char** ptr, std::vector<bool>& v);
 	int read_master_species(void);
+	int read_rate_parameters_pk(void);
+	int read_rate_parameters_svd(void);
+	int read_rate_parameters_hermanska(void);
+	int read_mean_gammas(void);
 	int read_mix(void);
 	int read_entity_mix(std::map<int, cxxMix>& mix_map);
 	//int read_solution_mix(void);
@@ -995,7 +1002,8 @@ public:
 		LDBLE new_Dw);
 	int reformat_surf(const char* comp_name, LDBLE fraction, const char* new_comp_name,
 		LDBLE new_Dw, int cell);
-	LDBLE viscosity(void);
+	LDBLE viscosity(cxxSurface *surf_ptr);
+	LDBLE calc_f_visc(const char *name);
 	LDBLE calc_vm_Cl(void);
 	int multi_D(LDBLE DDt, int mobile_cell, int stagnant);
 	LDBLE find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant);
@@ -1035,7 +1043,6 @@ public:
 	int get_token(const char** eqnaddr, std::string& string, LDBLE* z, int* l);
 	int islegit(const char c);
 	void malloc_error(void);
-	int parse_couple(char* token);
 	int print_centered(const char* string);
 	static int replace(const char* str1, const char* str2, char* str);
 	static void replace(std::string &stds, const char* str1, const char* str2);
@@ -1154,6 +1161,7 @@ protected:
 	*   Save
 	*---------------------------------------------------------------------- */
 	std::map<std::string, double> save_values;
+	std::map<std::string, std::string> save_strings;
 	class save save;
 
 	/*----------------------------------------------------------------------
@@ -1181,7 +1189,16 @@ protected:
 	*---------------------------------------------------------------------- */
 	std::vector<class inverse> inverse;
 	int count_inverse;
-
+	/*----------------------------------------------------------------------
+	*   Rates
+	*---------------------------------------------------------------------- */
+	std::map<std::string, std::vector<double> > rate_parameters_pk;
+	std::map<std::string, std::vector<double> > rate_parameters_svd;
+	std::map<std::string, std::vector<double> > rate_parameters_hermanska;
+	/*----------------------------------------------------------------------
+	*   Mean gammas
+	*---------------------------------------------------------------------- */
+	std::map<std::string, cxxNameDouble> mean_gammas;
 	/*----------------------------------------------------------------------
 	*   Mix
 	*---------------------------------------------------------------------- */
@@ -1274,7 +1291,6 @@ protected:
 	LDBLE solution_pe_x;
 	LDBLE mu_x;
 	LDBLE ah2o_x;
-	LDBLE density_x;
 	LDBLE total_h_x;
 	LDBLE total_o_x;
 	LDBLE cb_x;
@@ -1509,6 +1525,7 @@ protected:
 	int iterations;
 	int gamma_iterations;
 	size_t density_iterations;
+	LDBLE kgw_kgs;
 	int run_reactions_iterations;
 	int overall_iterations;
 
@@ -1593,6 +1610,12 @@ protected:
 	int initial_solution_isotopes;
 	std::vector<class calculate_value*> calculate_value;
 	std::map<std::string, class calculate_value*> calculate_value_map;
+public:
+	std::map<std::string, class calculate_value*>&  GetCalculateValueMap() 
+	{
+		return this->calculate_value_map;
+	}
+protected:
 	std::vector<class isotope_ratio*> isotope_ratio;
 	std::map<std::string, class isotope_ratio*> isotope_ratio_map;
 	std::vector<class isotope_alpha*> isotope_alpha;
@@ -1608,6 +1631,9 @@ protected:
 
 	int print_viscosity;
 	LDBLE viscos, viscos_0, viscos_0_25; // viscosity of the solution, of pure water, of pure water at 25 C
+	LDBLE density_x;
+	LDBLE solution_volume_x;
+	LDBLE solution_mass_x;
 	LDBLE cell_pore_volume;
 	LDBLE cell_porosity;
 	LDBLE cell_volume;
@@ -1846,12 +1872,12 @@ isfinite handling
 #  if __GNUC__ && (__cplusplus >= 201103L)
 #    define PHR_ISFINITE(x) std::isfinite(x)
 #  else
-#  define PHR_ISFINITE(x) isfinite(x)
+#  define PHR_ISFINITE(x) std::isfinite(x) /* changed when <math.h> was changed to <cmath> */
 #  endif
 #elif defined(HAVE_FINITE)
 #  define PHR_ISFINITE(x) finite(x)
 #elif defined(HAVE_ISNAN)
-#  define PHR_ISFINITE(x) ( ((x) == 0.0) || ((!isnan(x)) && ((x) != (2.0 * (x)))) )
+#  define PHR_ISFINITE(x) ( ((x) == 0.0) || ((!std::isnan(x)) && ((x) != (2.0 * (x)))) )
 #else
 #  define PHR_ISFINITE(x) ( ((x) == 0.0) || (((x) == (x)) && ((x) != (2.0 * (x)))) )
 #endif
@@ -1871,7 +1897,8 @@ namespace Utilities
 		for (it = b.begin(); it != b.end(); ++it)
 		{
 			// Adding logic to dump only non-negative entities
-			if (it->second.Get_n_user() >= 0)
+			//if (it->second.Get_n_user() >= 0)
+			if (it->first >= 0 && it->second.Get_n_user() >= 0)
 			{
 				it->second.dump_raw(s_oss, indent);
 			}
@@ -2081,3 +2108,54 @@ char* _string_duplicate(const char* token, const char* szFileName, int nLine);
 #endif
 
 #endif //_INC_UTILITIES_NAMESPACE_H
+
+#ifndef _INC_MISSING_SNPRINTF_H
+#define _INC_MISSING_SNPRINTF_H
+
+// Section _INC_MISSING_SNPRINTF_H is based on
+// https://stackoverflow.com/questions/2915672/snprintf-and-visual-studio-2010
+
+#if defined(_MSC_VER) && (_MSC_VER < 1900)
+#if (_MSC_VER <= 1700) // VS2012
+namespace std {
+	__inline bool isnan(double num) {
+		return _isnan(num) != 0;
+	}
+}
+#endif
+#include <stdarg.h>
+
+#define snprintf c99_snprintf
+#define vsnprintf c99_vsnprintf
+
+#pragma warning( push )
+// warning C4793: 'vararg' : causes native code generation
+#pragma warning( disable : 4793 )
+
+__inline int c99_vsnprintf(char *outBuf, size_t size, const char *format, va_list ap)
+{
+    int count = -1;
+
+    if (size != 0)
+        count = _vsnprintf_s(outBuf, size, _TRUNCATE, format, ap);
+    if (count == -1)
+        count = _vscprintf(format, ap);
+
+    return count;
+}
+
+__inline int c99_snprintf(char *outBuf, size_t size, const char *format, ...)
+{
+    int count;
+    va_list ap;
+
+    va_start(ap, format);
+    count = c99_vsnprintf(outBuf, size, format, ap);
+    va_end(ap);
+
+    return count;
+}
+#pragma warning( pop )
+#endif // defined(_MSC_VER) && (_MSC_VER < 1900)
+
+#endif //_INC_MISSING_SNPRINTF_H

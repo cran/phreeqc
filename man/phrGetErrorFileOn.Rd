@@ -18,8 +18,8 @@ Retrieve the current value of the error file switch.
 \seealso{
 Other Error: 
 \code{\link{phrGetErrorFileName}()},
-\code{\link{phrGetErrorStringsOn}()},
 \code{\link{phrGetErrorStrings}()},
+\code{\link{phrGetErrorStringsOn}()},
 \code{\link{phrSetErrorFileName}()},
 \code{\link{phrSetErrorFileOn}()},
 \code{\link{phrSetErrorStringsOn}()}

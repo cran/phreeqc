@@ -41,8 +41,8 @@ unlink(tf)
 Other Output: 
 \code{\link{phrGetOutputFileName}()},
 \code{\link{phrGetOutputFileOn}()},
-\code{\link{phrGetOutputStringsOn}()},
 \code{\link{phrGetOutputStrings}()},
+\code{\link{phrGetOutputStringsOn}()},
 \code{\link{phrSetOutputFileName}()},
 \code{\link{phrSetOutputStringsOn}()}
 }

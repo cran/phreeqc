@@ -21,8 +21,8 @@ The error file switch must be set using the \code{\link{phrSetErrorFileOn}} func
 \seealso{
 Other Error: 
 \code{\link{phrGetErrorFileOn}()},
-\code{\link{phrGetErrorStringsOn}()},
 \code{\link{phrGetErrorStrings}()},
+\code{\link{phrGetErrorStringsOn}()},
 \code{\link{phrSetErrorFileName}()},
 \code{\link{phrSetErrorFileOn}()},
 \code{\link{phrSetErrorStringsOn}()}

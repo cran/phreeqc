@@ -31,7 +31,7 @@ inverse_models(void)
  *   for any marked "new".
  */
 	int n/*, print1*/;
-	char string[MAX_LENGTH];
+	char string[MAX_LENGTH] = "";
 	if (count_inverse <= 0) return OK;
 	// Revert to previous headings after inverse modeling
 	std::vector<std::string> old_headings;
@@ -54,10 +54,10 @@ inverse_models(void)
  */
 			if (inverse[n].pat != NULL)
 			{
-				strcpy(string, inverse[n].pat);
+				Utilities::strcpy_safe(string, MAX_LENGTH, inverse[n].pat);
 				if (replace(".pat", ".pat", string) != TRUE)
 				{
-					strcat(string, ".pat");
+					Utilities::strcat_safe(string, MAX_LENGTH, ".pat");
 				}
 				netpath_file = fopen(string, "w");
 				if (netpath_file == NULL)
@@ -3582,35 +3582,21 @@ check_isotopes(class inverse *inv_ptr)
 
 			i = ii;
 			/* use inverse-defined uncertainties first */
-#ifdef NPP
 			if (j < inv_ptr->i_u[i].uncertainties.size()
-				&& !isnan(inv_ptr->i_u[i].uncertainties[j]))
-#else
-			if (j < inv_ptr->i_u[i].uncertainties.size()
-				&& inv_ptr->i_u[i].uncertainties[j] != NAN)
-#endif
+				&& !std::isnan(inv_ptr->i_u[i].uncertainties[j]))
 			{
 				kit->second.Set_x_ratio_uncertainty(inv_ptr->i_u[i].uncertainties[j]);
 
 				/* use solution-defined uncertainties second */
 			}
-#ifdef NPP
 			else if (inv_ptr->i_u[i].uncertainties.size() > 0
-				&& !isnan(inv_ptr->i_u[i].uncertainties[inv_ptr->i_u[i].uncertainties.size() - 1]))
-#else
-			else if (inv_ptr->i_u[i].uncertainties.size() > 0
-				&& inv_ptr->i_u[i].uncertainties[(size_t)inv_ptr->i_u[i].uncertainties.size() - 1] != NAN)
-#endif
+				&& !std::isnan(inv_ptr->i_u[i].uncertainties[inv_ptr->i_u[i].uncertainties.size() - 1]))
 			{
 				kit->second.Set_x_ratio_uncertainty(inv_ptr->i_u[i].uncertainties[inv_ptr->i_u[i].uncertainties.size() - 1]);
 
 				/* use solution-defined uncertainties second */
 			}
-#ifdef NPP
-			else if (!isnan(kit->second.Get_ratio_uncertainty()))
-#else
-			else if (kit->second.Get_ratio_uncertainty() != NAN)
-#endif
+			else if (!std::isnan(kit->second.Get_ratio_uncertainty()))
 			{
 				kit->second.Set_x_ratio_uncertainty(
 					kit->second.Get_ratio_uncertainty());
@@ -3638,11 +3624,7 @@ check_isotopes(class inverse *inv_ptr)
 					}
 				}
 			}
-#ifdef NPP
-			if (isnan(kit->second.Get_x_ratio_uncertainty()))
-#else
-			if (kit->second.Get_x_ratio_uncertainty() == NAN)
-#endif
+			if (std::isnan(kit->second.Get_x_ratio_uncertainty()))
 			{
 				error_string = sformatf(
 						"In solution %d, isotope ratio uncertainty is needed for element: %g%s.",
@@ -4192,11 +4174,11 @@ print_total_multi(FILE * l_netpath_file, cxxSolution *solution_ptr,
 	LDBLE sum;
 	int i, found;
 
-	strcpy(elts[0], elt0);
-	strcpy(elts[1], elt1);
-	strcpy(elts[2], elt2);
-	strcpy(elts[3], elt3);
-	strcpy(elts[4], elt4);
+	Utilities::strcpy_safe(elts[0], MAX_LENGTH, elt0);
+	Utilities::strcpy_safe(elts[1], MAX_LENGTH, elt1);
+	Utilities::strcpy_safe(elts[2], MAX_LENGTH, elt2);
+	Utilities::strcpy_safe(elts[3], MAX_LENGTH, elt3);
+	Utilities::strcpy_safe(elts[4], MAX_LENGTH, elt4);
 
 
 	sum = 0;

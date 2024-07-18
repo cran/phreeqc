@@ -36,6 +36,7 @@ phrGetOutputStrings()
 }
 \seealso{
 Other Examples: 
+\code{\link{ex1}},
 \code{\link{ex10}},
 \code{\link{ex11}},
 \code{\link{ex12}},
@@ -45,11 +46,10 @@ Other Examples:
 \code{\link{ex16}},
 \code{\link{ex18}},
 \code{\link{ex19}},
-\code{\link{ex1}},
+\code{\link{ex2}},
 \code{\link{ex20a}},
 \code{\link{ex21}},
 \code{\link{ex22}},
-\code{\link{ex2}},
 \code{\link{ex3}},
 \code{\link{ex4}},
 \code{\link{ex5}},

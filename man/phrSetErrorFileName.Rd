@@ -36,8 +36,8 @@ if (is.null(phrRunString(input))) {
 Other Error: 
 \code{\link{phrGetErrorFileName}()},
 \code{\link{phrGetErrorFileOn}()},
-\code{\link{phrGetErrorStringsOn}()},
 \code{\link{phrGetErrorStrings}()},
+\code{\link{phrGetErrorStringsOn}()},
 \code{\link{phrSetErrorFileOn}()},
 \code{\link{phrSetErrorStringsOn}()}
 }

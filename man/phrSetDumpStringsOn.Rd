@@ -44,8 +44,8 @@ if (is.null(phrRunString(input))) {
 Other Dump: 
 \code{\link{phrGetDumpFileName}()},
 \code{\link{phrGetDumpFileOn}()},
-\code{\link{phrGetDumpStringsOn}()},
 \code{\link{phrGetDumpStrings}()},
+\code{\link{phrGetDumpStringsOn}()},
 \code{\link{phrSetDumpFileName}()},
 \code{\link{phrSetDumpFileOn}()}
 }

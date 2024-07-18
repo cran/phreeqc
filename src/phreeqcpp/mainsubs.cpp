@@ -409,6 +409,8 @@ initial_solutions(int print)
 					set(TRUE);
 					converge = model();
 				}
+				calc_dens();
+				kgw_kgs = mass_water_aq_x / solution_mass_x;
 				density_iterations++;
 				if (solution_ref.Get_initial_data()->Get_calc_density())
 				{
@@ -434,7 +436,10 @@ initial_solutions(int print)
 			diagonal_scale = (diag) ? TRUE : FALSE;
 			converge1 = check_residuals();
 			sum_species();
-			viscosity();
+			viscos = viscosity(NULL);
+			use.Get_solution_ptr()->Set_viscosity(viscos);
+			if (use.Get_surface_ptr() != NULL && dl_type_x != cxxSurface::NO_DL)
+				use.Get_surface_ptr()->Set_DDL_viscosity(viscosity(use.Get_surface_ptr()));
 			add_isotopes(solution_ref);
 			punch_all();
 			print_all();
@@ -537,9 +542,10 @@ initial_exchangers(int print)
 			converge = model();
 			converge1 = check_residuals();
 			sum_species();
-			viscosity();
 			species_list_sort();
 			print_exchange();
+			if (pr.user_print)
+				print_user_print();
 			xexchange_save(n_user);
 			punch_all();
 			/* free_model_allocs(); */
@@ -671,7 +677,9 @@ initial_gas_phases(int print)
 			}
 
 			print_gas_phase();
- 			if (PR /*&& use.Get_gas_phase_ptr()->total_p > 1.0*/)
+			if (pr.user_print)
+				print_user_print();
+			if (PR /*&& use.Get_gas_phase_ptr()->total_p > 1.0*/)
  				warning_msg("While initializing gas phase composition by equilibrating:\n"
 				"         Found definitions of gas` critical temperature and pressure.\n"
 				"         Going to use Peng-Robinson in subsequent calculations.\n");
@@ -745,7 +753,8 @@ initial_surfaces(int print)
 			set_and_run_wrapper(-1, FALSE, FALSE, -1, 0.0);
 			species_list_sort();
 			print_surface();
-			/*print_all(); */
+			if (pr.user_print)
+				print_user_print();
 			punch_all();
 			xsurface_save(n_user);
 			/* free_model_allocs(); */
@@ -1255,11 +1264,12 @@ xsolution_save(int n_user)
 	temp_solution.Set_pe(solution_pe_x);
 	temp_solution.Set_mu(mu_x);
 	temp_solution.Set_ah2o(ah2o_x);
-	//temp_solution.Set_density(density_x);
-	temp_solution.Set_density(calc_dens());
+	// the subroutine is called at the start of a new simulation, and the following 2 go wrong since s_x is not updated 
+	temp_solution.Set_density(density_x);
+	temp_solution.Set_viscosity(viscos);
 	temp_solution.Set_total_h(total_h_x);
 	temp_solution.Set_total_o(total_o_x);
-	temp_solution.Set_cb(cb_x);	/* cb_x does not include surface charge sfter sum_species */
+	temp_solution.Set_cb(cb_x);	/* cb_x does not include surface charge after sum_species */
 								/* does include surface charge after step */
 	temp_solution.Set_mass_water(mass_water_aq_x);
 	temp_solution.Set_total_alkalinity(total_alkalinity);

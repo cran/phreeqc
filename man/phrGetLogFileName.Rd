@@ -29,8 +29,8 @@ if (phrGetLogFileOn()) {
 \seealso{
 Other Log: 
 \code{\link{phrGetLogFileOn}()},
-\code{\link{phrGetLogStringsOn}()},
 \code{\link{phrGetLogStrings}()},
+\code{\link{phrGetLogStringsOn}()},
 \code{\link{phrSetLogFileName}()},
 \code{\link{phrSetLogFileOn}()},
 \code{\link{phrSetLogStringsOn}()}

@@ -41,8 +41,8 @@ cat(paste("see ", phrGetDumpFileName(), ".\n", sep = ""))
 \seealso{
 Other Dump: 
 \code{\link{phrGetDumpFileOn}()},
-\code{\link{phrGetDumpStringsOn}()},
 \code{\link{phrGetDumpStrings}()},
+\code{\link{phrGetDumpStringsOn}()},
 \code{\link{phrSetDumpFileName}()},
 \code{\link{phrSetDumpFileOn}()},
 \code{\link{phrSetDumpStringsOn}()}

@@ -606,10 +606,10 @@ calc_PR(void)
 		{
 			phi = B_r * (rz - 1) - log(rz - B) + A / (2.828427 * B) * (B_r - 2.0 * phase_ptr->pr_aa_sum2 / a_aa_sum) *
 				  log((rz + 2.41421356 * B) / (rz - 0.41421356 * B));
-			//phi = (phi > 4.44 ? 4.44 : (phi < -3 ? -3 : phi));
+			phi = (phi > 4.44 ? 4.44 : (phi < -4.6 ? -4.6 : phi));
 		}
 		else
-			phi = -3.0; // fugacity coefficient = 0.05
+			phi = -4.6; // fugacity coefficient = 0.01
 		phase_ptr->pr_phi = exp(phi);
 		phase_ptr->pr_si_f = phi / LOG_10;										// pr_si_f updated
 		// ****
@@ -624,7 +624,7 @@ int Phreeqc::
 calc_fixed_volume_gas_pressures(void)
 /* ---------------------------------------------------------------------- */
 {
-	int n_g = 0;
+	//int n_g = 0;
 	LDBLE lp;
 	class rxn_token *rxn_ptr;
 	class phase *phase_ptr;
@@ -645,7 +645,7 @@ calc_fixed_volume_gas_pressures(void)
 		{
 			if (!PR && phase_ptr->t_c > 0 && phase_ptr->p_c > 0)
 				PR = true;
-			n_g++;
+			//n_g++;
 		}
 		gas_phase_ptr->Set_total_moles(gas_phase_ptr->Get_total_moles() + gas_unknowns[i]->moles);
 	}

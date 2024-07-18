@@ -18,8 +18,8 @@ Retrieve the current value of the log file switch.
 \seealso{
 Other Log: 
 \code{\link{phrGetLogFileName}()},
-\code{\link{phrGetLogStringsOn}()},
 \code{\link{phrGetLogStrings}()},
+\code{\link{phrGetLogStringsOn}()},
 \code{\link{phrSetLogFileName}()},
 \code{\link{phrSetLogFileOn}()},
 \code{\link{phrSetLogStringsOn}()}

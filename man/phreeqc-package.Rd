@@ -13,7 +13,7 @@ including speciation, batch-reaction, one-dimensional
 reactive-transport, and inverse geochemical calculations.
 }
 \details{
-\tabular{ll}{Package: \tab phreeqc\cr Type: \tab Package\cr Version: \tab 3.7.6\cr Date: \tab 2023-12-07\cr License: \tab BSD_3_clause + file LICENSE\cr}
+\tabular{ll}{Package: \tab phreeqc\cr Type: \tab Package\cr Version: \tab 3.8.0\cr Date: \tab 2024-07-11\cr License: \tab BSD_3_clause + file LICENSE\cr}
 }
 \examples{
 
@@ -43,6 +43,14 @@ legend("bottomright", c("Gypsum", "Anhydrite"),
 }
 \references{
 \url{https://water.usgs.gov/water-resources/software/PHREEQC/IPhreeqc.pdf}\cr \url{https://computing.llnl.gov/projects/sundials}
+}
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://www.usgs.gov/software/phreeqc-version-3}
+  \item Report bugs at \url{https://github.com/usgs-coupled/iphreeqc/issues}
+}
+
 }
 \author{
 S.R. Charlton, D.L. Parkhurst, and C.A.J. Appelo, with contributions from D. Gillespie for Chipmunk BASIC (p2c) and S.D. Cohen, A.C. Hindmarsh, R. Serban, D. Shumaker, and A.G. Taylor for CVODE (SUNDIALS) \cr Maintainer: S.R. Charlton \email{charlton@usgs.gov}
