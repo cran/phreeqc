@@ -13,7 +13,7 @@ TRUE if log messages are currently being stored as a character vector.
 Retrieve the current value of the log strings switch.
 }
 \references{
-\url{http://wwwbrr.cr.usgs.gov/projects/GWC_coupled/phreeqc}
+\url{https://www.usgs.gov/software/phreeqc-version-3/}
 }
 \seealso{
 Other Log: 

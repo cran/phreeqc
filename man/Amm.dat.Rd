@@ -5,7 +5,7 @@
 \alias{Amm.dat}
 \title{The Amm.dat database.}
 \source{
-\url{http://wwwbrr.cr.usgs.gov/projects/GWC_coupled/phreeqc}
+\url{https://www.usgs.gov/software/phreeqc-version-3/}
 }
 \usage{
 Amm.dat  # phrLoadDatabaseString(Amm.dat)
@@ -23,6 +23,7 @@ reformatted for use by \code{\link{phrLoadDatabaseString}}.
 Other Databases: 
 \code{\link{ColdChem.dat}},
 \code{\link{Kinec.v2.dat}},
+\code{\link{Kinec_v3.dat}},
 \code{\link{PHREEQC_ThermoddemV1.10_15Dec2020.dat}},
 \code{\link{Tipping_Hurley.dat}},
 \code{\link{core10.dat}},

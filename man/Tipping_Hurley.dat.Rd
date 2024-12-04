@@ -17,6 +17,7 @@ Other Databases:
 \code{\link{Amm.dat}},
 \code{\link{ColdChem.dat}},
 \code{\link{Kinec.v2.dat}},
+\code{\link{Kinec_v3.dat}},
 \code{\link{PHREEQC_ThermoddemV1.10_15Dec2020.dat}},
 \code{\link{core10.dat}},
 \code{\link{ex15.dat}},

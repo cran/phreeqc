@@ -5,7 +5,7 @@
 \alias{ex5}
 \title{Example 5--Irreversible Reactions}
 \source{
-\url{http://wwwbrr.cr.usgs.gov/projects/GWC_coupled/phreeqc}
+\url{https://www.usgs.gov/software/phreeqc-version-3/}
 }
 \description{
 This example demonstrates the irreversible reaction

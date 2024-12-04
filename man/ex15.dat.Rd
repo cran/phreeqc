@@ -5,7 +5,7 @@
 \alias{ex15.dat}
 \title{The ex15.dat database}
 \source{
-\url{http://wwwbrr.cr.usgs.gov/projects/GWC_coupled/phreeqc}
+\url{https://www.usgs.gov/software/phreeqc-version-3/}
 }
 \usage{
 ex15.dat  # phrLoadDatabaseString(ex15.dat)
@@ -23,6 +23,7 @@ Other Databases:
 \code{\link{Amm.dat}},
 \code{\link{ColdChem.dat}},
 \code{\link{Kinec.v2.dat}},
+\code{\link{Kinec_v3.dat}},
 \code{\link{PHREEQC_ThermoddemV1.10_15Dec2020.dat}},
 \code{\link{Tipping_Hurley.dat}},
 \code{\link{core10.dat}},

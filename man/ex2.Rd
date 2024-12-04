@@ -5,7 +5,7 @@
 \alias{ex2}
 \title{Example 2--Equilibration With Pure Phases}
 \source{
-\url{http://wwwbrr.cr.usgs.gov/projects/GWC_coupled/phreeqc}
+\url{https://www.usgs.gov/software/phreeqc-version-3/}
 }
 \description{
 This example shows how to calculate the solubility and relative

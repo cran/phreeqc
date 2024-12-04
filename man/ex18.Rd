@@ -5,7 +5,7 @@
 \alias{ex18}
 \title{Example 18--Inverse Modeling of the Madison Aquifer}
 \source{
-\url{http://wwwbrr.cr.usgs.gov/projects/GWC_coupled/phreeqc}
+\url{https://www.usgs.gov/software/phreeqc-version-3/}
 }
 \description{
 In this example, inverse modeling, including isotope

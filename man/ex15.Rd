@@ -6,7 +6,7 @@
 \title{Example 15--1D Transport: Kinetic Biodegradation, Cell Growth, and
 Sorption}
 \source{
-\url{http://wwwbrr.cr.usgs.gov/projects/GWC_coupled/phreeqc}
+\url{https://www.usgs.gov/software/phreeqc-version-3/}
 }
 \description{
 A test problem for advective-dispersive-reactive transport was

@@ -5,7 +5,7 @@
 \alias{ex1}
 \title{Example 1--Speciation Calculation}
 \source{
-\url{http://wwwbrr.cr.usgs.gov/projects/GWC_coupled/phreeqc}
+\url{https://www.usgs.gov/software/phreeqc-version-3/}
 }
 \description{
 This example calculates the distribution of aqueous species in

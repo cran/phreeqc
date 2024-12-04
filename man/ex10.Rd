@@ -5,7 +5,7 @@
 \alias{ex10}
 \title{Example 10--Aragonite-Strontianite Solid Solution}
 \source{
-\url{http://wwwbrr.cr.usgs.gov/projects/GWC_coupled/phreeqc}
+\url{https://www.usgs.gov/software/phreeqc-version-3/}
 }
 \description{
 PHREEQC has the capability to model multicomponent ideal and

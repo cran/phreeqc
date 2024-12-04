@@ -7,7 +7,7 @@
 Langmuir Isotherms, and With a Deterministic Distribution of Sorption Sites
 for Organic Matter, Clay Minerals, and Iron Oxyhydroxides}
 \source{
-\url{http://wwwbrr.cr.usgs.gov/projects/GWC_coupled/phreeqc}
+\url{https://www.usgs.gov/software/phreeqc-version-3/}
 }
 \description{
 Sorption of heavy metals and organic pollutants on natural

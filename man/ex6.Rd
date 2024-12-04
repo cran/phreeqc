@@ -5,7 +5,7 @@
 \alias{ex6}
 \title{Example 6--Reaction-Path Calculations}
 \source{
-\url{http://wwwbrr.cr.usgs.gov/projects/GWC_coupled/phreeqc}
+\url{https://www.usgs.gov/software/phreeqc-version-3/}
 }
 \description{
 In this example, the precipitation of phases as a result of

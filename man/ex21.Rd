@@ -6,7 +6,7 @@
 \title{Example 21--Modeling Diffusion of HTO, 36Cl-, 22Na+, and Cs+ in a
 Radial Diffusion Cell}
 \source{
-\url{http://wwwbrr.cr.usgs.gov/projects/GWC_coupled/phreeqc}
+\url{https://www.usgs.gov/software/phreeqc-version-3/}
 }
 \description{
 This example illustrates how PHREEQC version 3 can simulate a

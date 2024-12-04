@@ -5,7 +5,7 @@
 \alias{ex11}
 \title{Example 11--Transport and Cation Exchange}
 \source{
-\url{http://wwwbrr.cr.usgs.gov/projects/GWC_coupled/phreeqc}
+\url{https://www.usgs.gov/software/phreeqc-version-3/}
 }
 \description{
 The following example simulates the chemical composition of the

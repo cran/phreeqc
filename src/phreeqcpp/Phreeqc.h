@@ -93,13 +93,13 @@ public:
 	int basic_run(char* commands, void* lnbase, void* vbase, void* lpbase);
 	void basic_free(void);
 #ifdef IPHREEQC_NO_FORTRAN_MODULE
-	double basic_callback(double x1, double x2, char* str);
+	double basic_callback(double x1, double x2, const char* str);
 #else
 	double basic_callback(double x1, double x2, const char* str);
 #endif
 	void register_basic_callback(double (*fcn)(double x1, double x2, const char* str, void* cookie), void* cookie1);
 #ifdef IPHREEQC_NO_FORTRAN_MODULE
-	void register_fortran_basic_callback(double (*fcn)(double* x1, double* x2, char* str, size_t l));
+	void register_fortran_basic_callback(double (*fcn)(double* x1, double* x2, const char* str, size_t l));
 #else
 	void register_fortran_basic_callback(double (*fcn)(double* x1, double* x2, const char* str, int l));
 #endif
@@ -473,6 +473,7 @@ public:
 #endif
 	int calc_gas_pressures(void);
 	int calc_fixed_volume_gas_pressures(void);
+	double calc_gas_binary_parameter(std::string name1, std::string name2) const;
 	int calc_ss_fractions(void);
 	int gammas(LDBLE mu);
 	int gammas_a_f(int i);
@@ -700,6 +701,7 @@ public:
 	int read_rate_parameters_svd(void);
 	int read_rate_parameters_hermanska(void);
 	int read_mean_gammas(void);
+	int read_gas_binary_parameters(void);
 	int read_mix(void);
 	int read_entity_mix(std::map<int, cxxMix>& mix_map);
 	//int read_solution_mix(void);
@@ -1661,7 +1663,7 @@ protected:
 	double (*basic_callback_ptr) (double x1, double x2, const char* str, void* cookie);
 	void* basic_callback_cookie;
 #ifdef IPHREEQC_NO_FORTRAN_MODULE
-	double (*basic_fortran_callback_ptr) (double* x1, double* x2, char* str, size_t l);
+	double (*basic_fortran_callback_ptr) (double* x1, double* x2, const char* str, size_t l);
 #else
 	double (*basic_fortran_callback_ptr) (double* x1, double* x2, const char* str, int l);
 #endif
@@ -1674,6 +1676,7 @@ protected:
 	std::vector<double> x_arg, res_arg, scratch;
 	/* gases.cpp ------------------------------- */
 	LDBLE a_aa_sum, b2, b_sum, R_TK;
+	std::map < std::pair<std::string, std::string>, double > gas_binary_parameters;
 
 	/* input.cpp ------------------------------- */
 	int check_line_return;

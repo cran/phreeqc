@@ -6,7 +6,7 @@
 \alias{ex20b}
 \title{Example 20--Distribution of Isotopes Between Water and Calcite}
 \source{
-\url{http://wwwbrr.cr.usgs.gov/projects/GWC_coupled/phreeqc}
+\url{https://www.usgs.gov/software/phreeqc-version-3/}
 }
 \description{
 The database \code{\link{iso.dat}} implements the approach to

@@ -5,7 +5,7 @@
 \alias{ex16}
 \title{Example 16--Inverse Modeling of Sierra Spring Waters}
 \source{
-\url{http://wwwbrr.cr.usgs.gov/projects/GWC_coupled/phreeqc}
+\url{https://www.usgs.gov/software/phreeqc-version-3/}
 }
 \description{
 This example repeats the inverse modeling calculations of the

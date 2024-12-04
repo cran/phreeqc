@@ -24,6 +24,16 @@
 #define toklength       20
 typedef long chset[9];
 
+#if defined(_MSC_VER) && (_MSC_VER <= 1400) // VS2005
+#  define nullptr NULL
+#endif
+
+#if __cplusplus < 201103L // Check if C++ standard is pre-C++11
+#  ifndef nullptr
+#    define nullptr NULL
+#  endif
+#endif
+
 #if defined(PHREEQCI_GUI)
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -2431,8 +2441,8 @@ factor(struct LOC_exec * LINK)
 		require(tokcomma, LINK);
 		varrec* area_varrec = LINK->t->UU.vp;
 		if (LINK->t->kind != tokvar || area_varrec->stringvar != 0)
-			snerr(": Missing or wrong type area varaiable.");
-		// varaiable for thickness
+			snerr(": Missing or wrong type area variable.");
+		// variable for thickness
 		LINK->t = LINK->t->next;
 		require(tokcomma, LINK);
 		varrec* thickness_varrec = LINK->t->UU.vp;
@@ -4732,6 +4742,8 @@ factor(struct LOC_exec * LINK)
 
 	case tokviscos:
 	{
+		if (PhreeqcPtr->print_viscosity)
+			PhreeqcPtr->viscosity(nullptr);
 		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->viscos;
 	}
 	break;
@@ -5583,7 +5595,7 @@ cmdput(struct LOC_exec *LINK)
 	/* get parentheses */
 	require(toklp, LINK);
 
-	/* get first argumen */
+	/* get first argument */
 	double value = realexpr(LINK);
 
 	for (;;)
@@ -5616,7 +5628,7 @@ cmdput_(struct LOC_exec* LINK)
 	/* get parentheses */
 	require(toklp, LINK);
 
-	/* get first argumen */
+	/* get first argument */
 	char* str = strexpr(LINK);
 	std::string s_value = str;
 	PhreeqcPtr->PHRQ_free(str);

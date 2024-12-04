@@ -6,7 +6,7 @@
 ##' including speciation, batch-reaction, one-dimensional 
 ##' reactive-transport, and inverse geochemical calculations.    
 ##' 
-##' \tabular{ll}{Package: \tab phreeqc\cr Type: \tab Package\cr Version: \tab 3.8.0\cr Date: \tab 2024-07-11\cr License: \tab BSD_3_clause + file LICENSE\cr}
+##' \tabular{ll}{Package: \tab phreeqc\cr Type: \tab Package\cr Version: \tab 3.8.5\cr Date: \tab 2024-12-04\cr License: \tab BSD_3_clause + file LICENSE\cr}
 ##' 
 ##' @name phreeqc-package
 ##' @aliases phreeqc-package phreeqc
@@ -338,7 +338,7 @@ function() {
 ##' @useDynLib phreeqc, .registration = TRUE
 ##' @return TRUE if log messages are currently being stored as a character vector.
 ##' @family Log
-##' @references \url{http://wwwbrr.cr.usgs.gov/projects/GWC_coupled/phreeqc}
+##' @references \url{https://www.usgs.gov/software/phreeqc-version-3/}
 ##' 
 phrGetLogStringsOn <-
 function() {
@@ -1386,7 +1386,7 @@ function(nuser, value) {
 ##' @docType data
 ##' @family Databases
 ##' @references \url{https://pubs.usgs.gov/tm/06/a43/pdf/tm6-A43.pdf}
-##' @source \url{http://wwwbrr.cr.usgs.gov/projects/GWC_coupled/phreeqc}
+##' @source \url{https://www.usgs.gov/software/phreeqc-version-3/}
 ##' @usage Amm.dat  # phrLoadDatabaseString(Amm.dat)
 ##' @keywords dataset
 NULL
@@ -1401,7 +1401,7 @@ NULL
 ##' The database has been reformatted for use by \code{\link{phrLoadDatabaseString}}.
 ##' @docType data
 ##' @family Databases
-##' @source \url{http://wwwbrr.cr.usgs.gov/projects/GWC_coupled/phreeqc}
+##' @source \url{https://www.usgs.gov/software/phreeqc-version-3/}
 ##' @usage ColdChem.dat  # phrLoadDatabaseString(ColdChem.dat)
 ##' @keywords dataset
 NULL
@@ -1433,7 +1433,7 @@ NULL
 ##' @docType data
 ##' @family Databases
 ##' @references \url{https://pubs.usgs.gov/tm/06/a43/pdf/tm6-A43.pdf}
-##' @source \url{http://wwwbrr.cr.usgs.gov/projects/GWC_coupled/phreeqc}
+##' @source \url{https://www.usgs.gov/software/phreeqc-version-3/}
 ##' @usage ex15.dat  # phrLoadDatabaseString(ex15.dat)
 ##' @keywords dataset
 NULL
@@ -1464,8 +1464,25 @@ NULL
 ##' @docType data
 ##' @family Databases
 ##' @references \url{https://pubs.usgs.gov/tm/06/a43/pdf/tm6-A43.pdf}
-##' @source \url{http://wwwbrr.cr.usgs.gov/projects/GWC_coupled/phreeqc}
+##' @source \url{https://www.usgs.gov/software/phreeqc-version-3/}
 ##' @usage iso.dat  # phrLoadDatabaseString(iso.dat)
+##' @keywords dataset
+NULL
+
+
+
+##' @name Kinec_v3.dat
+##' @title Thermodynamic and rates database from Oelkers and coworkers.
+##' @description Kinec_v3.dat contains the parameters for calculating mineral
+##' dissolution rates for primary and secondary silicate minerals using the equations
+##' and parameters reported by Hermanska et al. (2022, 2023), and dissolution rates
+##' for other non)-silicate mineral systems using the equations and parameters
+##' reported by Oelkers and Addassi (2024, in preparation).
+##' @docType data
+##' @family Databases
+##' @references Hermanska et al. (2022, 2003) and Oelkers and Addassi (2024, in preparation).
+##' @source \url{https://www.usgs.gov/software/phreeqc-version-3/}
+##' @usage Kinec_v3.dat  # phrLoadDatabaseString(Kinec_v3.dat)
 ##' @keywords dataset
 NULL
 
@@ -1481,7 +1498,7 @@ NULL
 ##' @docType data
 ##' @family Databases
 ##' @references Hermanska et al. (2022, 2003) and Oelkers and Addassi (2024, in preparation).
-##' @source \url{http://wwwbrr.cr.usgs.gov/projects/GWC_coupled/phreeqc}
+##' @source \url{https://www.usgs.gov/software/phreeqc-version-3/}
 ##' @usage Kinec.v2.dat  # phrLoadDatabaseString(Kinec.v2.dat)
 ##' @keywords dataset
 NULL
@@ -1511,7 +1528,7 @@ NULL
 ##' @docType data
 ##' @family Databases
 ##' @references \url{https://pubs.usgs.gov/tm/06/a43/pdf/tm6-A43.pdf}
-##' @source \url{http://wwwbrr.cr.usgs.gov/projects/GWC_coupled/phreeqc}
+##' @source \url{https://www.usgs.gov/software/phreeqc-version-3/}
 ##' @usage minteq.dat  # phrLoadDatabaseString(minteq.dat)
 ##' @keywords dataset
 NULL
@@ -1526,7 +1543,7 @@ NULL
 ##' @docType data
 ##' @family Databases
 ##' @references \url{https://pubs.usgs.gov/tm/06/a43/pdf/tm6-A43.pdf}
-##' @source \url{http://wwwbrr.cr.usgs.gov/projects/GWC_coupled/phreeqc}
+##' @source \url{https://www.usgs.gov/software/phreeqc-version-3/}
 ##' @usage minteq.v4.dat  # phrLoadDatabaseString(minteq.v4.dat)
 ##' @keywords dataset
 NULL
@@ -1547,7 +1564,7 @@ NULL
 ##' @family Databases
 ##' @references Hermanska and others (2023), Palandri and Kharaka (2004),
 ##' and Sverdrup and others (2019).
-##' @source \url{http://wwwbrr.cr.usgs.gov/projects/GWC_coupled/phreeqc}
+##' @source \url{https://www.usgs.gov/software/phreeqc-version-3/}
 ##' @usage phreeqc_rates.dat  # phrLoadDatabaseString(phreeqc_rates.dat)
 ##' @keywords dataset
 NULL
@@ -1560,7 +1577,7 @@ NULL
 ##' @docType data
 ##' @family Databases
 ##' @references \url{https://thermoddem.brgm.fr/}
-##' @source \url{http://wwwbrr.cr.usgs.gov/projects/GWC_coupled/phreeqc}
+##' @source \url{https://www.usgs.gov/software/phreeqc-version-3/}
 ##' @usage PHREEQC_ThermoddemV1.10_15Dec2020.dat
 ##' # phrLoadDatabaseString(PHREEQC_ThermoddemV1.10_15Dec2020.dat)
 NULL
@@ -1576,7 +1593,7 @@ NULL
 ##' @docType data
 ##' @family Databases
 ##' @references \url{https://pubs.usgs.gov/tm/06/a43/pdf/tm6-A43.pdf}
-##' @source \url{http://wwwbrr.cr.usgs.gov/projects/GWC_coupled/phreeqc}
+##' @source \url{https://www.usgs.gov/software/phreeqc-version-3/}
 ##' @usage phreeqc.dat  # phrLoadDatabaseString(phreeqc.dat)
 ##' @keywords dataset
 NULL
@@ -1591,7 +1608,7 @@ NULL
 ##' @docType data
 ##' @family Databases
 ##' @references \url{https://pubs.usgs.gov/tm/06/a43/pdf/tm6-A43.pdf}
-##' @source \url{http://wwwbrr.cr.usgs.gov/projects/GWC_coupled/phreeqc}
+##' @source \url{https://www.usgs.gov/software/phreeqc-version-3/}
 ##' @usage pitzer.dat  # phrLoadDatabaseString(pitzer.dat)
 ##' @keywords dataset
 NULL
@@ -1607,7 +1624,7 @@ NULL
 ##' @docType data
 ##' @family Databases
 ##' @references \url{https://pubs.usgs.gov/tm/06/a43/pdf/tm6-A43.pdf}
-##' @source \url{http://wwwbrr.cr.usgs.gov/projects/GWC_coupled/phreeqc}
+##' @source \url{https://www.usgs.gov/software/phreeqc-version-3/}
 ##' @usage sit.dat  # phrLoadDatabaseString(sit.dat)
 ##' @keywords dataset
 NULL
@@ -1634,7 +1651,7 @@ NULL
 ##' @docType data
 ##' @family Databases
 ##' @references \url{https://pubs.usgs.gov/tm/06/a43/pdf/tm6-A43.pdf}
-##' @source \url{http://wwwbrr.cr.usgs.gov/projects/GWC_coupled/phreeqc}
+##' @source \url{https://www.usgs.gov/software/phreeqc-version-3/}
 ##' @usage wateq4f.dat  # phrLoadDatabaseString(wateq4f.dat)
 ##' @keywords dataset
 NULL
@@ -1651,7 +1668,7 @@ NULL
 ##' @docType data
 ##' @family Examples
 ##' @references \url{https://pubs.usgs.gov/tm/06/a43/pdf/tm6-A43.pdf}
-##' @source \url{http://wwwbrr.cr.usgs.gov/projects/GWC_coupled/phreeqc}
+##' @source \url{https://www.usgs.gov/software/phreeqc-version-3/}
 ##' @keywords dataset 
 ##' @examples
 ##' 
@@ -1672,7 +1689,7 @@ NULL
 ##' @docType data
 ##' @family Examples
 ##' @references \url{https://pubs.usgs.gov/tm/06/a43/pdf/tm6-A43.pdf}
-##' @source \url{http://wwwbrr.cr.usgs.gov/projects/GWC_coupled/phreeqc}
+##' @source \url{https://www.usgs.gov/software/phreeqc-version-3/}
 ##' @keywords dataset 
 ##' @examples
 ##' 
@@ -1704,7 +1721,7 @@ NULL
 ##' @docType data
 ##' @family Examples
 ##' @references \url{https://pubs.usgs.gov/tm/06/a43/pdf/tm6-A43.pdf}
-##' @source \url{http://wwwbrr.cr.usgs.gov/projects/GWC_coupled/phreeqc}
+##' @source \url{https://www.usgs.gov/software/phreeqc-version-3/}
 ##' @keywords dataset 
 ##' @examples
 ##' 
@@ -1736,7 +1753,7 @@ NULL
 ##' @docType data
 ##' @family Examples
 ##' @references \url{https://pubs.usgs.gov/tm/06/a43/pdf/tm6-A43.pdf}
-##' @source \url{http://wwwbrr.cr.usgs.gov/projects/GWC_coupled/phreeqc}
+##' @source \url{https://www.usgs.gov/software/phreeqc-version-3/}
 ##' @keywords dataset 
 ##' @examples
 ##' 
@@ -1763,7 +1780,7 @@ NULL
 ##' @docType data
 ##' @family Examples
 ##' @references \url{https://pubs.usgs.gov/tm/06/a43/pdf/tm6-A43.pdf}
-##' @source \url{http://wwwbrr.cr.usgs.gov/projects/GWC_coupled/phreeqc}
+##' @source \url{https://www.usgs.gov/software/phreeqc-version-3/}
 ##' @keywords dataset 
 ##' @examples
 ##' 
@@ -1789,7 +1806,7 @@ NULL
 ##' @docType data
 ##' @family Examples
 ##' @references \url{https://pubs.usgs.gov/tm/06/a43/pdf/tm6-A43.pdf}
-##' @source \url{http://wwwbrr.cr.usgs.gov/projects/GWC_coupled/phreeqc}
+##' @source \url{https://www.usgs.gov/software/phreeqc-version-3/}
 ##' @keywords dataset 
 ##' @examples
 ##' 
@@ -1824,7 +1841,7 @@ NULL
 ##' @docType data
 ##' @family Examples
 ##' @references \url{https://pubs.usgs.gov/tm/06/a43/pdf/tm6-A43.pdf}
-##' @source \url{http://wwwbrr.cr.usgs.gov/projects/GWC_coupled/phreeqc}
+##' @source \url{https://www.usgs.gov/software/phreeqc-version-3/}
 ##' @keywords dataset 
 ##' @examples
 ##' 
@@ -1849,7 +1866,7 @@ NULL
 ##' @docType data
 ##' @family Examples
 ##' @references \url{https://pubs.usgs.gov/tm/06/a43/pdf/tm6-A43.pdf}
-##' @source \url{http://wwwbrr.cr.usgs.gov/projects/GWC_coupled/phreeqc}
+##' @source \url{https://www.usgs.gov/software/phreeqc-version-3/}
 ##' @keywords dataset 
 ##' @examples
 ##'
@@ -1888,7 +1905,7 @@ NULL
 ##' @docType data
 ##' @family Examples
 ##' @references \url{https://pubs.usgs.gov/tm/06/a43/pdf/tm6-A43.pdf}
-##' @source \url{http://wwwbrr.cr.usgs.gov/projects/GWC_coupled/phreeqc}
+##' @source \url{https://www.usgs.gov/software/phreeqc-version-3/}
 ##' @keywords dataset 
 ##' @examples
 ##'
@@ -1916,7 +1933,7 @@ NULL
 ##' @docType data
 ##' @family Examples
 ##' @references \url{https://pubs.usgs.gov/tm/06/a43/pdf/tm6-A43.pdf}
-##' @source \url{http://wwwbrr.cr.usgs.gov/projects/GWC_coupled/phreeqc}
+##' @source \url{https://www.usgs.gov/software/phreeqc-version-3/}
 ##' @keywords dataset 
 ##' @examples
 ##'
@@ -1943,7 +1960,7 @@ NULL
 ##' @docType data
 ##' @family Examples
 ##' @references \url{https://pubs.usgs.gov/tm/06/a43/pdf/tm6-A43.pdf}
-##' @source \url{http://wwwbrr.cr.usgs.gov/projects/GWC_coupled/phreeqc}
+##' @source \url{https://www.usgs.gov/software/phreeqc-version-3/}
 ##' @keywords dataset 
 ##' @examples
 ##'
@@ -1978,7 +1995,7 @@ NULL
 ##' @docType data
 ##' @family Examples
 ##' @references \url{https://pubs.usgs.gov/tm/06/a43/pdf/tm6-A43.pdf}
-##' @source \url{http://wwwbrr.cr.usgs.gov/projects/GWC_coupled/phreeqc}
+##' @source \url{https://www.usgs.gov/software/phreeqc-version-3/}
 ##' @keywords dataset 
 ##' @examples
 ##'
@@ -2008,7 +2025,7 @@ NULL
 ##' @docType data
 ##' @family Examples
 ##' @references \url{https://pubs.usgs.gov/tm/06/a43/pdf/tm6-A43.pdf}
-##' @source \url{http://wwwbrr.cr.usgs.gov/projects/GWC_coupled/phreeqc}
+##' @source \url{https://www.usgs.gov/software/phreeqc-version-3/}
 ##' @keywords dataset 
 ##' @examples
 ##'
@@ -2041,7 +2058,7 @@ NULL
 ##' @docType data
 ##' @family Examples
 ##' @references \url{https://pubs.usgs.gov/tm/06/a43/pdf/tm6-A43.pdf}
-##' @source \url{http://wwwbrr.cr.usgs.gov/projects/GWC_coupled/phreeqc}
+##' @source \url{https://www.usgs.gov/software/phreeqc-version-3/}
 ##' @keywords dataset 
 ##' @examples
 ##'
@@ -2071,7 +2088,7 @@ NULL
 ##' @docType data
 ##' @family Examples
 ##' @references \url{https://pubs.usgs.gov/tm/06/a43/pdf/tm6-A43.pdf}
-##' @source \url{http://wwwbrr.cr.usgs.gov/projects/GWC_coupled/phreeqc}
+##' @source \url{https://www.usgs.gov/software/phreeqc-version-3/}
 ##' @keywords dataset 
 ##' @examples
 ##'
@@ -2104,7 +2121,7 @@ NULL
 ##' @docType data
 ##' @family Examples
 ##' @references \url{https://pubs.usgs.gov/tm/06/a43/pdf/tm6-A43.pdf}
-##' @source \url{http://wwwbrr.cr.usgs.gov/projects/GWC_coupled/phreeqc}
+##' @source \url{https://www.usgs.gov/software/phreeqc-version-3/}
 ##' @keywords dataset 
 ##' @examples
 ##'
@@ -2136,7 +2153,7 @@ NULL
 ##' @docType data
 ##' @family Examples
 ##' @references \url{https://pubs.usgs.gov/tm/06/a43/pdf/tm6-A43.pdf}
-##' @source \url{http://wwwbrr.cr.usgs.gov/projects/GWC_coupled/phreeqc}
+##' @source \url{https://www.usgs.gov/software/phreeqc-version-3/}
 ##' @keywords dataset 
 ##' @examples
 ##'
@@ -2178,7 +2195,7 @@ NULL
 ##' @docType data
 ##' @family Examples
 ##' @references \url{https://pubs.usgs.gov/tm/06/a43/pdf/tm6-A43.pdf}
-##' @source \url{http://wwwbrr.cr.usgs.gov/projects/GWC_coupled/phreeqc}
+##' @source \url{https://www.usgs.gov/software/phreeqc-version-3/}
 ##' @keywords dataset 
 ##' @examples
 ##'
@@ -2206,7 +2223,7 @@ NULL
 ##' @docType data
 ##' @family Examples
 ##' @references \url{https://pubs.usgs.gov/tm/06/a43/pdf/tm6-A43.pdf}
-##' @source \url{http://wwwbrr.cr.usgs.gov/projects/GWC_coupled/phreeqc}
+##' @source \url{https://www.usgs.gov/software/phreeqc-version-3/}
 ##' @keywords dataset 
 ##' @examples
 ##'
@@ -2242,7 +2259,7 @@ NULL
 ##' @docType data
 ##' @family Examples
 ##' @references \url{https://pubs.usgs.gov/tm/06/a43/pdf/tm6-A43.pdf}
-##' @source \url{http://wwwbrr.cr.usgs.gov/projects/GWC_coupled/phreeqc}
+##' @source \url{https://www.usgs.gov/software/phreeqc-version-3/}
 ##' @keywords dataset 
 ##' @examples
 ##'
@@ -2274,7 +2291,7 @@ NULL
 ##' @docType data
 ##' @family Examples
 ##' @references \url{https://pubs.usgs.gov/tm/06/a43/pdf/tm6-A43.pdf}
-##' @source \url{http://wwwbrr.cr.usgs.gov/projects/GWC_coupled/phreeqc}
+##' @source \url{https://www.usgs.gov/software/phreeqc-version-3/}
 ##' @keywords dataset 
 ##' @examples
 ##'
@@ -2307,7 +2324,7 @@ NULL
 ##' @docType data
 ##' @family Examples
 ##' @references \url{https://pubs.usgs.gov/tm/06/a43/pdf/tm6-A43.pdf}
-##' @source \url{http://wwwbrr.cr.usgs.gov/projects/GWC_coupled/phreeqc}
+##' @source \url{https://www.usgs.gov/software/phreeqc-version-3/}
 ##' @keywords dataset 
 ##' @examples
 ##'

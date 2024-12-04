@@ -1581,7 +1581,8 @@ set_and_run(int i, int use_mix, int use_kinetics, int nsaver,
 	sum_species();
 	viscos = viscosity(NULL);
 	use.Get_solution_ptr()->Set_viscosity(viscos);
-	if (use.Get_surface_ptr() != NULL && dl_type_x != cxxSurface::NO_DL)
+	use.Get_solution_ptr()->Set_viscos_0(viscos_0);
+	if (use.Get_surface_ptr() != NULL && dl_type_x != cxxSurface::NO_DL && use.Get_surface_ptr()->Get_calc_viscosity())
 		use.Get_surface_ptr()->Set_DDL_viscosity(viscosity(use.Get_surface_ptr()));
 	return (converge);
 }
@@ -1879,13 +1880,13 @@ set_reaction(int i, int use_mix, int use_kinetics)
 /*
  *   Find surface
  */
-	if (use.Get_surface_in() && use.Get_kinetics_in() && use.Get_kinetics_ptr() && !use.Get_kinetics_ptr()->Get_use_cvode() && reaction_step > 1)
-	{
-		// use.Set_surface_ptr(Utilities::Rxn_find(Rxn_surface_map, i));
-		// appt: we may come here with zero kinetic reaction, but surface may have to keep DONNAN_DL
-	}
-	else
-		dl_type_x = cxxSurface::NO_DL;
+	//if (use.Get_surface_in() && use.Get_kinetics_in() && use.Get_kinetics_ptr() && !use.Get_kinetics_ptr()->Get_use_cvode() && reaction_step > 1)
+	//{
+	//	// use.Set_surface_ptr(Utilities::Rxn_find(Rxn_surface_map, i));
+	//	// appt: we may come here with zero kinetic reaction, but surface may have to keep DONNAN_DL
+	//}
+	//else
+	//	dl_type_x = cxxSurface::NO_DL;
 	if (use.Get_surface_in() == TRUE)
 	{
 		use.Set_surface_ptr(Utilities::Rxn_find(Rxn_surface_map, i));

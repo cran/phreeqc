@@ -12,6 +12,16 @@
 #include "Solution.h"
 #include "Parser.h"
 
+#if defined(_MSC_VER) && (_MSC_VER <= 1400) // VS2005
+#  define nullptr NULL
+#endif
+
+#if __cplusplus < 201103L // Check if C++ standard is pre-C++11
+#  ifndef nullptr
+#    define nullptr NULL
+#  endif
+#endif
+
 #if defined(PHREEQCI_GUI)
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -205,8 +215,11 @@ diff_c(const char *species_name)
 
 		Dw *= viscos_0_25 / viscos_0;
 	}
-	if (s_ptr->dw_a_v_dif)
+	if (s_ptr->dw_a_v_dif && print_viscosity)
+	{
+		viscosity(nullptr);
 		Dw *= pow(viscos_0 / viscos, s_ptr->dw_a_v_dif);
+	}
 	return Dw;
 }
 
@@ -235,8 +248,11 @@ setdiff_c(const char *species_name, double d, double d_v_d)
 
 		Dw *= viscos_0_25 / viscos_0;
 	}
-	if (d_v_d)
-		Dw *= pow(viscos_0 / viscos, d_v_d);
+	if (d_v_d && print_viscosity)
+	{
+		viscosity(nullptr);
+		Dw *= pow(viscos_0 / viscos, s_ptr->dw_a_v_dif);
+	}
 	return Dw;
 }
 /* ---------------------------------------------------------------------- */
@@ -269,6 +285,8 @@ calc_SC(void)
 	//	}
 	//}
 	av = 0;
+	if (print_viscosity)
+		viscosity(nullptr);
 	if (!Falk)
 	{
 		for (i = 0; i < (int)this->s_x.size(); i++)
@@ -402,7 +420,7 @@ calc_SC(void)
 		q = 1 / ((t1 / z_plus + (1 - t1) / z_min) * (z_min + z_plus));
 		sqrt_q = sqrt(q);
 
-		// B1 = relaxtion, B2 = electrophoresis in ll = (ll0 - B2 * sqrt(mu) / f2(1 + ka)) * (1 - B1 * sqrt(mu) / f1(1 + ka))
+		// B1 = relaxation, B2 = electrophoresis in ll = (ll0 - B2 * sqrt(mu) / f2(1 + ka)) * (1 - B1 * sqrt(mu) / f1(1 + ka))
 		a = 1.60218e-19 * 1.60218e-19 / (6 * pi);
 		B1 = a / (2 * 8.8542e-12 * eps_r * 1.38066e-23 * tk_x) * q / (1 + sqrt_q) * DH_B * 1e10 * z_plus * z_min;  // DH_B is per Angstrom (*1e10)
 		B2 = a * AVOGADRO / viscos_0 * DH_B * 1e17;  // DH_B per Angstrom (*1e10), viscos in mPa.s (*1e3), B2 in cm2 (*1e4)
@@ -468,8 +486,10 @@ calc_SC(void)
 					//av += 0 * t1;
 				}
 				Dw *= Dw_SC * l_z;
-				if (!a2 || !strcmp(s_x[i]->name, "H+"))
+				if (!a2)
 					t1 = 1;
+				else if (!strcmp(s_x[i]->name, "H+"))
+					t1 = pow(1 + mu_x, a2);
 				else
 				{
 					v0 = calc_vm0(s_x[i]->name, tc_x, 1, 0);
@@ -1165,6 +1185,29 @@ diff_layer_total(const char* total_name, const char* surface_name)
 		{
 			cxxSurfaceCharge* charge_ptr = use.Get_surface_ptr()->Find_charge(x[j]->surface_charge);
 			return (charge_ptr->Get_mass_water());
+		}
+		else
+		{
+			return (0);
+		}
+	}
+	else if (strcmp_nocase("viscos_ddl", total_name) == 0)
+	{
+		if (dl_type_x != cxxSurface::NO_DL)
+		{
+			cxxSurfaceCharge* charge_ptr = use.Get_surface_ptr()->Find_charge(x[j]->surface_charge);
+			if (charge_ptr->Get_mass_water() > 0)
+			{
+				cxxSurface * surf_ptr = use.Get_surface_ptr();
+				if (surf_ptr->Get_calc_viscosity())
+				{
+					viscosity(surf_ptr);
+					viscosity(nullptr);
+					return charge_ptr->Get_DDL_viscosity();
+				}
+				else
+					return charge_ptr->Get_DDL_viscosity() * viscos;
+			}
 		}
 		else
 		{
@@ -4242,7 +4285,7 @@ basic_callback(double x1, double x2, const char * str)
 
 #ifdef IPHREEQC_NO_FORTRAN_MODULE
 double Phreeqc::
-basic_callback(double x1, double x2, char * str)
+basic_callback(double x1, double x2, const char * str)
 #else
 double Phreeqc::
 basic_callback(double x1, double x2, const char * str)
@@ -4253,7 +4296,7 @@ basic_callback(double x1, double x2, const char * str)
 
 	if (basic_callback_ptr != NULL)
 	{
-		return (*basic_callback_ptr) (x1, x2, (const char *) str, basic_callback_cookie);
+		return (*basic_callback_ptr) (x1, x2, str, basic_callback_cookie);
 	}
 	if (basic_fortran_callback_ptr != NULL)
 	{
@@ -4274,7 +4317,7 @@ Phreeqc::register_basic_callback(double (*fcn)(double x1, double x2, const char 
 }
 #ifdef IPHREEQC_NO_FORTRAN_MODULE
 void 
-Phreeqc::register_fortran_basic_callback(double ( *fcn)(double *x1, double *x2, char *str, size_t l))
+Phreeqc::register_fortran_basic_callback(double ( *fcn)(double *x1, double *x2, const char *str, size_t l))
 {
 	this->basic_fortran_callback_ptr = fcn;
 }

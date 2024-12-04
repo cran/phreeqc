@@ -5,7 +5,7 @@
 \alias{ex8}
 \title{Example 8--Surface Complexation}
 \source{
-\url{http://wwwbrr.cr.usgs.gov/projects/GWC_coupled/phreeqc}
+\url{https://www.usgs.gov/software/phreeqc-version-3/}
 }
 \description{
 In all surface complexation models, sorption is a function of

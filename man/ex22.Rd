@@ -5,7 +5,7 @@
 \alias{ex22}
 \title{Example 22--Modeling Gas Solubilities: CO2 at High Pressures}
 \source{
-\url{http://wwwbrr.cr.usgs.gov/projects/GWC_coupled/phreeqc}
+\url{https://www.usgs.gov/software/phreeqc-version-3/}
 }
 \description{
 PHREEQC calculates the fugacity coefficient with the

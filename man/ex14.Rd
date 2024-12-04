@@ -6,7 +6,7 @@
 \title{Example 14--Advective Transport, Cation Exchange, Surface
 Complexation, and Mineral Equilibria}
 \source{
-\url{http://wwwbrr.cr.usgs.gov/projects/GWC_coupled/phreeqc}
+\url{https://www.usgs.gov/software/phreeqc-version-3/}
 }
 \description{
 This example uses the phase-equilibrium, cation-exchange, and

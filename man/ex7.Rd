@@ -5,7 +5,7 @@
 \alias{ex7}
 \title{Example 7--Gas-Phase Calculations}
 \source{
-\url{http://wwwbrr.cr.usgs.gov/projects/GWC_coupled/phreeqc}
+\url{https://www.usgs.gov/software/phreeqc-version-3/}
 }
 \description{
 This example demonstrates the capabilities of PHREEQC to model

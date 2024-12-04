@@ -5,7 +5,7 @@
 \alias{ex12}
 \title{Example 12--Advective and Diffusive Flux of Heat and Solutes}
 \source{
-\url{http://wwwbrr.cr.usgs.gov/projects/GWC_coupled/phreeqc}
+\url{https://www.usgs.gov/software/phreeqc-version-3/}
 }
 \description{
 This example demonstrates the capability of PHREEQC to
