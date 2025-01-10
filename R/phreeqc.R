@@ -6,7 +6,7 @@
 ##' including speciation, batch-reaction, one-dimensional 
 ##' reactive-transport, and inverse geochemical calculations.    
 ##' 
-##' \tabular{ll}{Package: \tab phreeqc\cr Type: \tab Package\cr Version: \tab 3.8.5\cr Date: \tab 2024-12-04\cr License: \tab BSD_3_clause + file LICENSE\cr}
+##' \tabular{ll}{Package: \tab phreeqc\cr Type: \tab Package\cr Version: \tab 3.8.6\cr Date: \tab 2025-01-07\cr License: \tab BSD_3_clause + file LICENSE\cr}
 ##' 
 ##' @name phreeqc-package
 ##' @aliases phreeqc-package phreeqc
@@ -32,7 +32,7 @@
 ##' # plot the results
 ##' attach(so$n1)
 ##' title  <- "Gypsum-Anhydrite Stability"
-##' xlabel <- "Temperature, in degrees celcius"
+##' xlabel <- "Temperature, in degrees celsius"
 ##' ylabel <- "Saturation index"
 ##' plot(temp.C., si_gypsum, main = title, xlab = xlabel, ylab = ylabel,
 ##'      col = "darkred", xlim = c(25, 75), ylim = c(-0.4, 0.0))

@@ -1,6 +1,6 @@
 Package: phreeqc
 Title: R Interface to Geochemical Modeling Software
-Version: 3.8.5
+Version: 3.8.6
 License: GPL-3
 NeedsCompilation: yes
 Depends: R (>= 3.5.0)
@@ -43,7 +43,7 @@ BugReports: https://github.com/usgs-coupled/iphreeqc/issues
 LazyData: yes
 Encoding: UTF-8
 RoxygenNote: 7.3.2
-Packaged: 2024-12-04 00:17:31 UTC; runner
+Packaged: 2025-01-08 00:19:47 UTC; runner
 Author: S.R. Charlton [aut, cre],
   D.L. Parkhurst [aut],
   C.A.J. Appelo [aut],
@@ -54,4 +54,4 @@ Author: S.R. Charlton [aut, cre],
   D. Shumaker [aut],
   A.G. Taylor for CVODE/SUNDIALS [aut]
 Repository: CRAN
-Date/Publication: 2024-12-04 08:20:02 UTC
+Date/Publication: 2025-01-10 21:50:05 UTC
