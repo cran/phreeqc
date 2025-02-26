@@ -42,6 +42,7 @@ Other Databases:
 \code{\link{phreeqc.dat}},
 \code{\link{pitzer.dat}},
 \code{\link{sit.dat}},
+\code{\link{stimela.dat}},
 \code{\link{wateq4f.dat}}
 }
 \concept{Databases}

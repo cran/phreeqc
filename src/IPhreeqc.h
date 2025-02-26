@@ -11,7 +11,7 @@
 #endif
 
 /**
- * @mainpage IPhreeqc Library Documentation (3.8.6-17100)
+ * @mainpage IPhreeqc Library Documentation (3.8.7-17149)
  *
  *  @htmlonly
  *  <table>

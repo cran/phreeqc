@@ -6,7 +6,7 @@
 ##' including speciation, batch-reaction, one-dimensional 
 ##' reactive-transport, and inverse geochemical calculations.    
 ##' 
-##' \tabular{ll}{Package: \tab phreeqc\cr Type: \tab Package\cr Version: \tab 3.8.6\cr Date: \tab 2025-01-07\cr License: \tab BSD_3_clause + file LICENSE\cr}
+##' \tabular{ll}{Package: \tab phreeqc\cr Type: \tab Package\cr Version: \tab 3.8.7\cr Date: \tab 2025-02-25\cr License: \tab BSD_3_clause + file LICENSE\cr}
 ##' 
 ##' @name phreeqc-package
 ##' @aliases phreeqc-package phreeqc
@@ -1626,6 +1626,19 @@ NULL
 ##' @references \url{https://pubs.usgs.gov/tm/06/a43/pdf/tm6-A43.pdf}
 ##' @source \url{https://www.usgs.gov/software/phreeqc-version-3/}
 ##' @usage sit.dat  # phrLoadDatabaseString(sit.dat)
+##' @keywords dataset
+NULL
+
+
+
+##' @name stimela.dat
+##' @title The stimela.dat database.
+##' @description stimela.dat is a database for use in drinking-water and waste-water
+##' treatment from Peter de Moel and Omnisys. The database has been reformatted
+##' for use by \code{\link{phrLoadDatabaseString}}.
+##' @docType data
+##' @family Databases
+##' @usage stimela.dat  # phrLoadDatabaseString(stimela.dat)
 ##' @keywords dataset
 NULL
 

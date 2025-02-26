@@ -35,7 +35,8 @@ Other Databases:
 \code{\link{phreeqc.dat}},
 \code{\link{phreeqc_rates.dat}},
 \code{\link{pitzer.dat}},
-\code{\link{sit.dat}}
+\code{\link{sit.dat}},
+\code{\link{stimela.dat}}
 }
 \concept{Databases}
 \keyword{dataset}

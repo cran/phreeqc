@@ -13,7 +13,7 @@ including speciation, batch-reaction, one-dimensional
 reactive-transport, and inverse geochemical calculations.
 }
 \details{
-\tabular{ll}{Package: \tab phreeqc\cr Type: \tab Package\cr Version: \tab 3.8.6\cr Date: \tab 2025-01-07\cr License: \tab BSD_3_clause + file LICENSE\cr}
+\tabular{ll}{Package: \tab phreeqc\cr Type: \tab Package\cr Version: \tab 3.8.7\cr Date: \tab 2025-02-25\cr License: \tab BSD_3_clause + file LICENSE\cr}
 }
 \examples{
 
